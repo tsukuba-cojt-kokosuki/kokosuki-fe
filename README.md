@@ -1,5 +1,8 @@
 # kokosuki-fe
 
+## Prerequisites
+- Node.js 20
+
 ## Setup
 一度 1~4 を実行したら、次回からは 4 のみでOK
 
@@ -17,7 +20,8 @@ $ npm install -g pnpm
 
 4. 開発サーバの起動
 ```bash
-$ pnpm install 
+$ cd kokosuki-fe
+$ pnpm install
 $ pnpm dev
 ```
 
