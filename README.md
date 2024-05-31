@@ -10,7 +10,7 @@
 
 2. リポジトリをクローン
 ```bash
-gh repo clone tsukuba-cojt-kokosuki/kokosuki-fe
+$ gh repo clone tsukuba-cojt-kokosuki/kokosuki-fe
 ```
 
 3. pnpm をインストール
