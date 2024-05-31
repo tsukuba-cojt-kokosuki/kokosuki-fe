@@ -4,7 +4,7 @@
 - Node.js 20
 
 ## Setup
-一度 1~4 を実行したら、次回からは 4 のみでOK
+一度 1~5 を実行したら、次回からは 5 のみで OK
 
 1. [GitHub Cli](https://github.com/cli/cli) をインストール
 
@@ -18,10 +18,14 @@ $ gh repo clone tsukuba-cojt-kokosuki/kokosuki-fe
 $ npm install -g pnpm
 ```
 
-4. 開発サーバの起動
+4. npm パッケージのインストール
 ```bash
 $ cd kokosuki-fe
 $ pnpm install
+```
+
+5. 開発サーバの起動
+```bash
 $ pnpm dev
 ```
 
