@@ -1,11 +1,10 @@
 import { createRoot } from "react-dom/client"
 import { Link, RouterProvider, createBrowserRouter } from "react-router-dom"
 import "./index.css"
-import Edit from "./pages/edit"
-import Index from "./pages/index"
-import List from "./pages/list"
-import Play from "./pages/play"
-import Top from "./pages/top"
+import Create from "./pages/create/page"
+import Index from "./pages/index/page"
+import List from "./pages/list/page"
+import Login from "./pages/login/pages"
 
 const router = createBrowserRouter([
   {
@@ -13,20 +12,16 @@ const router = createBrowserRouter([
     element: <Index />,
   },
   {
-    path: "top",
-    element: <Top />,
+    path: "create",
+    element: <Create />,
   },
   {
-    path: "edit",
-    element: <Edit />,
+    path: "login",
+    element: <Login />,
   },
   {
     path: "list",
     element: <List />,
-  },
-  {
-    path: "play",
-    element: <Play />,
   },
 ])
 
