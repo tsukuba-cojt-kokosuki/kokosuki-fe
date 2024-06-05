@@ -1,18 +1,10 @@
-import React from "react"
-import ReactDOM, { createRoot } from "react-dom/client"
+import { createRoot } from "react-dom/client"
 import { Link, RouterProvider, createBrowserRouter } from "react-router-dom"
-import App from "./App.tsx"
 import "./index.css"
 import Edit from "./pages/edit"
 import List from "./pages/list"
 import Play from "./pages/play"
 import Top from "./pages/top"
-
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
 
 const router = createBrowserRouter([
   {
