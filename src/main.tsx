@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client"
-import { Link, RouterProvider, createBrowserRouter } from "react-router-dom"
+import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import "./index.css"
 import Create from "./pages/create/page"
 import Index from "./pages/index/page"

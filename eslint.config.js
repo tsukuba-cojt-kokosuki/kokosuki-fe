@@ -25,6 +25,9 @@ export default [
     },
     files: ["**/*.{ts,tsx,js,jsx}"],
   },
+  {
+    ignores: ["src/components/ui/**/*"],
+  },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   prettier,
