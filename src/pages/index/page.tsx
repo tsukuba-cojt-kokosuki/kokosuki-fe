@@ -4,13 +4,12 @@ import { Link } from "react-router-dom"
 
 const Index = () => (
   <div>
-    <Link to="top">toplink</Link>
-    <br />
-    <Link to="edit">editlink</Link>
+    <h1>title</h1>
+    <Link to="create">createlink</Link>
     <br />
     <Link to="list">listlink</Link>
     <br />
-    <Link to="play">playlink</Link>
+    <Link to="login">loginlink</Link>
   </div>
 )
 
