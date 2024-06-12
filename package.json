@@ -52,7 +52,7 @@
       "prettier --write"
     ],
     "*.{ts,tsx,js}": [
-      "eslint --fix --report-unused-disable-directives --max-warnings 0"
+      "eslint --fix --report-unused-disable-directives --max-warnings 0 --no-warn-ignored"
     ]
   }
 }
