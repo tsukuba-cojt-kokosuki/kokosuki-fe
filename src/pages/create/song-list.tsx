@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
-    TableCell,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -39,7 +39,7 @@ const SongList = ({ songs, setSongs }: SongListProps) => {
   return (
     <div className="w-96">
       <Table>
-                <TableHeader>
+        <TableHeader>
           <TableRow>
             <TableHead>URL</TableHead>
             <TableHead>start</TableHead>
@@ -72,7 +72,22 @@ const addSongFormSchema = z.object({
         return false
       }
 
-      const url = new URL(value)
+      const url = (() => {
+        try {
+          return new URL(value)
+        } catch {
+          // TypeError: Invalid URL
+          return null
+        }
+      })()
+      if (url === null) {
+        context.addIssue({
+          message: "URL が不正です",
+          code: z.ZodIssueCode.custom,
+        })
+        return false
+      }
+
       const songId = url.searchParams.get("v")
 
       if (url.hostname !== "www.youtube.com") {
