@@ -18,8 +18,8 @@
     --muted-foreground: 0 0% 70%; /* between neutral-400 and neutral-500 */
     --accent: 0 0% 32%; /* neutral-600 */
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 94% 82%; /* red-300 */
+    --destructive-foreground: 0 0% 0%;
     --border: 0 0% 45%; /* neutral-500 */
     --input: 0 0% 45%; /* neutral-500 */
     --ring: 0 0% 96%; /* neutral-100 */
