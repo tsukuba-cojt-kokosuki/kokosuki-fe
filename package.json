@@ -12,12 +12,15 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.6.0",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.23.1"
+    "react-hook-form": "^7.52.0",
+    "react-router-dom": "^6.23.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.3.0",
@@ -50,9 +53,7 @@
     "vite": "^5.2.0"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,json}": [
-    ],
-    "*.{ts,tsx,js}": [
-    ]
+    "*.{ts,tsx,js,json}": [],
+    "*.{ts,tsx,js}": []
   }
 }
