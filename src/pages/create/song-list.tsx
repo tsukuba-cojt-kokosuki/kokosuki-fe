@@ -23,8 +23,7 @@ import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
-  TableCaption,
-  TableCell,
+    TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -38,10 +37,9 @@ type SongListProps = {
 
 const SongList = ({ songs, setSongs }: SongListProps) => {
   return (
-    <div>
+    <div className="w-96">
       <Table>
-        <TableCaption>キャプション</TableCaption>
-        <TableHeader>
+                <TableHeader>
           <TableRow>
             <TableHead>URL</TableHead>
             <TableHead>start</TableHead>

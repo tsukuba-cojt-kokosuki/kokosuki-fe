@@ -33,13 +33,10 @@ const Create = () => {
   const [songs, setSongs] = useState<Song[]>(defaultSongs)
 
   return (
-    <>
-      <h1>create</h1>
-      <SongList
-        songs={songs}
-        setSongs={setSongs}
-      />
-    </>
+    <SongList
+      songs={songs}
+      setSongs={setSongs}
+    />
   )
 }
 
