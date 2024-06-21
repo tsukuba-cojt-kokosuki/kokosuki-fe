@@ -1,8 +1,8 @@
 import { setupWorker } from "msw/browser"
 import { GetUsersMeCrossfades } from "./users/me/crossfades"
 
-export const setupMsw = () => {
+export const setupMsw = async () => {
   if (import.meta.env.DEV && import.meta.env.VITE_MSW_ENABLED === "true") {
-    setupWorker(...[GetUsersMeCrossfades]).start()
+    await setupWorker(...[GetUsersMeCrossfades]).start()
   }
 }

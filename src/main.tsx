@@ -9,7 +9,7 @@ import Layout from "./pages/layout"
 import List from "./pages/list/page"
 import Login from "./pages/login/pages"
 
-setupMsw()
+await setupMsw()
 
 const router = createBrowserRouter([
   {
@@ -40,7 +40,10 @@ createRoot(document.getElementById("root")!).render(
   <SWRConfig
     value={{
       refreshInterval: 15000,
-      fetcher: (url: string) => fetch(url).then((res) => res.json()),
+      fetcher: async (url: string) => {
+        const res = await fetch(url)
+        return await res.json()
+      },
     }}
   >
     <RouterProvider router={router} />
