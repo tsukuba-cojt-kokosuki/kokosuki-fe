@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write .",
+    "generate:api": "npx openapi-typescript https://swagger-ui-gen.pages.dev/openapi.yaml -o ./src/lib/api/schema.d.ts",
     "preview": "vite preview",
     "prepare": "husky"
   },
@@ -42,6 +43,7 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.5",
     "lucide-react": "^0.381.0",
+    "openapi-typescript": "^7.0.0",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.6.0",
