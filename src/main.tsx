@@ -1,4 +1,6 @@
 import { SWRConfig } from "swr"
+import "@fontsource-variable/inter"
+import "@fontsource-variable/noto-sans-jp"
 import { createRoot } from "react-dom/client"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import "./index.css"
@@ -9,7 +11,7 @@ import Layout from "./pages/layout"
 import List from "./pages/list/page"
 import Login from "./pages/login/pages"
 
-setupMsw()
+await setupMsw()
 
 const router = createBrowserRouter([
   {
@@ -39,10 +41,13 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <SWRConfig
     value={{
-      refreshInterval: 1000,
-      fetcher: (url: string) => fetch(url).then((res) => res.json()),
+      refreshInterval: 15000,
+      fetcher: async (url: string) => {
+        const res = await fetch(url)
+        return await res.json()
+      },
     }}
-  >
-    <RouterProvider router={router} />
+   >
+    <RouterPinrovider router={router} />
   </SWRConfig>,
 )
