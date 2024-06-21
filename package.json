@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write .",
-    "generate:api": "npx openapi-typescript https://swagger-ui-gen.pages.dev/openapi.yaml -o ./src/lib/api/schema.d.ts",
+    "generate:api": "openapi-typescript https://swagger-ui-gen.pages.dev/openapi.yaml -o ./src/lib/api/schema.d.ts",
     "preview": "vite preview",
     "prepare": "husky"
   },
