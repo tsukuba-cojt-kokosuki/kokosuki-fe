@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@fontsource-variable/inter':
+        specifier: ^5.0.18
+        version: 5.0.18
+      '@fontsource-variable/noto-sans-jp':
+        specifier: ^5.0.19
+        version: 5.0.19
       '@hookform/resolvers':
         specifier: ^3.6.0
         version: 3.6.0(react-hook-form@7.52.0(react@18.3.1))
@@ -366,6 +372,12 @@ packages:
   '@eslint/js@9.3.0':
     resolution: {integrity: sha512-niBqk8iwv96+yuTwjM6bWg8ovzAPF9qkICsGtcoa5/dmqcEMfdwNAX7+/OHcJHc7wj7XqPxH98oAHytFYlw6Sw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@fontsource-variable/inter@5.0.18':
+    resolution: {integrity: sha512-rJzSrtJ3b7djiGFvRuTe6stDfbYJGhdQSfn2SI2WfXviee7Er0yKAHE5u7FU7OWVQQQ1x3+cxdmx9NdiAkcrcA==}
+
+  '@fontsource-variable/noto-sans-jp@5.0.19':
+    resolution: {integrity: sha512-fAhvax6qyagBBf5x8WoIMxNsofgytN4e0cBn1eGgYHhbr4snWA+NxCHkaH+jlOv7nSv9ZzzsSusslkcsRJwGYg==}
 
   '@hookform/resolvers@3.6.0':
     resolution: {integrity: sha512-UBcpyOX3+RR+dNnqBd0lchXpoL8p4xC21XP8H6Meb8uve5Br1GCnmg0PcBoKKqPKgGu9GHQ/oygcmPrQhetwqw==}
@@ -2439,6 +2451,10 @@ snapshots:
   '@eslint/js@8.57.0': {}
 
   '@eslint/js@9.3.0': {}
+
+  '@fontsource-variable/inter@5.0.18': {}
+
+  '@fontsource-variable/noto-sans-jp@5.0.19': {}
 
   '@hookform/resolvers@3.6.0(react-hook-form@7.52.0(react@18.3.1))':
     dependencies:

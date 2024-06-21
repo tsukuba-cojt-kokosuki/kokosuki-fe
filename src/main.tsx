@@ -1,4 +1,6 @@
 import { SWRConfig } from "swr"
+import "@fontsource-variable/inter"
+import "@fontsource-variable/noto-sans-jp"
 import { createRoot } from "react-dom/client"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import "./index.css"
