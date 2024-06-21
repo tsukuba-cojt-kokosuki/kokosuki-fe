@@ -54,6 +54,102 @@ const GetUsersMeCrossfades = http.get("/users/me/crossfades", () => {
         },
       ],
     },
+    {
+      id: "crossfade4",
+      title: "Crossfade 4",
+      songs: [
+        {
+          videoId: "videoId5",
+          start: 0,
+          end: 10,
+        },
+        {
+          videoId: "videoId6",
+          start: 10,
+          end: 20,
+        },
+      ],
+    },
+    {
+      id: "crossfade3",
+      title: "Crossfade 3",
+      songs: [
+        {
+          videoId: "videoId5",
+          start: 0,
+          end: 10,
+        },
+        {
+          videoId: "videoId6",
+          start: 10,
+          end: 20,
+        },
+      ],
+    },
+    {
+      id: "crossfade3",
+      title: "Crossfade 3",
+      songs: [
+        {
+          videoId: "videoId5",
+          start: 0,
+          end: 10,
+        },
+        {
+          videoId: "videoId6",
+          start: 10,
+          end: 20,
+        },
+      ],
+    },
+    {
+      id: "crossfade3",
+      title: "Crossfade 3",
+      songs: [
+        {
+          videoId: "videoId5",
+          start: 0,
+          end: 10,
+        },
+        {
+          videoId: "videoId6",
+          start: 10,
+          end: 20,
+        },
+      ],
+    },
+    {
+      id: "crossfade3",
+      title: "Crossfade 3",
+      songs: [
+        {
+          videoId: "videoId5",
+          start: 0,
+          end: 10,
+        },
+        {
+          videoId: "videoId6",
+          start: 10,
+          end: 20,
+        },
+      ],
+    },
+    {
+      id: "crossfade3",
+      title: "Crossfade 3",
+      songs: [
+        {
+          videoId: "videoId5",
+          start: 0,
+          end: 10,
+        },
+        {
+          videoId: "videoId6",
+          start: 10,
+          end: 20,
+        },
+      ],
+    },
   ])
 })
 

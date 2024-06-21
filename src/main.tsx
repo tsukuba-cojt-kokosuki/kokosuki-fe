@@ -39,7 +39,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <SWRConfig
     value={{
-      refreshInterval: 15000,
+      refreshInterval: 1000,
       fetcher: (url: string) => fetch(url).then((res) => res.json()),
     }}
   >

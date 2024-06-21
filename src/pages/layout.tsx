@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom"
 const Layout = () => {
   return (
     <>
-      <div className="bg-background h-dvh">
+      <div className="bg-background h-fit">
         <header className="flex w-full justify-between bg-neutral-600 pl-8 pr-8 pt-3 pb-3">
           <div className="flex items-center">
             <Link
@@ -31,10 +31,10 @@ const Layout = () => {
           </ul>
         </header>
 
-        <main className="container">
+        <main className="container p-8">
           <Outlet />
         </main>
-      </div>
+        </div>
     </>
   )
 }
