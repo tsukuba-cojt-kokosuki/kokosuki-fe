@@ -1,11 +1,15 @@
+import { SWRConfig } from "swr"
 import { createRoot } from "react-dom/client"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import "./index.css"
+import { setupMsw } from "./mocks/setup"
 import Create from "./pages/create/page"
 import Index from "./pages/index/page"
 import Layout from "./pages/layout"
 import List from "./pages/list/page"
 import Login from "./pages/login/pages"
+
+setupMsw()
 
 const router = createBrowserRouter([
   {
@@ -32,4 +36,13 @@ const router = createBrowserRouter([
   },
 ])
 
-createRoot(document.getElementById("root")!).render(<RouterProvider router={router} />)
+createRoot(document.getElementById("root")!).render(
+  <SWRConfig
+    value={{
+      refreshInterval: 15000,
+      fetcher: (url: string) => fetch(url).then((res) => res.json()),
+    }}
+  >
+    <RouterProvider router={router} />
+  </SWRConfig>,
+)
