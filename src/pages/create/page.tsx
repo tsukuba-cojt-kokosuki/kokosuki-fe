@@ -3,7 +3,6 @@ import { SongList } from "./song-list"
 
 export type Song = {
   songId: string
-  url: string
   startTime: number
   endTime: number
   createDate: Date
@@ -12,16 +11,14 @@ export type Song = {
 
 const defaultSongs = [
   {
-    songId: "1",
-    url: "https://www.youtube.com/watch?v=1",
+    songId: "dQw4w9WgXcQ",
     startTime: 0,
     endTime: 60,
     createDate: new Date(),
     updateDate: new Date(),
   },
   {
-    songId: "2",
-    url: "https://www.youtube.com/watch?v=2",
+    songId: "114yuwqcQhM",
     startTime: 30,
     endTime: 40,
     createDate: new Date(),
@@ -33,10 +30,12 @@ const Create = () => {
   const [songs, setSongs] = useState<Song[]>(defaultSongs)
 
   return (
-    <SongList
-      songs={songs}
-      setSongs={setSongs}
-    />
+    <>
+      <SongList
+        songs={songs}
+        setSongs={setSongs}
+      />
+    </>
   )
 }
 
