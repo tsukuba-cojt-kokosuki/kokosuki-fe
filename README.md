@@ -3,35 +3,14 @@
 ## Prerequisites
 
 - Node.js 20
+- pnpm 9
 
 ## Setup
 
-一度 1~5 を実行したら、次回からは 5 のみで OK
-
-1. [GitHub Cli](https://github.com/cli/cli) をインストール
-
-2. リポジトリをクローン
-
 ```bash
-$ gh repo clone tsukuba-cojt-kokosuki/kokosuki-fe
-```
-
-3. pnpm をインストール
-
-```bash
-$ npm install -g pnpm
-```
-
-4. npm パッケージのインストール
-
-```bash
+$ git clone https://github.com/tsukuba-cojt-kokosuki/kokosuki-fe.git
 $ cd kokosuki-fe
 $ pnpm install
-```
-
-5. 開発サーバの起動
-
-```bash
 $ pnpm dev
 ```
 
