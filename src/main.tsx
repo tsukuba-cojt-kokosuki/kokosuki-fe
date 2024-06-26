@@ -48,6 +48,6 @@ createRoot(document.getElementById("root")!).render(
       },
     }}
    >
-    <RouterPinrovider router={router} />
+    <RouterProvider router={router} />
   </SWRConfig>,
 )

@@ -7,8 +7,10 @@ type CardContainerProps = {
 const CardContainer = ({children}: CardContainerProps) => {
   return (
     <>
-        <div className="grid gap-4 grid-cols-5">
+        <div className="container pt-8 mt-0 mx-auto px-5 py-20">
+          <div className="flex flex-wrap -m-4">
         {children}
+          </div>
         </div>
     </>
   )
