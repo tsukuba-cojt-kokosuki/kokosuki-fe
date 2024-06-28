@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react"
+import useSWR from "swr"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -35,25 +36,63 @@ type SongListProps = {
   setSongs: Dispatch<SetStateAction<Song[]>>
 }
 
+// 楽曲を削除
+const DeleteSong = ({
+  index,
+  setSongs,
+}: {
+  index: number
+  setSongs: Dispatch<SetStateAction<Song[]>>
+}) => {
+  return (
+    <Button
+      onClick={() => {
+        setSongs((songs) => {
+          return songs.filter((_, i) => i !== index)
+        })
+      }}
+    >
+      削除
+    </Button>
+  )
+}
+
 const SongList = ({ songs, setSongs }: SongListProps) => {
+  // 合計再生時間を計算
+  const totalPlayTime = songs.reduce((acc, song) => {
+    return acc + (song.endTime - song.startTime)
+  }, 0)
+
   return (
     <div className="w-96">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>URL</TableHead>
-            <TableHead>start</TableHead>
-            <TableHead>end</TableHead>
+            <TableHead>再生時間</TableHead>
+            <TableHead></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {songs.map((song, index) => (
             <TableRow key={index}>
-              <TableCell> {song.url} </TableCell>
-              <TableCell> {song.startTime} </TableCell>
-              <TableCell> {song.endTime} </TableCell>
+              <TableCell>
+                <YouTubeTitle youtubeId={song.songId} />
+              </TableCell>
+              <TableCell> {song.endTime - song.startTime} </TableCell>
+              <TableCell>
+                <DeleteSong
+                  index={index}
+                  setSongs={setSongs}
+                />
+              </TableCell>
             </TableRow>
           ))}
+          <TableRow>
+            <TableCell>合計</TableCell>
+            <TableCell>{totalPlayTime}</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
         </TableBody>
       </Table>
       <AddSongDialog setSongs={setSongs} />
@@ -62,6 +101,27 @@ const SongList = ({ songs, setSongs }: SongListProps) => {
 }
 
 export { SongList }
+
+type YouTubeTitleProps = {
+  youtubeId: string
+}
+
+const YouTubeTitle = ({ youtubeId }: YouTubeTitleProps) => {
+  const { data, error, isLoading } = useSWR(
+    `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${youtubeId}&key=AIzaSyClGx_5aGhwIivUhduJiQO8twAUW8Rb-_w`,
+  )
+
+  console.log(data)
+
+  if (error) return <div>failed to load</div>
+  if (isLoading) return <div>loading...</div>
+
+  if (!data.items.length) {
+    return <div>動画が見つかりません</div>
+  }
+
+  return <div>{data.items[0].snippet.title}</div>
+}
 
 const addSongFormSchema = z.object({
   url: z
@@ -130,8 +190,7 @@ const AddSongDialog = ({ setSongs }: AddSongDialogProps) => {
       return [
         ...songs,
         {
-          songId,
-          url: values.url,
+          songId: songId,
           startTime: 0,
           endTime: 60,
           createDate: new Date(),
