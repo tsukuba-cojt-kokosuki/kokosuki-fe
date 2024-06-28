@@ -6,7 +6,6 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -45,12 +44,22 @@ const Card = (props: {
                 <Button variant="ghost" className="p-0 h-fit"><Share></Share></Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>クロスフェードを共有</DialogTitle>
-                  <DialogDescription>
-                    {props.title}の共有リンクです。
-                  </DialogDescription>
-                </DialogHeader>
+              <DialogHeader className="flex flex-row items-center justify-between">
+                <DialogTitle>クロスフェードを共有</DialogTitle>
+                <DialogClose asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
+                  >
+                    Close
+                  </Button>
+                </DialogClose>
+              </DialogHeader>
+              <DialogDescription>
+                {props.title}の共有リンクです。
+              </DialogDescription>
                 <div className="flex items-center space-x-2">
                   <div className="grid flex-1 gap-2">
                     <Label
@@ -68,22 +77,12 @@ const Card = (props: {
                   <Button
                     type="submit"
                     size="sm"
-                    className="px-3"
+                    className="px-3 hover:bg-gray-200 transition-colors duration-200 ease-in-out"
                     onClick={handleCopyClick}
                   >
                     {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                   </Button>
                 </div>
-                <DialogFooter className="sm:justify-start">
-                  <DialogClose asChild>
-                    <Button
-                      type="button"
-                      variant="secondary"
-                    >
-                      Close
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
               </DialogContent>
             </Dialog>
           {props.showSquarePen && <SquarePen />}
