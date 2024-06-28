@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useState } from "react"
-import useSWR from "swr"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -29,11 +28,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { YouTubeTitle } from "@/components/youtube-title"
 import { Song } from "./page"
 
 type SongListProps = {
   songs: Song[]
   setSongs: Dispatch<SetStateAction<Song[]>>
+  setSelectedSong: (song: Song) => void
 }
 
 // 楽曲を削除
@@ -57,7 +58,7 @@ const DeleteSong = ({
   )
 }
 
-const SongList = ({ songs, setSongs }: SongListProps) => {
+const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
   // 合計再生時間を計算
   const totalPlayTime = songs.reduce((acc, song) => {
     return acc + (song.endTime - song.startTime)
@@ -86,6 +87,15 @@ const SongList = ({ songs, setSongs }: SongListProps) => {
                   setSongs={setSongs}
                 />
               </TableCell>
+              <TableCell>
+                <Button
+                  onClick={() => {
+                    setSelectedSong(songs[index] || null)
+                  }}
+                >
+                  選択
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
           <TableRow>
@@ -101,27 +111,6 @@ const SongList = ({ songs, setSongs }: SongListProps) => {
 }
 
 export { SongList }
-
-type YouTubeTitleProps = {
-  youtubeId: string
-}
-
-const YouTubeTitle = ({ youtubeId }: YouTubeTitleProps) => {
-  const { data, error, isLoading } = useSWR(
-    `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${youtubeId}&key=AIzaSyClGx_5aGhwIivUhduJiQO8twAUW8Rb-_w`,
-  )
-
-  console.log(data)
-
-  if (error) return <div>failed to load</div>
-  if (isLoading) return <div>loading...</div>
-
-  if (!data.items.length) {
-    return <div>動画が見つかりません</div>
-  }
-
-  return <div>{data.items[0].snippet.title}</div>
-}
 
 const addSongFormSchema = z.object({
   url: z
