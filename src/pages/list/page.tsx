@@ -18,6 +18,8 @@ const List = () => {
   }
 
   return (
+    <>
+    <h1 className=" text-2xl font-bold"> マイ クロスフェード </h1>
     <CardContainer>
       {crossfades.map((crossfade, i) => (
         <Card
@@ -29,6 +31,7 @@ const List = () => {
         />
       ))}
     </CardContainer>
+    </>
   )
 }
 
