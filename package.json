@@ -13,15 +13,20 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@fontsource-variable/inter": "^5.0.18",
     "@fontsource-variable/noto-sans-jp": "^5.0.19",
     "@hookform/resolvers": "^3.6.0",
+    "@mui/material": "^5.15.21",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.52.0",
+    "react-lite-youtube-embed": "^2.4.0",
+    "react-player": "^2.16.0",
     "react-router-dom": "^6.23.1",
     "swr": "^2.2.5",
     "zod": "^3.23.8"
