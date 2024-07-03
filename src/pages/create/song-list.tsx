@@ -34,7 +34,8 @@ import { Song } from "./page"
 type SongListProps = {
   songs: Song[]
   setSongs: Dispatch<SetStateAction<Song[]>>
-  setSelectedSong: (song: Song) => void
+  // 選んだ曲のインデックスを設定する関数 引数はindex
+  setSelectedSong: Dispatch<SetStateAction<number | null>>
 }
 
 // 楽曲を削除
@@ -65,12 +66,15 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
   }, 0)
 
   return (
-    <div className="w-96">
+    <div className="w-160">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>URL</TableHead>
             <TableHead>再生時間</TableHead>
+            <TableHead>start</TableHead>
+            <TableHead>end </TableHead>
+            <TableHead></TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -81,6 +85,8 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
                 <YouTubeTitle youtubeId={song.songId} />
               </TableCell>
               <TableCell> {song.endTime - song.startTime} </TableCell>
+              <TableCell>{song.startTime}</TableCell>
+              <TableCell>{song.endTime}</TableCell>
               <TableCell>
                 <DeleteSong
                   index={index}
@@ -90,7 +96,7 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
               <TableCell>
                 <Button
                   onClick={() => {
-                    setSelectedSong(songs[index] || null)
+                    setSelectedSong(index)
                   }}
                 >
                   選択

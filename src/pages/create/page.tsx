@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
+import useSWR from "swr"
 import Slider from "@mui/material/Slider"
-import { Play } from "lucide-react"
+import { clear } from "console"
 import ReactPlayer from "react-player/youtube"
 import YouTubePlayer from "react-player/youtube"
 import { SongList } from "./song-list"
@@ -22,38 +23,94 @@ const defaultSongs = [
     updateDate: new Date(),
   },
   {
-    songId: "71u0i6J-Qes",
-    startTime: 30,
-    endTime: 35,
+    songId: "33HhfJsg2LE",
+    startTime: 143,
+    endTime: 172,
+    createDate: new Date(),
+    updateDate: new Date(),
+  },
+  {
+    songId: "0oPZr_b-P54",
+    startTime: 48,
+    endTime: 70,
+    createDate: new Date(),
+    updateDate: new Date(),
+  },
+  {
+    songId: "ftU99KUGIMk",
+    startTime: 61,
+    endTime: 75,
+    createDate: new Date(),
+    updateDate: new Date(),
+  },
+  {
+    songId: "YGh0i_yTru0",
+    startTime: 59,
+    endTime: 81,
+    createDate: new Date(),
+    updateDate: new Date(),
+  },
+  {
+    songId: "mIqLF3KfIJs",
+    startTime: 37,
+    endTime: 70,
     createDate: new Date(),
     updateDate: new Date(),
   },
 ]
 
-function valuetext(value: number) {
-  return `${value}°C`
-}
-
 const minDistance = 1
 
 const Create = () => {
   const [songs, setSongs] = useState<Song[]>(defaultSongs)
-  const [selectedSong, setSelectedSong] = useState<Song | null>(null)
-  const [value1, setValue1] = useState<[number, number]>([20, 25])
+  const [selectedSong, setSelectedSong] = useState<number | null>(0)
+  const [value1, setValue1] = useState<[number, number]>([0, 1])
   const [playing, setPlaying] = useState(true)
   const player = useRef<YouTubePlayer>(null)
-  const [timeOutId, setTimeOutId] = useState<number>(0)
+  // const [timeOutId, setTimeOutId] = useState<number>(0)
+  const [youtubeUrl, setYoutubeUrl] = useState<string>(
+    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  )
+  const [songLength, setSongLength] = useState<number>(0)
+  const [songCurrentTime, setSongCurrentTime] = useState<number>(0)
 
-  const handleSongSelect = (song: Song) => {
-    setSelectedSong(song)
+  const handleSongSelect = (index: number | null) => {
+    setSelectedSong(index)
+  }
+
+  // 曲が選択されたら
+  useEffect(() => {
+    if (selectedSong === null) return
+    const song = songs[selectedSong]
+
+    if (song === undefined) return
+    // YouTubeのURLを設定
+    setYoutubeUrl(`https://www.youtube.com/watch?v=${song.songId}`)
+  }, [selectedSong])
+
+  const onReady = () => {
+    if (selectedSong === null) return
+    const song = songs[selectedSong]
+
+    if (song === undefined) return
+    if (player.current === null) return
+    // 曲の再生位置を設定
+    player.current.seekTo(song.startTime)
+    // シークバーの設定
     setValue1([song.startTime, song.endTime])
+    // 曲の長さを取得
+    setSongLength(player.current.getDuration())
+  }
+
+  const handleSongCurrentTime = () => {
+    if (player.current === null) return
+    setSongCurrentTime(player.current.getCurrentTime())
+    // 終点より後ろに行ったら再生を止めるみたいな処理をいれたら良さそうなんだけどうまくいかない
   }
 
   useEffect(() => {
-    if (selectedSong) {
-      setValue1([selectedSong.startTime, selectedSong.endTime])
-    }
-  }, [selectedSong])
+    setInterval(handleSongCurrentTime, 1000)
+  }, [])
 
   const handleChange1 = (_event: Event, newValue: number | number[], activeThumb: number) => {
     if (!Array.isArray(newValue)) {
@@ -68,18 +125,17 @@ const Create = () => {
       setPlaying(true)
     } else {
       setValue1([value1[0], Math.max(newValue[1] as number, value1[0] + minDistance)])
-      // 終了時間を設定
     }
-    clearTimeout(timeOutId)
-    setTimeOutId(
-      setTimeout(
-        () => {
-          setPlaying(false)
-        },
-        (value1[1] - value1[0]) * 1000,
-      ),
-    )
-    console.log((value1[1] - value1[0]) * 1000)
+
+    // selectedSongを更新
+    if (selectedSong === null) return
+    const newSongs = [...songs]
+    newSongs[selectedSong] = {
+      ...newSongs[selectedSong],
+      startTime: value1[0],
+      endTime: value1[1],
+    }
+    setSongs(newSongs)
   }
 
   return (
@@ -90,19 +146,30 @@ const Create = () => {
         setSelectedSong={handleSongSelect}
       />
       <ReactPlayer
-        url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        url={youtubeUrl}
         ref={player}
         playing={playing}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
+        onReady={onReady}
       />
       <Slider
         getAriaLabel={() => "Minimum distance"}
         value={value1}
         onChange={handleChange1}
         valueLabelDisplay="auto"
-        getAriaValueText={valuetext}
+        min={0}
+        max={songLength}
+        valueLabelDisplay="on"
         disableSwap
+      />
+      <Slider
+        size="small"
+        disabled
+        value={songCurrentTime}
+        min={0}
+        max={songLength}
+        valueLabelDisplay="on"
       />
     </>
   )
