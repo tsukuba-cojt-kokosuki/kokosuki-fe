@@ -26,7 +26,11 @@ const Layout = () => {
               </Link>
             </li>
             <li>
-              <Link to="login">ログイン</Link>
+              <a
+                href={`${import.meta.env.VITE_BACKEND_URL ?? "https://kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev"}/login?redirect_to=${window.location.origin}`}
+              >
+                ログイン
+              </a>
             </li>
           </ul>
         </header>
@@ -34,7 +38,7 @@ const Layout = () => {
         <main className="container p-8">
           <Outlet />
         </main>
-        </div>
+      </div>
     </>
   )
 }
