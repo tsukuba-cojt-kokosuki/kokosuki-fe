@@ -38,32 +38,19 @@ type SongListProps = {
   setSelectedSong: Dispatch<SetStateAction<number | null>>
 }
 
-// 楽曲を削除
-const DeleteSong = ({
-  index,
-  setSongs,
-}: {
-  index: number
-  setSongs: Dispatch<SetStateAction<Song[]>>
-}) => {
-  return (
-    <Button
-      onClick={() => {
-        setSongs((songs) => {
-          return songs.filter((_, i) => i !== index)
-        })
-      }}
-    >
-      削除
-    </Button>
-  )
-}
-
 const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
   // 合計再生時間を計算
   const totalPlayTime = songs.reduce((acc, song) => {
     return acc + (song.endTime - song.startTime)
   }, 0)
+
+  const handleDeleteSong = (index: number) => {
+    setSongs((songs) => songs.filter((_, i) => i !== index))
+  }
+
+  const handleMakeSelected = (index: number) => {
+    setSelectedSong(index)
+  }
 
   return (
     <div className="w-160">
@@ -84,23 +71,14 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
               <TableCell>
                 <YouTubeTitle youtubeId={song.songId} />
               </TableCell>
-              <TableCell> {song.endTime - song.startTime} </TableCell>
+              <TableCell> {song.endTime - song.startTime}</TableCell>
               <TableCell>{song.startTime}</TableCell>
               <TableCell>{song.endTime}</TableCell>
               <TableCell>
-                <DeleteSong
-                  index={index}
-                  setSongs={setSongs}
-                />
+                <Button onClick={() => handleDeleteSong(index)}>削除</Button>
               </TableCell>
               <TableCell>
-                <Button
-                  onClick={() => {
-                    setSelectedSong(index)
-                  }}
-                >
-                  選択
-                </Button>
+                <Button onClick={() => handleMakeSelected(index)}>選択</Button>
               </TableCell>
             </TableRow>
           ))}
@@ -118,7 +96,7 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
 
 export { SongList }
 
-const addSongFormSchema = z.object({
+const addSongDialogFormSchema = z.object({
   url: z
     .string()
     .min(1, { message: "YouTube の URLを入力してください" })
@@ -170,14 +148,14 @@ type AddSongDialogProps = {
 const AddSongDialog = ({ setSongs }: AddSongDialogProps) => {
   const [open, setOpen] = useState(false)
 
-  const form = useForm<z.infer<typeof addSongFormSchema>>({
-    resolver: zodResolver(addSongFormSchema),
+  const form = useForm<z.infer<typeof addSongDialogFormSchema>>({
+    resolver: zodResolver(addSongDialogFormSchema),
     defaultValues: {
       url: "",
     },
   })
 
-  const onSubmit = (values: z.infer<typeof addSongFormSchema>) => {
+  const onSubmit = (values: z.infer<typeof addSongDialogFormSchema>) => {
     const url = new URL(values.url)
     const songId = url.searchParams.get("v") as string
 

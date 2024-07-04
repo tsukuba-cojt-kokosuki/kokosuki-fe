@@ -1,19 +1,14 @@
-import useSWR from "swr"
+import useSWRImmutable from "swr/immutable"
 
 type YouTubeTitleProps = {
   youtubeId: string
 }
 
 const YouTubeTitle = ({ youtubeId }: YouTubeTitleProps) => {
-  return (
-    <div>
-      現在の再生時刻を高頻度に取得しようとしたらリクエストが無限に飛ぶようになってしまったので一時的にこうしています
-    </div>
-  )
-  const { data, error, isLoading } = useSWR(
+  // YouTube の動画タイトルは頻繁に変わるものではないので、useSWRImmutable を使って一度取得したらキャッシュを使い回す
+  const { data, error, isLoading } = useSWRImmutable(
     `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${youtubeId}&key=AIzaSyClGx_5aGhwIivUhduJiQO8twAUW8Rb-_w`,
   )
-  console.log(data)
 
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>
