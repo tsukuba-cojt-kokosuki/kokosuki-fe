@@ -48,7 +48,7 @@ createRoot(document.getElementById("root")!).render(
           : `${import.meta.env.VITE_BACKEND_URL ?? "https://kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev"}${urlOrPathname}`
         const hostname = new URL(url).hostname
 
-        const res = await fetch(urlOrPathname, {
+        const res = await fetch(url, {
           credentials:
             hostname.endsWith("kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev") ||
             hostname.endsWith("localhost:8787")
