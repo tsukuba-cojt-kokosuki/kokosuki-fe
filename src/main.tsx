@@ -42,12 +42,23 @@ createRoot(document.getElementById("root")!).render(
   <SWRConfig
     value={{
       refreshInterval: 15000,
-      fetcher: async (url: string) => {
-        const res = await fetch(url)
+      fetcher: async (urlOrPathname: string) => {
+        const url = urlOrPathname.startsWith("http")
+          ? urlOrPathname
+          : `${import.meta.env.VITE_BACKEND_URL ?? "https://kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev"}${urlOrPathname}`
+        const hostname = new URL(url).hostname
+
+        const res = await fetch(urlOrPathname, {
+          credentials:
+            hostname.endsWith("kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev") ||
+            hostname.endsWith("localhost:8787")
+              ? "include"
+              : "same-origin",
+        })
         return await res.json()
       },
     }}
-   >
+  >
     <RouterProvider router={router} />
   </SWRConfig>,
 )
