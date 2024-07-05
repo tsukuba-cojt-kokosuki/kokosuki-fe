@@ -2,6 +2,7 @@ import useSWR from "swr"
 import Card from "@/components/card"
 import { paths } from "@/lib/api/schema"
 import { CardContainer } from "@/components/card-container"
+import HelmetPack from "@/components/helmet-pack"
 
 type latestCrossfadesResponse =
   paths["/crossfades/latest"]["get"]["responses"]["200"]["content"]["application/json"]
@@ -10,10 +11,22 @@ type popularCrossfadesResponse =
 
 const Index = () => {
   return (
+    <>
+    <HelmetPack
+
+    title="Kokosuki Top Page"
+    description="Let's make your crossfade!"
+    image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+    link="https://kokosuki.com"
+
+    />
+    
     <div className="container mx-auto">
       <LatestCrossfades />
       <PopularCrossfades />
     </div>
+
+    </>
   )
 }
 
