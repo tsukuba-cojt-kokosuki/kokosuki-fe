@@ -11,7 +11,7 @@ return (
     <Helmet>
      <title>{props.title}</title>
 
-    <link rel="icon" href={props.image} />
+    <link rel="icon" href="#" />
 
     <meta name="title" content={props.title} />
     <meta name="description" content={props.description} />
