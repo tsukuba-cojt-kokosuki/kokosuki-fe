@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
-import { Slider } from "@mui/material"
 import ReactPlayer from "react-player"
+import { RangeSlider, Slider } from "@/components/ui/slider"
 import { Song } from "./page"
 
 const minDistance = 1
@@ -11,7 +11,7 @@ type VideoPlayerProps = {
 }
 
 const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => {
-  const [value1, setValue1] = useState<[number, number]>([0, 1])
+  const [values, setValues] = useState<[number, number]>([0, 1])
   const [playing, setPlaying] = useState(true)
   const player = useRef<ReactPlayer>(null)
   // const [timeOutId, setTimeOutId] = useState<number>(0)
@@ -34,7 +34,7 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
     // 曲の再生位置を設定
     player.current.seekTo(selectedSong.startTime)
     // シークバーの設定
-    setValue1([selectedSong.startTime, selectedSong.endTime])
+    setValues([selectedSong.startTime, selectedSong.endTime])
     // 曲の長さを取得
     setSongLength(player.current.getDuration())
   }
@@ -49,25 +49,28 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
     setInterval(handleSongCurrentTime, 1000)
   }, [])
 
-  const handleChange1 = (_event: Event, _newValue: number | number[], activeThumb: number) => {
-    const newValue = _newValue as [number, number]
-
+  const handleRangeSliderChange = (newValues: [number, number]) => {
     if (player.current === null) return
 
-    if (activeThumb === 0) {
-      setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]])
-      player.current.seekTo(value1[0])
-      setPlaying(true)
-    } else {
-      setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)])
+    const handleNewValues = (prevValues: [number, number]): [number, number] => {
+      const activeThumb = prevValues[0] === newValues[0] ? 1 : 0
+
+      if (activeThumb === 0) {
+        player.current?.seekTo(newValues[0])
+        setPlaying(true)
+        return [Math.min(newValues[0], prevValues[1] - minDistance), prevValues[1]]
+      } else {
+        return [prevValues[0], Math.max(newValues[1], prevValues[0] + minDistance)]
+      }
     }
+    setValues(handleNewValues)
 
     // selectedSongを更新
     if (selectedSong === null) return
     updateSelectedSong({
       ...selectedSong,
-      startTime: value1[0],
-      endTime: value1[1],
+      startTime: values[0],
+      endTime: values[1],
     })
   }
 
@@ -81,22 +84,20 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
         onPause={() => setPlaying(false)}
         onReady={onReady}
       />
-      <Slider
-        getAriaLabel={() => "Minimum distance"}
-        value={value1}
-        onChange={handleChange1}
+      <RangeSlider
+        value={values}
+        onValueChange={handleRangeSliderChange}
         min={0}
         max={songLength}
-        valueLabelDisplay="on"
-        disableSwap
+        className="mb-12"
+        tooltip={true}
       />
       <Slider
-        size="small"
         disabled
         value={songCurrentTime}
         min={0}
         max={songLength}
-        valueLabelDisplay="on"
+        tooltip={true}
       />
     </>
   )
