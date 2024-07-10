@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { set } from "react-hook-form"
 import ReactPlayer from "react-player"
 import { RangeSlider, Slider } from "@/components/ui/slider"
 import { Song } from "./page"
@@ -51,7 +52,7 @@ const VideoPlayer = ({
   const handleSongCurrentTime = () => {
     // イージング関数を作る
     const easeOutCirc = (t: number) => Math.sqrt(1 - Math.pow(t - 1, 2))
-    const easeInCirc = (t: number) => Math.sqrt(1 - Math.pow(t, 2))
+    const easeInCirc = (t: number) => 1 - Math.sqrt(1 - Math.pow(t, 2))
 
     if (player.current === null) return
     const currentTime = player.current.getCurrentTime()
@@ -65,7 +66,7 @@ const VideoPlayer = ({
       setVolume(easeOutCirc((currentTime - values[0]) / 2))
     }
     if (values[1] - 2 <= currentTime && currentTime <= values[1]) {
-      setVolume(easeInCirc((currentTime - values[1] + 2) / 2))
+      setVolume(easeInCirc((values[1] - currentTime) / 2))
     }
     if (currentTime > values[1]) {
       if (isPlayer) {
@@ -93,6 +94,7 @@ const VideoPlayer = ({
       }
     }
     setValues(handleNewValues)
+    setVolume(1.0)
 
     // selectedSongを更新
     if (selectedSong === null) return
