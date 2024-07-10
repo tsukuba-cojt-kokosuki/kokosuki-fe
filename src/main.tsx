@@ -9,7 +9,6 @@ import Create from "./pages/create/page"
 import Index from "./pages/index/page"
 import Layout from "./pages/layout"
 import List from "./pages/list/page"
-import Login from "./pages/login/pages"
 import { UserContextProvider } from "./pages/user-context"
 
 await setupMsw()
@@ -26,10 +25,6 @@ const router = createBrowserRouter([
       {
         path: "create",
         element: <Create />,
-      },
-      {
-        path: "login",
-        element: <Login />,
       },
       {
         path: "list",
