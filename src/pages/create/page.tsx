@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { SongList } from "./song-list"
+import HelmetPack from "@/components/helmet-pack"
 
 export type Song = {
   songId: string
@@ -33,10 +34,18 @@ const Create = () => {
   const [songs, setSongs] = useState<Song[]>(defaultSongs)
 
   return (
+    <>
+    <HelmetPack
+      title="Kokosuki Create Page"
+      description="Let's make your crossfade!"
+      image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+      link="https://kokosuki.com/create"
+    />
     <SongList
       songs={songs}
       setSongs={setSongs}
     />
+    </>
   )
 }
 

@@ -2,6 +2,7 @@ import useSWR from "swr"
 import Card from "@/components/card"
 import { CardContainer } from "@/components/card-container"
 import { paths } from "@/lib/api/schema"
+import HelmetPack from "@/components/helmet-pack"
 
 type CrossfadesResponse =
   paths["/users/me/crossfades"]["get"]["responses"]["200"]["content"]["application/json"]
@@ -19,6 +20,13 @@ const List = () => {
 
   return (
     <>
+    <HelmetPack
+      title="Kokosuki List Page"
+      description="Let's check this crossfade!"
+      image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+      link="https://kokosuki.com/list"
+    
+    />
     <h1 className=" text-2xl font-bold"> マイ クロスフェード </h1>
     <CardContainer>
       {crossfades.map((crossfade, i) => (
