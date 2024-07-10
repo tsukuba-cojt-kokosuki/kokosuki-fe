@@ -42,17 +42,10 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
   const handleSongCurrentTime = () => {
     if (player.current === null) return
     setSongCurrentTime(player.current.getCurrentTime())
-    // 終点より後ろに行ったら再生を止めるみたいな処理をいれたら良さそうなんだけどうまくいかない
-    console.log(player.current.getCurrentTime(), values[1], songCurrentTime, songLength)
     if (player.current.getCurrentTime() > values[1]) {
       setPlaying(false)
     }
   }
-  /*
-  useEffect(() => {
-    setInterval(handleSongCurrentTime, 1000)
-  }, [])
-*/
 
   const handleRangeSliderChange = (newValues: [number, number]) => {
     if (player.current === null) return
