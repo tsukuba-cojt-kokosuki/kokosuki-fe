@@ -1,4 +1,6 @@
+import { useContext } from "react"
 import { Link, Outlet } from "react-router-dom"
+import { UserContext } from "./user-context"
 
 const Layout = () => {
   return (
@@ -26,11 +28,7 @@ const Layout = () => {
               </Link>
             </li>
             <li>
-              <a
-                href={`${import.meta.env.VITE_BACKEND_URL ?? "https://kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev"}/login?redirect_to=${window.location.origin}`}
-              >
-                ログイン
-              </a>
+              <LoginButton />
             </li>
           </ul>
         </header>
@@ -44,3 +42,15 @@ const Layout = () => {
 }
 
 export default Layout
+
+const LoginButton = () => {
+  const backendUrl =
+    import.meta.env.VITE_BACKEND_URL ?? "https://kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev"
+  const user = useContext(UserContext)
+
+  if (user.id === null) {
+    return <a href={`${backendUrl}/login?redirect_to=${window.location.origin}`}>ログイン</a>
+  }
+
+  return <span>{user.name}</span>
+}

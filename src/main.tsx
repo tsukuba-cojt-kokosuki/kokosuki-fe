@@ -10,6 +10,7 @@ import Index from "./pages/index/page"
 import Layout from "./pages/layout"
 import List from "./pages/list/page"
 import Login from "./pages/login/pages"
+import { UserContextProvider } from "./pages/user-context"
 
 await setupMsw()
 
@@ -46,12 +47,12 @@ createRoot(document.getElementById("root")!).render(
         const url = urlOrPathname.startsWith("http")
           ? urlOrPathname
           : `${import.meta.env.VITE_BACKEND_URL ?? "https://kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev"}${urlOrPathname}`
-        const hostname = new URL(url).hostname
+        const host = new URL(url).host
 
         const res = await fetch(url, {
           credentials:
-            hostname.endsWith("kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev") ||
-            hostname.endsWith("localhost:8787")
+            host.endsWith("kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev") ||
+            host.endsWith("localhost:8787")
               ? "include"
               : "same-origin",
         })
@@ -59,6 +60,8 @@ createRoot(document.getElementById("root")!).render(
       },
     }}
   >
-    <RouterProvider router={router} />
+    <UserContextProvider>
+      <RouterProvider router={router} />
+    </UserContextProvider>
   </SWRConfig>,
 )
