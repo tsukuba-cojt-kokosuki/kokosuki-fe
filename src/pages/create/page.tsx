@@ -68,15 +68,21 @@ const Create = () => {
 
   return (
     <>
-      <SongList
-        songs={songs}
-        setSongs={setSongs}
-        setSelectedSong={setSelectedSongIndex}
-      />
-      <VideoPlayer
-        selectedSong={selectedSongIndex === null ? null : (songs[selectedSongIndex] as Song)}
-        updateSelectedSong={updateSelectedSong}
-      />
+      <div className="grid grid-cols-2 gap-20">
+        <div>
+          <SongList
+            songs={songs}
+            setSongs={setSongs}
+            setSelectedSong={setSelectedSongIndex}
+          />
+        </div>
+        <div>
+          <VideoPlayer
+            selectedSong={selectedSongIndex === null ? null : (songs[selectedSongIndex] as Song)}
+            updateSelectedSong={updateSelectedSong}
+          />
+        </div>
+      </div>
     </>
   )
 }
