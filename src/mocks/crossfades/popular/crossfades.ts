@@ -1,10 +1,10 @@
 import { HttpResponse, http } from "msw"
 import { paths } from "@/lib/api/schema"
 
-type Schema = paths["/users/me/crossfades"]["get"]
+type Schema = paths["/crossfades/popular"]["get"]
 type Response = Schema["responses"]["200"]["content"]["application/json"]
 
-const GetUsersMeCrossfades = http.get("/users/me/crossfades", () => {
+const GetPopularCrossfades = http.get("/crossfades/popular", () => {
   return HttpResponse.json<Response>([
     {
       id: "crossfade1",
@@ -153,4 +153,4 @@ const GetUsersMeCrossfades = http.get("/users/me/crossfades", () => {
   ])
 })
 
-export { GetUsersMeCrossfades }
+export { GetPopularCrossfades }

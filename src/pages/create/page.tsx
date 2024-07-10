@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Button } from "@/components/ui/button"
 import { SongList } from "./song-list"
 import { VideoPlayer } from "./video-player"
 
@@ -83,6 +84,8 @@ const Create = () => {
           />
         </div>
       </div>
+      <Button variant="outline">保存</Button>
+      <Button variant="outline">完成</Button>
     </>
   )
 }
