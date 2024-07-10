@@ -71,7 +71,7 @@ const Layout = () => {
                   </Link>
                 </li>
                 <li>
-                  <LoginButton />
+                  <User />
                 </li>
               </ul>
             </nav>
@@ -124,7 +124,7 @@ const Layout = () => {
                 </Link>
               </li>
               <li>
-                <LoginButton />
+                <User />
               </li>
             </ul>
           </nav>
@@ -139,19 +139,27 @@ const Layout = () => {
 
 export default Layout
 
-const LoginButton = () => {
+const User = () => {
   const backendUrl =
     import.meta.env.VITE_BACKEND_URL ?? "https://kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev"
   const user = useContext(UserContext)
 
   return (
-    <div className="flex gap-2">
-      <CircleUserRound />
+    <>
       {user.id === null ? (
-        <a href={`${backendUrl}/login?redirect_to=${window.location.origin}`}>ログイン</a>
+        <a
+          href={`${backendUrl}/login?redirect_to=${window.location.origin}`}
+          className="flex gap-2"
+        >
+          <CircleUserRound />
+          ログイン
+        </a>
       ) : (
-        <span>{user.name}</span>
+        <span className="flex gap-2">
+          <CircleUserRound />
+          {user.name}
+        </span>
       )}
-    </div>
+    </>
   )
 }
