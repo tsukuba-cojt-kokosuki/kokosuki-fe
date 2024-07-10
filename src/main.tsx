@@ -10,6 +10,8 @@ import Index from "./pages/index/page"
 import Layout from "./pages/layout"
 import List from "./pages/list/page"
 import Login from "./pages/login/pages"
+import NotFound from "./pages/not-found"
+import Play from "./pages/play/page"
 
 await setupMsw()
 
@@ -33,6 +35,11 @@ const router = createBrowserRouter([
       {
         path: "list",
         element: <List />,
+      },
+      {
+        path: "play",
+        element: <Play />,
+        errorElement: <NotFound />,
       },
     ],
   },
