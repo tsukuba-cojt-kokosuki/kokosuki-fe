@@ -22,7 +22,7 @@ const defaultSongs = [
   {
     songId: "33HhfJsg2LE",
     startTime: 143,
-    endTime: 172,
+    endTime: 154,
     createDate: new Date(),
     updateDate: new Date(),
   },

@@ -49,6 +49,10 @@ const VideoPlayer = ({
   }
 
   const handleSongCurrentTime = () => {
+    // イージング関数を作る
+    const easeOutCirc = (t: number) => Math.sqrt(1 - Math.pow(t - 1, 2))
+    const easeInCirc = (t: number) => Math.sqrt(1 - Math.pow(t, 2))
+
     if (player.current === null) return
     const currentTime = player.current.getCurrentTime()
     setSongCurrentTime(currentTime)
@@ -57,11 +61,11 @@ const VideoPlayer = ({
     if (!playing) return
 
     // 音量を再生箇所によって変えていく
-    if (values[0] <= currentTime && currentTime <= values[0] + 1) {
-      setVolume((currentTime - values[0]) / 1)
+    if (values[0] <= currentTime && currentTime <= values[0] + 2) {
+      setVolume(easeOutCirc((currentTime - values[0]) / 2))
     }
-    if (values[1] - 1 <= currentTime && currentTime <= values[1]) {
-      setVolume((values[1] - currentTime) / 1)
+    if (values[1] - 2 <= currentTime && currentTime <= values[1]) {
+      setVolume(easeInCirc((currentTime - values[1] + 2) / 2))
     }
     if (currentTime > values[1]) {
       if (isPlayer) {
