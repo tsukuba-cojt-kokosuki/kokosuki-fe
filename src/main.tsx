@@ -9,7 +9,7 @@ import Create from "./pages/create/page"
 import Index from "./pages/index/page"
 import Layout from "./pages/layout"
 import List from "./pages/list/page"
-import Login from "./pages/login/pages"
+import { UserContextProvider } from "./pages/user-context"
 
 await setupMsw()
 
@@ -27,10 +27,6 @@ const router = createBrowserRouter([
         element: <Create />,
       },
       {
-        path: "login",
-        element: <Login />,
-      },
-      {
         path: "list",
         element: <List />,
       },
@@ -42,12 +38,25 @@ createRoot(document.getElementById("root")!).render(
   <SWRConfig
     value={{
       refreshInterval: 15000,
-      fetcher: async (url: string) => {
-        const res = await fetch(url)
+      fetcher: async (urlOrPathname: string) => {
+        const url = urlOrPathname.startsWith("http")
+          ? urlOrPathname
+          : `${import.meta.env.VITE_BACKEND_URL ?? "https://kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev"}${urlOrPathname}`
+        const host = new URL(url).host
+
+        const res = await fetch(url, {
+          credentials:
+            host.endsWith("kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev") ||
+            host.endsWith("localhost:8787")
+              ? "include"
+              : "same-origin",
+        })
         return await res.json()
       },
     }}
-   >
-    <RouterProvider router={router} />
+  >
+    <UserContextProvider>
+      <RouterProvider router={router} />
+    </UserContextProvider>
   </SWRConfig>,
 )

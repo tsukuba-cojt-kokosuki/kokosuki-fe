@@ -4,7 +4,7 @@ import { paths } from "@/lib/api/schema"
 type Schema = paths["/crossfades/latest"]["get"]
 type Response = Schema["responses"]["200"]["content"]["application/json"]
 
-const GetLatestCrossfades = http.get("/crossfades/latest", () => {
+const GetLatestCrossfades = http.get("http://localhost:8787/crossfades/latest", () => {
   return HttpResponse.json<Response>([
     {
       id: "crossfade1",
