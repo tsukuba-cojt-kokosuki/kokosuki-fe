@@ -7,8 +7,8 @@ type CardContainerProps = {
 const CardContainer = ({children}: CardContainerProps) => {
   return (
     <>
-        <div className="container pt-8 mt-0 mx-auto px-5 py-20">
-          <div className="flex flex-wrap -m-4">
+ <div className="container mx-auto px-4 py-8">
+      <div className="flex flex-wrap justify-start -mx-2">
         {children}
           </div>
         </div>

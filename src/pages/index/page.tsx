@@ -10,10 +10,10 @@ type popularCrossfadesResponse =
 
 const Index = () => {
   return (
-    <>
-     <LatestCrossfades />
-     <PopularCrossfades />
-    </>
+    <div className="container mx-auto">
+      <LatestCrossfades />
+      <PopularCrossfades />
+    </div>
   )
 }
 
@@ -28,20 +28,22 @@ const LatestCrossfades = () => {
   }
 
   return (
-    <>
-    <h1 className="text-2xl font-bold"> 新着のクロスフェード </h1>
-    <CardContainer>
-      {data.map((crossfade, i) => (
-        <Card
-          key={i}
-          title={crossfade.title}
-          link="https://google.com"
-          image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-          showSquarePen = {false}
-        />
-      ))}
-    </CardContainer>
-    </>
+    <section className="mb-12">
+      <h1 className="text-3xl font-bold">新着のクロスフェード</h1>
+      <div className="line-clamp-2">
+      <CardContainer>
+        {data.map((crossfade, i) => (
+          <Card
+            key={i}
+            title={crossfade.title}
+            link="https://google.com"
+            image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+            showSquarePen={false}
+          />
+        ))}
+      </CardContainer>
+      </div>
+    </section>
   )
 }
 
@@ -56,20 +58,22 @@ const PopularCrossfades = () => {
   }
 
   return (
-    <>
-    <h1 className=" text-2xl font-bold"> 人気のクロスフェード </h1>
-    <CardContainer>
-      {data.map((crossfade, i) => (
-        <Card
-          key={i}
-          title={crossfade.title}
-          link="https://google.com"
-          image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsqudxP5dIcrv35nuiDU4l8Qrtwhwiv_os-w&s"
-          showSquarePen = {false}
-        />
-      ))}
-    </CardContainer>
-    </>
+    <section className="mb-12">
+      <h1 className="text-3xl font-bold">人気のクロスフェード</h1>
+      <div className="line-clamp-2">
+      <CardContainer>
+        {data.map((crossfade, i) => (
+          <Card
+            key={i}
+            title={crossfade.title}
+            link="https://google.com"
+            image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+            showSquarePen={false}
+          />
+        ))}
+      </CardContainer>
+      </div>
+    </section>
   )
 }
 
