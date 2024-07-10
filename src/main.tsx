@@ -54,7 +54,7 @@ createRoot(document.getElementById("root")!).render(
         return await res.json()
       },
     }}
-  >
+   >
     <RouterProvider router={router} />
   </SWRConfig>,
 )

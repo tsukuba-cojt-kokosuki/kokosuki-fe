@@ -1,10 +1,10 @@
 import { HttpResponse, http } from "msw"
 import { paths } from "@/lib/api/schema"
 
-type Schema = paths["/users/me/crossfades"]["get"]
+type Schema = paths["/crossfades/popular"]["get"]
 type Response = Schema["responses"]["200"]["content"]["application/json"]
 
-const GetUsersMeCrossfades = http.get("/users/me/crossfades", () => {
+const GetPopularCrossfades = http.get("/crossfades/popular", () => {
   return HttpResponse.json<Response>([
     {
       id: "crossfade1",
@@ -21,11 +21,6 @@ const GetUsersMeCrossfades = http.get("/users/me/crossfades", () => {
           end: 20,
         },
       ],
-      creatorId: "12345",
-      icon: {
-        character: "🍎",
-        backgroundColor: "#66FFA6",
-      },
     },
     {
       id: "crossfade2",
@@ -42,11 +37,6 @@ const GetUsersMeCrossfades = http.get("/users/me/crossfades", () => {
           end: 20,
         },
       ],
-      creatorId: "23456",
-      icon: {
-        character: "🍜",
-        backgroundColor: "#121212",
-      },
     },
     {
       id: "crossfade3",
@@ -63,11 +53,6 @@ const GetUsersMeCrossfades = http.get("/users/me/crossfades", () => {
           end: 20,
         },
       ],
-      creatorId: "34567",
-      icon: {
-        character: "🍣",
-        backgroundColor: "#FFFFFF",
-      },
     },
     {
       id: "crossfade4",
@@ -168,4 +153,4 @@ const GetUsersMeCrossfades = http.get("/users/me/crossfades", () => {
   ])
 })
 
-export { GetUsersMeCrossfades }
+export { GetPopularCrossfades }

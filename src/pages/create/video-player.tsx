@@ -42,12 +42,10 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
   const handleSongCurrentTime = () => {
     if (player.current === null) return
     setSongCurrentTime(player.current.getCurrentTime())
-    // 終点より後ろに行ったら再生を止めるみたいな処理をいれたら良さそうなんだけどうまくいかない
+    if (player.current.getCurrentTime() > values[1]) {
+      setPlaying(false)
+    }
   }
-
-  useEffect(() => {
-    setInterval(handleSongCurrentTime, 1000)
-  }, [])
 
   const handleRangeSliderChange = (newValues: [number, number]) => {
     if (player.current === null) return
@@ -83,6 +81,8 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onReady={onReady}
+        onProgress={handleSongCurrentTime}
+        progressInterval={50}
       />
       <RangeSlider
         value={values}
@@ -97,7 +97,7 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
         value={songCurrentTime}
         min={0}
         max={songLength}
-        tooltip={true}
+        tooltip={false}
       />
     </>
   )
