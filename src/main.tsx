@@ -37,7 +37,7 @@ const router = createBrowserRouter([
         element: <List />,
       },
       {
-        path: "play",
+        path: "play/:id",
         element: <Play />,
         errorElement: <NotFound />,
       },
@@ -54,7 +54,7 @@ createRoot(document.getElementById("root")!).render(
         return await res.json()
       },
     }}
-   >
+  >
     <RouterProvider router={router} />
   </SWRConfig>,
 )

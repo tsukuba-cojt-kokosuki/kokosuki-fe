@@ -25,12 +25,13 @@ import { Song } from "./page"
 
 type SongListProps = {
   songs: Song[]
+  isPlayer: boolean
   setSongs: Dispatch<SetStateAction<Song[]>>
   // 選んだ曲のインデックスを設定する関数 引数はindex
   setSelectedSong: Dispatch<SetStateAction<number | null>>
 }
 
-const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
+const SongList = ({ songs, isPlayer, setSongs, setSelectedSong }: SongListProps) => {
   // 合計再生時間を計算
   const totalPlayTime = songs.reduce((acc, song) => {
     return acc + (song.endTime - song.startTime)
@@ -53,8 +54,12 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
             <TableHead>再生時間</TableHead>
             <TableHead>start</TableHead>
             <TableHead>end </TableHead>
-            <TableHead></TableHead>
-            <TableHead></TableHead>
+            {!isPlayer && (
+              <>
+                <TableHead></TableHead>
+                <TableHead></TableHead>
+              </>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -66,12 +71,16 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
               <TableCell> {song.endTime - song.startTime}</TableCell>
               <TableCell>{song.startTime}</TableCell>
               <TableCell>{song.endTime}</TableCell>
-              <TableCell>
-                <Button onClick={() => handleDeleteSong(index)}>削除</Button>
-              </TableCell>
-              <TableCell>
-                <Button onClick={() => handleMakeSelected(index)}>選択</Button>
-              </TableCell>
+              {!isPlayer && (
+                <>
+                  <TableCell>
+                    <Button onClick={() => handleDeleteSong(index)}>削除</Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button onClick={() => handleMakeSelected(index)}>選択</Button>
+                  </TableCell>
+                </>
+              )}
             </TableRow>
           ))}
           <TableRow>
@@ -81,7 +90,7 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
           </TableRow>
         </TableBody>
       </Table>
-      <AddSongDialog setSongs={setSongs} />
+      {!isPlayer && <AddSongDialog setSongs={setSongs} />}
     </div>
   )
 }

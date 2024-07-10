@@ -1,7 +1,7 @@
 import useSWR from "swr"
 import Card from "@/components/card"
-import { paths } from "@/lib/api/schema"
 import { CardContainer } from "@/components/card-container"
+import { paths } from "@/lib/api/schema"
 
 type latestCrossfadesResponse =
   paths["/crossfades/latest"]["get"]["responses"]["200"]["content"]["application/json"]
@@ -18,7 +18,7 @@ const Index = () => {
 }
 
 const LatestCrossfades = () => {
-  const { data , error } = useSWR<latestCrossfadesResponse>("/crossfades/latest")
+  const { data, error } = useSWR<latestCrossfadesResponse>("/crossfades/latest")
   if (error) {
     return <div className="text-center">Failed to load</div>
   }
@@ -31,17 +31,17 @@ const LatestCrossfades = () => {
     <section className="mb-12">
       <h1 className="text-3xl font-bold mb-6">新着のクロスフェード</h1>
       <div className="line-clamp-2">
-      <CardContainer>
-        {data.map((crossfade, i) => (
-          <Card
-            key={i}
-            title={crossfade.title}
-            link="https://google.com"
-            image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-            showSquarePen={false}
-          />
-        ))}
-      </CardContainer>
+        <CardContainer>
+          {data.map((crossfade, i) => (
+            <Card
+              key={i}
+              title={crossfade.title}
+              link={`/play/${crossfade.id}`}
+              image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+              showSquarePen={false}
+            />
+          ))}
+        </CardContainer>
       </div>
     </section>
   )
@@ -61,17 +61,17 @@ const PopularCrossfades = () => {
     <section className="mb-12">
       <h1 className="text-3xl font-bold mb-6">人気のクロスフェード</h1>
       <div className="line-clamp-2">
-      <CardContainer>
-        {data.map((crossfade, i) => (
-          <Card
-            key={i}
-            title={crossfade.title}
-            link="https://google.com"
-            image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-            showSquarePen={false}
-          />
-        ))}
-      </CardContainer>
+        <CardContainer>
+          {data.map((crossfade, i) => (
+            <Card
+              key={i}
+              title={crossfade.title}
+              link="https://google.com"
+              image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+              showSquarePen={false}
+            />
+          ))}
+        </CardContainer>
       </div>
     </section>
   )
