@@ -1,4 +1,5 @@
 import { useContext } from "react"
+import { CircleUserRound } from "lucide-react"
 import { Link, Outlet } from "react-router-dom"
 import { UserContext } from "./user-context"
 
@@ -48,9 +49,14 @@ const LoginButton = () => {
     import.meta.env.VITE_BACKEND_URL ?? "https://kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev"
   const user = useContext(UserContext)
 
-  if (user.id === null) {
-    return <a href={`${backendUrl}/login?redirect_to=${window.location.origin}`}>ログイン</a>
-  }
-
-  return <span>{user.name}</span>
+  return (
+    <div className="flex gap-2">
+      <CircleUserRound />
+      {user.id === null ? (
+        <a href={`${backendUrl}/login?redirect_to=${window.location.origin}`}>ログイン</a>
+      ) : (
+        <span>{user.name}</span>
+      )}
+    </div>
+  )
 }
