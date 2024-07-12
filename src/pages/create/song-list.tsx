@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Delete, Play } from "lucide-react"
+import { ChevronDown, ChevronUp, Delete, Play } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
@@ -45,6 +45,30 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
     setSelectedSong(index)
   }
 
+  const swapSong = (songs: Song[], index1: number, index2: number) => {
+    const newSongs = [...songs]
+    const tmp = newSongs[index1]
+    newSongs[index1] = newSongs[index2]
+    newSongs[index2] = tmp
+    setSongs(newSongs)
+  }
+
+  const handleSwapUpSong = (index: number) => {
+    if (index === 0) {
+      return
+    }
+    // songs[index] と songs[index - 1] を入れ替える
+    swapSong(songs, index, index - 1)
+  }
+
+  const handleSwapDownSong = (index: number) => {
+    if (index === songs.length - 1) {
+      return
+    }
+    // songs[index] と songs[index + 1] を入れ替える
+    swapSong(songs, index, index + 1)
+  }
+
   return (
     <div className="w-160">
       <Table>
@@ -52,6 +76,7 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
           <TableRow>
             <TableHead>URL</TableHead>
             <TableHead>長さ</TableHead>
+            <TableHead></TableHead>
             <TableHead></TableHead>
             <TableHead></TableHead>
           </TableRow>
@@ -72,6 +97,22 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
                 <Button onClick={() => handleDeleteSong(index)}>
                   <Delete />
                 </Button>
+              </TableCell>
+              <TableCell>
+                <div className="m-0 p-0">
+                  <Button
+                    onClick={() => handleSwapUpSong(index)}
+                    variant="ghost"
+                  >
+                    <ChevronUp className="w-8 h-8" />
+                  </Button>
+                  <Button
+                    onClick={() => handleSwapDownSong(index)}
+                    variant="ghost"
+                  >
+                    <ChevronDown className="w-8 h-8" />
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}
