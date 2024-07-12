@@ -4,10 +4,10 @@ import { CardContainer } from "@/components/card-container"
 import { paths } from "@/lib/api/schema"
 
 type CrossfadesResponse =
-  paths["/users/me/crossfades"]["get"]["responses"]["200"]["content"]["application/json"]
+  paths["/users/{userId}/crossfades"]["get"]["responses"]["200"]["content"]["application/json"]
 
 const List = () => {
-  const { data: crossfades, error } = useSWR<CrossfadesResponse>("/users/me/crossfades")
+  const { data: crossfades, error } = useSWR<CrossfadesResponse>("/users/userId/crossfades")
 
   if (error) {
     return <div className="text-center">Failed to load</div>
