@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Delete, Play } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
@@ -50,9 +51,7 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
         <TableHeader>
           <TableRow>
             <TableHead>URL</TableHead>
-            <TableHead>再生時間</TableHead>
-            <TableHead>start</TableHead>
-            <TableHead>end </TableHead>
+            <TableHead>長さ</TableHead>
             <TableHead></TableHead>
             <TableHead></TableHead>
           </TableRow>
@@ -63,20 +62,22 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
               <TableCell>
                 <YouTubeTitle youtubeId={song.songId} />
               </TableCell>
-              <TableCell> {song.endTime - song.startTime}</TableCell>
-              <TableCell>{song.startTime}</TableCell>
-              <TableCell>{song.endTime}</TableCell>
+              <TableCell> {song.endTime - song.startTime} 秒</TableCell>
               <TableCell>
-                <Button onClick={() => handleDeleteSong(index)}>削除</Button>
+                <Button onClick={() => handleMakeSelected(index)}>
+                  <Play />
+                </Button>
               </TableCell>
               <TableCell>
-                <Button onClick={() => handleMakeSelected(index)}>選択</Button>
+                <Button onClick={() => handleDeleteSong(index)}>
+                  <Delete />
+                </Button>
               </TableCell>
             </TableRow>
           ))}
           <TableRow>
             <TableCell>合計</TableCell>
-            <TableCell>{totalPlayTime}</TableCell>
+            <TableCell>{totalPlayTime}秒</TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableBody>
