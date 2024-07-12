@@ -1,8 +1,8 @@
-import useSWR from "swr"
 import Card from "@/components/card"
-import { paths } from "@/lib/api/schema"
 import { CardContainer } from "@/components/card-container"
 import HelmetPack from "@/components/helmet-pack"
+import { paths } from "@/lib/api/schema"
+import useSWR from "swr"
 
 type latestCrossfadesResponse =
   paths["/crossfades/latest"]["get"]["responses"]["200"]["content"]["application/json"]
@@ -48,10 +48,8 @@ const LatestCrossfades = () => {
         {data.map((crossfade, i) => (
           <Card
             key={i}
-            title={crossfade.title}
-            link="https://google.com"
-            image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-            showSquarePen={false}
+            showEditButton={false}
+            {...crossfade}
           />
         ))}
       </CardContainer>
@@ -78,10 +76,8 @@ const PopularCrossfades = () => {
         {data.map((crossfade, i) => (
           <Card
             key={i}
-            title={crossfade.title}
-            link="https://google.com"
-            image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-            showSquarePen={false}
+            showEditButton={false}
+            {...crossfade}
           />
         ))}
       </CardContainer>

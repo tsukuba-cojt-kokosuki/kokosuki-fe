@@ -53,10 +53,8 @@ const MyCrossfades = ({ userId }: MyCrossfadesProps) => {
         {crossfades.map((crossfade, i) => (
           <Card
             key={i}
-            title={crossfade.title}
-            link="https://google.com"
-            image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Gull_portrait_ca_usa.jpg/300px-Gull_portrait_ca_usa.jpg"
-            showSquarePen={true}
+            showEditButton={true}
+            {...crossfade}
           />
         ))}
       </CardContainer>

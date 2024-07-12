@@ -12,22 +12,22 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { components } from "@/lib/api/schema"
 
-const Card = (props: {
-  link: string | undefined
-  image: string | undefined
-  title: string
-  showSquarePen?: boolean
-}) => {
+type CardProps = components["schemas"]["Crossfade"] & {
+  showEditButton?: boolean
+}
+
+const Card = (props: CardProps) => {
   const [copied, setCopied] = useState(false)
   const [liked, setLiked] = useState(false)
 
+  const crossfadeUrl = `${window.location.origin}/play/${props.id}`
+
   const handleCopyClick = () => {
-    if (props.link) {
-      navigator.clipboard.writeText(props.link)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    }
+    navigator.clipboard.writeText(crossfadeUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
   const handleLikeClick = () => {
     setLiked(!liked)
@@ -36,18 +36,10 @@ const Card = (props: {
     <>
       <div className="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1rem)] xl:w-[calc(20%-1rem)] m-2 shadow-xl hover:bg-stone-600 flex flex-col">
         <a
-          href={props.link}
+          href={crossfadeUrl}
           className="flex-grow flex flex-col"
         >
-          <div className="block p-4">
-            <div className="aspect-square w-full overflow-hidden bg-white">
-              <img
-                src={props.image}
-                className="w-full h-full object-cover"
-                alt={props.title}
-              />
-            </div>
-          </div>
+          <div className="aspect-square overflow-hidden bg-white block p-4 h-48 w-48"></div>
           <div className="px-4 pb-2 h-24 flex flex-col justify-start">
             <h3 className="text-xl sm:text-lg md:text-xl lg:text-xl line-clamp-3 hover:underline">
               {props.title}
@@ -87,7 +79,7 @@ const Card = (props: {
                     </Label>
                     <Input
                       id="link"
-                      defaultValue={props.link}
+                      defaultValue={crossfadeUrl}
                       readOnly
                     />
                   </div>
@@ -112,7 +104,7 @@ const Card = (props: {
               </div>
             </DialogContent>
           </Dialog>
-          {props.showSquarePen && <SquarePen />}
+          {props.showEditButton && <SquarePen />}
         </div>
       </div>
     </>
