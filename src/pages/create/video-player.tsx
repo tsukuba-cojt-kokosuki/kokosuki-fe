@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react"
+import { Music } from "lucide-react"
 import { set } from "react-hook-form"
 import ReactPlayer from "react-player"
 import { Button } from "@/components/ui/button"
 import { RangeSlider, Slider } from "@/components/ui/slider"
+import { YouTubeTitle } from "@/components/youtube-title"
 import { Song } from "./page"
 
 const minDistance = 1
@@ -68,7 +70,7 @@ const VideoPlayer = ({
   function startPreview() {
     if (player.current === null) return
     player.current.seekTo(values[0])
-    onplay()
+    onPlay()
   }
 
   function onPlay() {
@@ -144,20 +146,27 @@ const VideoPlayer = ({
         onProgress={handleSongCurrentTime}
         progressInterval={50}
         volume={volume}
-        controls={true}
+        controls={!isPlayer}
       />
-      <RangeSlider
-        value={values}
-        onValueChange={handleRangeSliderChange}
-        min={0}
-        max={songLength}
-        className="mt-6 mb-6"
-        disabled={isPlayer}
-      />
-      <div className="flex gap-4 mt-4">
-        <Button onClick={setSongStartTime}>現在の再生箇所を始点に</Button>
-        <Button onClick={setSongEndTime}>現在の再生箇所を終点に</Button>
-        <Button onClick={startPreview}>プレビュー</Button>
+      {!isPlayer && (
+        <>
+          <RangeSlider
+            value={values}
+            onValueChange={handleRangeSliderChange}
+            min={0}
+            max={songLength}
+            className="mt-6 mb-6"
+            disabled={isPlayer}
+          />
+          <div className="flex gap-4 mt-4">
+            <Button onClick={setSongStartTime}>現在の再生箇所を始点に</Button>
+            <Button onClick={setSongEndTime}>現在の再生箇所を終点に</Button>
+            <Button onClick={startPreview}>プレビュー</Button>
+          </div>
+        </>
+      )}
+      <div className="flex items-center">
+        <Music className="m-4" /> <YouTubeTitle youtubeId={selectedSong?.songId} />
       </div>
     </>
   )

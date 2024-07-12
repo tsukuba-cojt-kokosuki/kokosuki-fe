@@ -4,6 +4,7 @@ type YouTubeTitleProps = {
   youtubeId: string
 }
 
+// youtubeのタイトルを取得しstringで返す
 const YouTubeTitle = ({ youtubeId }: YouTubeTitleProps) => {
   // YouTube の動画タイトルは頻繁に変わるものではないので、useSWRImmutable を使って一度取得したらキャッシュを使い回す
   const { data, error, isLoading } = useSWRImmutable(
@@ -17,6 +18,7 @@ const YouTubeTitle = ({ youtubeId }: YouTubeTitleProps) => {
     return <div>動画が見つかりません</div>
   }
 
+  // stringで返す
   return <div>{data.items[0].snippet.title}</div>
 }
 
