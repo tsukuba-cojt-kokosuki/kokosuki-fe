@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { set } from "react-hook-form"
 import ReactPlayer from "react-player"
+import { Button } from "@/components/ui/button"
 import { RangeSlider, Slider } from "@/components/ui/slider"
 import { Song } from "./page"
 
@@ -49,6 +50,32 @@ const VideoPlayer = ({
     setSongLength(player.current.getDuration())
   }
 
+  // 現在の再生位置を始点にする
+  const setSongStartTime = () => {
+    if (player.current === null) return
+    const currentTime = Math.round(player.current.getCurrentTime())
+    setValues([currentTime, values[1]])
+  }
+
+  // 現在の再生位置を終点にする
+  const setSongEndTime = () => {
+    if (player.current === null) return
+    const currentTime = Math.round(player.current.getCurrentTime())
+    setValues([values[0], currentTime])
+  }
+
+  // 試聴開始
+  function startPreview() {
+    if (player.current === null) return
+    player.current.seekTo(values[0])
+    onplay()
+  }
+
+  function onPlay() {
+    setPlaying(true)
+    setVolume(1.0)
+  }
+
   const handleSongCurrentTime = () => {
     // イージング関数を作る
     const easeOutCirc = (t: number) => Math.sqrt(1 - Math.pow(t - 1, 2))
@@ -68,7 +95,7 @@ const VideoPlayer = ({
     if (values[1] - 2 <= currentTime && currentTime <= values[1]) {
       setVolume(easeInCirc((values[1] - currentTime) / 2))
     }
-    if (currentTime > values[1]) {
+    if (currentTime > values[1] && currentTime < values[1] + 0.3) {
       if (isPlayer) {
         // 次の曲へ移動
         setPlaying(false)
@@ -111,29 +138,27 @@ const VideoPlayer = ({
         url={youtubeUrl}
         ref={player}
         playing={playing}
-        onPlay={() => setPlaying(true)}
+        onPlay={onPlay}
         onPause={() => setPlaying(false)}
         onReady={onReady}
         onProgress={handleSongCurrentTime}
         progressInterval={50}
         volume={volume}
+        controls={true}
       />
       <RangeSlider
         value={values}
         onValueChange={handleRangeSliderChange}
         min={0}
         max={songLength}
-        className="mb-6"
-        tooltip={true}
+        className="mt-6 mb-6"
         disabled={isPlayer}
       />
-      <Slider
-        value={songCurrentTime}
-        min={0}
-        max={songLength}
-        tooltip={false}
-        disabled={isPlayer}
-      />
+      <div className="flex gap-4 mt-4">
+        <Button onClick={setSongStartTime}>現在の再生箇所を始点に</Button>
+        <Button onClick={setSongEndTime}>現在の再生箇所を終点に</Button>
+        <Button onClick={startPreview}>プレビュー</Button>
+      </div>
     </>
   )
 }

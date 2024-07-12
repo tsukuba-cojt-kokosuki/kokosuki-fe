@@ -84,7 +84,6 @@ const SongList = ({ songs, isPlayer, setSongs, setSelectedSong }: SongListProps)
                 <TableHead></TableHead>
               </>
             )}
-            
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -96,34 +95,34 @@ const SongList = ({ songs, isPlayer, setSongs, setSelectedSong }: SongListProps)
               <TableCell> {song.endTime - song.startTime} 秒</TableCell>
               {!isPlayer && (
                 <>
-                 <TableCell>
-                  <Button onClick={() => handleMakeSelected(index)}>
-                    <Play />
-                  </Button>
-                </TableCell>
-                <TableCell>
-                  <Button onClick={() => handleDeleteSong(index)}>
-                    <Delete />
-                  </Button>
-                </TableCell>
+                  <TableCell>
+                    <Button onClick={() => handleMakeSelected(index)}>
+                      <Play />
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button onClick={() => handleDeleteSong(index)}>
+                      <Delete />
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <div className="m-0 p-0">
+                      <Button
+                        onClick={() => handleSwapUpSong(index)}
+                        variant="ghost"
+                      >
+                        <ChevronUp className="w-8 h-8" />
+                      </Button>
+                      <Button
+                        onClick={() => handleSwapDownSong(index)}
+                        variant="ghost"
+                      >
+                        <ChevronDown className="w-8 h-8" />
+                      </Button>
+                    </div>
+                  </TableCell>
                 </>
               )}
-              <TableCell>
-                <div className="m-0 p-0">
-                  <Button
-                    onClick={() => handleSwapUpSong(index)}
-                    variant="ghost"
-                  >
-                    <ChevronUp className="w-8 h-8" />
-                  </Button>
-                  <Button
-                    onClick={() => handleSwapDownSong(index)}
-                    variant="ghost"
-                  >
-                    <ChevronDown className="w-8 h-8" />
-                  </Button>
-                </div>
-              </TableCell>
             </TableRow>
           ))}
           <TableRow>
@@ -209,7 +208,7 @@ const AddSongDialog = ({ setSongs }: AddSongDialogProps) => {
         {
           songId: songId,
           startTime: 0,
-          endTime: 60,
+          endTime: 999,
           createDate: new Date(),
           updateDate: new Date(),
         },
