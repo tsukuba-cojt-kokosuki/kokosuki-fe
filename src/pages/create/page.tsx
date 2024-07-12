@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { SongList } from "./song-list"
 import { VideoPlayer } from "./video-player"
 
@@ -79,6 +80,13 @@ const Create = () => {
 
   return (
     <>
+      <div className="pb-6 w-1/2 font-bold">
+        <Input
+          type="text"
+          placeholder="クロスフェードのタイトル名"
+          className="text-2xl"
+        />
+      </div>
       <div className="grid grid-cols-2 gap-20">
         <div>
           <SongList
