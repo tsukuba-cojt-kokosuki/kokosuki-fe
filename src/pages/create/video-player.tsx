@@ -123,12 +123,11 @@ const VideoPlayer = ({
         onValueChange={handleRangeSliderChange}
         min={0}
         max={songLength}
-        className="mb-12"
+        className="mb-6"
         tooltip={true}
         disabled={isPlayer}
       />
       <Slider
-        disabled
         value={songCurrentTime}
         min={0}
         max={songLength}
