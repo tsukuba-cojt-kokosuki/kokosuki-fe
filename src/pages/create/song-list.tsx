@@ -76,6 +76,7 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
           <TableRow>
             <TableHead>URL</TableHead>
             <TableHead>長さ</TableHead>
+
             <TableHead></TableHead>
             <TableHead></TableHead>
             <TableHead></TableHead>
