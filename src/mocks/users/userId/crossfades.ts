@@ -4,7 +4,7 @@ import { paths } from "@/lib/api/schema"
 type Schema = paths["/users/{userId}/crossfades"]["get"]
 type Response = Schema["responses"]["200"]["content"]["application/json"]
 
-const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/{userId}/crossfades", () => {
+const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/:userId/crossfades", () => {
   return HttpResponse.json<Response>([
     {
       id: "crossfade1",
@@ -26,7 +26,7 @@ const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/{userId}/
           end: 20,
         },
       ],
-      likes: 1
+      likes: 1,
     },
     {
       id: "crossfade2",
@@ -48,7 +48,7 @@ const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/{userId}/
           end: 20,
         },
       ],
-      likes: 2
+      likes: 2,
     },
     {
       id: "crossfade3",
@@ -70,7 +70,7 @@ const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/{userId}/
           end: 20,
         },
       ],
-      likes: 3
+      likes: 3,
     },
     {
       id: "crossfade4",
@@ -92,7 +92,7 @@ const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/{userId}/
           end: 20,
         },
       ],
-      likes: 4
+      likes: 4,
     },
     {
       id: "crossfade3",
@@ -114,7 +114,7 @@ const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/{userId}/
           end: 20,
         },
       ],
-      likes: 3
+      likes: 3,
     },
     {
       id: "crossfade3",
@@ -136,7 +136,7 @@ const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/{userId}/
           end: 20,
         },
       ],
-      likes: 3
+      likes: 3,
     },
     {
       id: "crossfade3",
@@ -158,7 +158,7 @@ const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/{userId}/
           end: 20,
         },
       ],
-      likes: 3
+      likes: 3,
     },
     {
       id: "crossfade3",
@@ -180,7 +180,7 @@ const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/{userId}/
           end: 20,
         },
       ],
-      likes: 3
+      likes: 3,
     },
     {
       id: "crossfade3",
@@ -202,7 +202,7 @@ const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/{userId}/
           end: 20,
         },
       ],
-      likes: 3
+      likes: 3,
     },
   ])
 })
