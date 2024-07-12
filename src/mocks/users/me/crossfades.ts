@@ -21,6 +21,11 @@ const GetUsersMeCrossfades = http.get("/users/me/crossfades", () => {
           end: 20,
         },
       ],
+      creatorId: "12345",
+      icon: {
+        character: "🍎",
+        backgroundColor: "#66FFA6",
+      },
     },
     {
       id: "crossfade2",
@@ -37,6 +42,11 @@ const GetUsersMeCrossfades = http.get("/users/me/crossfades", () => {
           end: 20,
         },
       ],
+      creatorId: "23456",
+      icon: {
+        character: "🍜",
+        backgroundColor: "#121212",
+      },
     },
     {
       id: "crossfade3",
@@ -53,6 +63,11 @@ const GetUsersMeCrossfades = http.get("/users/me/crossfades", () => {
           end: 20,
         },
       ],
+      creatorId: "34567",
+      icon: {
+        character: "🍣",
+        backgroundColor: "#FFFFFF",
+      },
     },
     {
       id: "crossfade4",

@@ -280,6 +280,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/crossfades/{crossfadeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get specified crossfade */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the crossfade to retrieve */
+                    crossfadeId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Specified crossfade */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Crossfade"];
+                    };
+                };
+                /** @description unexpected error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -297,7 +345,12 @@ export interface components {
         };
         Crossfade: {
             id: string;
+            creatorId: string;
             title: string;
+            icon: {
+                character: string;
+                backgroundColor: string;
+            };
             songs: components["schemas"]["Song"][];
         };
         Crossfades: components["schemas"]["Crossfade"][];

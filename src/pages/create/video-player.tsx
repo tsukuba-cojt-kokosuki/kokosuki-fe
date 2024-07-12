@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { set } from "react-hook-form"
 import ReactPlayer from "react-player"
 import { RangeSlider, Slider } from "@/components/ui/slider"
 import { Song } from "./page"
@@ -6,11 +7,18 @@ import { Song } from "./page"
 const minDistance = 1
 
 type VideoPlayerProps = {
+  isPlayer: boolean
   selectedSong: Song | null
   updateSelectedSong: (song: Song) => void
+  toNextSong: () => void
 }
 
-const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => {
+const VideoPlayer = ({
+  isPlayer,
+  selectedSong,
+  updateSelectedSong,
+  toNextSong,
+}: VideoPlayerProps) => {
   const [values, setValues] = useState<[number, number]>([0, 1])
   const [playing, setPlaying] = useState(true)
   const player = useRef<ReactPlayer>(null)
@@ -20,6 +28,7 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
   )
   const [songLength, setSongLength] = useState<number>(0)
   const [songCurrentTime, setSongCurrentTime] = useState<number>(0)
+  const [volume, setVolume] = useState<number>(1)
 
   // 曲が選択されたら
   useEffect(() => {
@@ -31,6 +40,7 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
   const onReady = () => {
     if (selectedSong === null) return
     if (player.current === null) return
+    setPlaying(true)
     // 曲の再生位置を設定
     player.current.seekTo(selectedSong.startTime)
     // シークバーの設定
@@ -40,10 +50,32 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
   }
 
   const handleSongCurrentTime = () => {
+    // イージング関数を作る
+    const easeOutCirc = (t: number) => Math.sqrt(1 - Math.pow(t - 1, 2))
+    const easeInCirc = (t: number) => 1 - Math.sqrt(1 - Math.pow(t, 2))
+
     if (player.current === null) return
-    setSongCurrentTime(player.current.getCurrentTime())
-    if (player.current.getCurrentTime() > values[1]) {
-      setPlaying(false)
+    const currentTime = player.current.getCurrentTime()
+    setSongCurrentTime(currentTime)
+
+    // 再生停止していたらreturn
+    if (!playing) return
+
+    // 音量を再生箇所によって変えていく
+    if (values[0] <= currentTime && currentTime <= values[0] + 2) {
+      setVolume(easeOutCirc((currentTime - values[0]) / 2))
+    }
+    if (values[1] - 2 <= currentTime && currentTime <= values[1]) {
+      setVolume(easeInCirc((values[1] - currentTime) / 2))
+    }
+    if (currentTime > values[1]) {
+      if (isPlayer) {
+        // 次の曲へ移動
+        setPlaying(false)
+        toNextSong()
+      } else {
+        setPlaying(false)
+      }
     }
   }
 
@@ -62,6 +94,7 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
       }
     }
     setValues(handleNewValues)
+    setVolume(1.0)
 
     // selectedSongを更新
     if (selectedSong === null) return
@@ -83,21 +116,23 @@ const VideoPlayer = ({ selectedSong, updateSelectedSong }: VideoPlayerProps) => 
         onReady={onReady}
         onProgress={handleSongCurrentTime}
         progressInterval={50}
+        volume={volume}
       />
       <RangeSlider
         value={values}
         onValueChange={handleRangeSliderChange}
         min={0}
         max={songLength}
-        className="mb-12"
+        className="mb-6"
         tooltip={true}
+        disabled={isPlayer}
       />
       <Slider
-        disabled
         value={songCurrentTime}
         min={0}
         max={songLength}
         tooltip={false}
+        disabled={isPlayer}
       />
     </>
   )

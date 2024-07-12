@@ -26,12 +26,13 @@ import { Song } from "./page"
 
 type SongListProps = {
   songs: Song[]
+  isPlayer: boolean
   setSongs: Dispatch<SetStateAction<Song[]>>
   // 選んだ曲のインデックスを設定する関数 引数はindex
   setSelectedSong: Dispatch<SetStateAction<number | null>>
 }
 
-const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
+const SongList = ({ songs, isPlayer, setSongs, setSelectedSong }: SongListProps) => {
   // 合計再生時間を計算
   const totalPlayTime = songs.reduce((acc, song) => {
     return acc + (song.endTime - song.startTime)
@@ -76,10 +77,14 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
           <TableRow>
             <TableHead>URL</TableHead>
             <TableHead>長さ</TableHead>
-
-            <TableHead></TableHead>
-            <TableHead></TableHead>
-            <TableHead></TableHead>
+            {!isPlayer && (
+              <>
+                <TableHead></TableHead>
+                <TableHead></TableHead>
+                <TableHead></TableHead>
+              </>
+            )}
+            
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -89,16 +94,20 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
                 <YouTubeTitle youtubeId={song.songId} />
               </TableCell>
               <TableCell> {song.endTime - song.startTime} 秒</TableCell>
-              <TableCell>
-                <Button onClick={() => handleMakeSelected(index)}>
-                  <Play />
-                </Button>
-              </TableCell>
-              <TableCell>
-                <Button onClick={() => handleDeleteSong(index)}>
-                  <Delete />
-                </Button>
-              </TableCell>
+              {!isPlayer && (
+                <>
+                 <TableCell>
+                  <Button onClick={() => handleMakeSelected(index)}>
+                    <Play />
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  <Button onClick={() => handleDeleteSong(index)}>
+                    <Delete />
+                  </Button>
+                </TableCell>
+                </>
+              )}
               <TableCell>
                 <div className="m-0 p-0">
                   <Button
@@ -124,7 +133,7 @@ const SongList = ({ songs, setSongs, setSelectedSong }: SongListProps) => {
           </TableRow>
         </TableBody>
       </Table>
-      <AddSongDialog setSongs={setSongs} />
+      {!isPlayer && <AddSongDialog setSongs={setSongs} />}
     </div>
   )
 }
