@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ChevronDown, ChevronUp, Delete, Music2, Play } from "lucide-react"
+import { ChevronDown, ChevronUp, Music2, Play, X } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
@@ -114,7 +114,7 @@ const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }:
                       hopover="adfadfadf"
                       onClick={() => handleDeleteSong(index)}
                     >
-                      <Delete className="w-6 h-6" />
+                      <X />
                     </Button>
                   </TableCell>
                   <TableCell>
