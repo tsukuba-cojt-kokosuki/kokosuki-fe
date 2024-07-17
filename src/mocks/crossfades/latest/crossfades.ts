@@ -7,12 +7,12 @@ type Response = Schema["responses"]["200"]["content"]["application/json"]
 const GetLatestCrossfades = http.get("http://localhost:8787/crossfades/latest", () => {
   return HttpResponse.json<Response>([
     {
-      id: "crossfade1",
-      creatorId: "creatorId1",
+      id: "0d3cb9e9-9f1b-40a1-8482-20f13eedf7b8",
+      creatorId: "6a696d02-e879-4a20-b387-c009d4c702ec",
       title: "Crossfade 1",
       icon: {
-        character: "crossfade1",
-        backgroundColor: "#000001",
+        character: "🍣",
+        backgroundColor: "#121212",
       },
       songs: [
         {
@@ -26,15 +26,15 @@ const GetLatestCrossfades = http.get("http://localhost:8787/crossfades/latest", 
           end: 20,
         },
       ],
-      likes: 1
+      liked: true,
     },
     {
-      id: "crossfade2",
-      creatorId: "creatorId2",
+      id: "f0738af4-8c25-4d85-b536-50c7ffd7eca8",
+      creatorId: "0bddc2ec-e543-4e13-91a8-4a6b980389e5",
       title: "Crossfade 2",
       icon: {
-        character: "crossfade2",
-        backgroundColor: "#000002",
+        character: "🍖",
+        backgroundColor: "#1F1F1F",
       },
       songs: [
         {
@@ -48,15 +48,15 @@ const GetLatestCrossfades = http.get("http://localhost:8787/crossfades/latest", 
           end: 20,
         },
       ],
-      likes: 2
+      liked: false,
     },
     {
-      id: "crossfade3",
-      creatorId: "creatorId3",
+      id: "a771c731-b30e-4138-ad90-e9413069941b",
+      creatorId: "f79e9cc2-09c0-4db1-a7f7-59b6916d378e",
       title: "Crossfade 3",
       icon: {
-        character: "crossfade3",
-        backgroundColor: "#000003",
+        character: "🥟",
+        backgroundColor: "#545454",
       },
       songs: [
         {
@@ -70,15 +70,15 @@ const GetLatestCrossfades = http.get("http://localhost:8787/crossfades/latest", 
           end: 20,
         },
       ],
-      likes: 3
+      liked: true,
     },
     {
-      id: "crossfade4",
-      creatorId: "creatorId4",
+      id: "0ecbeaf8-aacf-4e6a-a137-0fdffbe89628",
+      creatorId: "d22431f4-b38a-46f0-a87f-2a1bcfb23217",
       title: "Crossfade 4",
       icon: {
-        character: "crossfade4",
-        backgroundColor: "#000004",
+        character: "🍅",
+        backgroundColor: "#123456",
       },
       songs: [
         {
@@ -92,15 +92,15 @@ const GetLatestCrossfades = http.get("http://localhost:8787/crossfades/latest", 
           end: 20,
         },
       ],
-      likes: 4
+      liked: false,
     },
     {
-      id: "crossfade3",
-      creatorId: "creatorId5",
-      title: "Crossfade 3",
+      id: "1e89e61a-f239-49ab-a1f5-6e1c44866ae1",
+      creatorId: "7e2767b5-4e07-4de9-95b9-188abb52af08",
+      title: "Crossfade 5",
       icon: {
-        character: "crossfade3",
-        backgroundColor: "#000005",
+        character: "🍄",
+        backgroundColor: "#66FF66",
       },
       songs: [
         {
@@ -114,15 +114,15 @@ const GetLatestCrossfades = http.get("http://localhost:8787/crossfades/latest", 
           end: 20,
         },
       ],
-      likes: 5
+      liked: true,
     },
     {
-      id: "crossfade3",
-      creatorId: "creatorId6",
-      title: "Crossfade 3",
+      id: "fe4025bc-2dfc-4614-821c-153b8b4db795",
+      creatorId: "3fba5f12-37c8-4261-9dd6-db8ce79e9878",
+      title: "Crossfade 6",
       icon: {
-        character: "crossfade3",
-        backgroundColor: "#000006",
+        character: "🌽",
+        backgroundColor: "#ABABAB",
       },
       songs: [
         {
@@ -136,15 +136,15 @@ const GetLatestCrossfades = http.get("http://localhost:8787/crossfades/latest", 
           end: 20,
         },
       ],
-      likes: 6
+      liked: true,
     },
     {
-      id: "crossfade3",
-      creatorId: "creatorId7",
-      title: "Crossfade 3",
+      id: "76f5df2d-b8c7-4acc-bb53-63c7dc6bf446",
+      creatorId: "49bce3a1-00b7-49ce-819c-5d808ba56580",
+      title: "Crossfade 7",
       icon: {
-        character: "crossfade3",
-        backgroundColor: "#000007",
+        character: "🍉",
+        backgroundColor: "#CD00CA",
       },
       songs: [
         {
@@ -158,15 +158,15 @@ const GetLatestCrossfades = http.get("http://localhost:8787/crossfades/latest", 
           end: 20,
         },
       ],
-      likes: 7
+      liked: true,
     },
     {
-      id: "crossfade3",
-      creatorId: "creatorId8",
-      title: "Crossfade 3",
+      id: "92ba7ec2-7053-42d2-bce0-6461a086b4aa",
+      creatorId: "bbfdb457-8c7d-4896-b318-e999be9fcb39",
+      title: "Crossfade 8",
       icon: {
-        character: "crossfade3",
-        backgroundColor: "#000008",
+        character: "🥦",
+        backgroundColor: "#9A1287",
       },
       songs: [
         {
@@ -180,14 +180,14 @@ const GetLatestCrossfades = http.get("http://localhost:8787/crossfades/latest", 
           end: 20,
         },
       ],
-      likes: 8
+      liked: false,
     },
     {
-      id: "crossfade3",
-      creatorId: "creatorId9",
-      title: "Crossfade 3",
+      id: "ac7da669-b861-4ff4-96c3-fca6e86517a0",
+      creatorId: "fb6e8914-c592-482e-be16-6233b1fd95a9",
+      title: "Crossfade 9",
       icon: {
-        character: "crossfade3",
+        character: "🥕",
         backgroundColor: "#000009",
       },
       songs: [
@@ -202,7 +202,29 @@ const GetLatestCrossfades = http.get("http://localhost:8787/crossfades/latest", 
           end: 20,
         },
       ],
-      likes: 9
+      liked: true,
+    },
+    {
+      id: "e38f27a8-5429-435e-b40c-461e4e3feff8",
+      creatorId: "427800a6-47ca-499c-9696-309955ce8c7b",
+      title: "Crossfade 10",
+      icon: {
+        character: "🍆",
+        backgroundColor: "#753125",
+      },
+      songs: [
+        {
+          videoId: "videoId5",
+          start: 0,
+          end: 10,
+        },
+        {
+          videoId: "videoId6",
+          start: 10,
+          end: 20,
+        },
+      ],
+      liked: false,
     },
   ])
 })

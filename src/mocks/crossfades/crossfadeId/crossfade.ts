@@ -4,14 +4,14 @@ import { paths } from "@/lib/api/schema"
 type Schema = paths["/crossfades/{crossfadeId}"]["get"]
 type Response = Schema["responses"]["200"]["content"]["application/json"]
 
-const GetCrossfadeIdCrossfades = http.get("http://localhost:8787/crossfades/:crossfadeId", () => {
+const GetCrossfadesCrossfadeId = http.get("http://localhost:8787/crossfades/:crossfadeId", () => {
   return HttpResponse.json<Response>({
-    id: "crossfadeId",
-    creatorId: "creatorId1",
+    id: "0d3cb9e9-9f1b-40a1-8482-20f13eedf7b8",
+    creatorId: "6a696d02-e879-4a20-b387-c009d4c702ec",
     title: "Crossfade 1",
     icon: {
-      character: "crossfade1",
-      backgroundColor: "#000001",
+      character: "🍣",
+      backgroundColor: "#121212",
     },
     songs: [
       {
@@ -25,8 +25,8 @@ const GetCrossfadeIdCrossfades = http.get("http://localhost:8787/crossfades/:cro
         end: 20,
       },
     ],
-    likes: 1,
+    liked: true,
   })
 })
 
-export { GetCrossfadeIdCrossfades }
+export { GetCrossfadesCrossfadeId }

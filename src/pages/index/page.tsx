@@ -1,12 +1,4 @@
 import useSWR from "swr"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
 import Card from "@/components/card"
 import { CardContainer } from "@/components/card-container"
 import HelmetPack from "@/components/helmet-pack"
@@ -27,7 +19,7 @@ const Index = () => {
         link="https://kokosuki.com"
       />
 
-      <div className="container mx-auto">
+      <div>
         <LatestCrossfades />
         <PopularCrossfades />
       </div>
@@ -53,10 +45,8 @@ const LatestCrossfades = () => {
           {data.map((crossfade, i) => (
             <Card
               key={i}
-              title={crossfade.title}
-              link={`/play/${crossfade.id}`}
-              image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-              showSquarePen={false}
+              showEditButton={false}
+              {...crossfade}
             />
           ))}
         </CardContainer>
@@ -83,10 +73,8 @@ const PopularCrossfades = () => {
           {data.map((crossfade, i) => (
             <Card
               key={i}
-              title={crossfade.title}
-              link="https://google.com"
-              image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-              showSquarePen={false}
+              showEditButton={false}
+              {...crossfade}
             />
           ))}
         </CardContainer>

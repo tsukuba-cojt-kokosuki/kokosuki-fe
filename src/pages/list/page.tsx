@@ -20,7 +20,7 @@ const List = () => {
         image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
         link="https://kokosuki.com/list"
       />
-      <h1 className=" text-2xl font-bold">マイ クロスフェード</h1>
+      <h1 className="text-3xl font-bold">マイ クロスフェード</h1>
       {userId === null ? (
         <div className="text-center">ログインしていません</div>
       ) : (
@@ -53,10 +53,8 @@ const MyCrossfades = ({ userId }: MyCrossfadesProps) => {
         {crossfades.map((crossfade, i) => (
           <Card
             key={i}
-            title={crossfade.title}
-            link="https://google.com"
-            image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Gull_portrait_ca_usa.jpg/300px-Gull_portrait_ca_usa.jpg"
-            showSquarePen={true}
+            showEditButton={true}
+            {...crossfade}
           />
         ))}
       </CardContainer>
