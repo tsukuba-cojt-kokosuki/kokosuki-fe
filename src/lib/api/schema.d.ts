@@ -145,6 +145,115 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/crossfades/new": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Post new crossfade */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Crossfade object that needs to be added */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Crossfade"];
+                };
+            };
+            responses: {
+                /** @description Crossfade created successfully */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @description The id of the newly created crossfade */
+                            id?: string;
+                        };
+                    };
+                };
+                /** @description unexpected error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/crossfades/{crossfadeId}/edit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Post edit crossfade */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the user to retrieve */
+                    crossfadeId: string;
+                };
+                cookie?: never;
+            };
+            /** @description Crossfade object that needs to be added */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Crossfade"];
+                };
+            };
+            responses: {
+                /** @description Crossfade edited successfully */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @description The id of the edited crossfade */
+                            id?: string;
+                        };
+                    };
+                };
+                /** @description unexpected error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/crossfades/popular": {
         parameters: {
             query?: never;
@@ -283,34 +392,29 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-<<<<<<< HEAD
-    "/crossfades/{crossfadeId}": {
-=======
     "/crossfades/{crossfadeId}/likes": {
->>>>>>> caaaa66dcc2b98b19a5d2fa4845110ecbf435afb
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        
         get?: never;
         put?: never;
-        /** Post crossfade likes */
+        /** Add a like to a crossfade */
         post: {
             parameters: {
                 query?: never;
                 header?: never;
                 path: {
-                    /** @description The id of the crossfade to retrieve */
+                    /** @description The ID of the crossfade */
                     crossfadeId: string;
                 };
                 cookie?: never;
             };
             requestBody?: never;
             responses: {
-                /** @description Crossfade likes */
+                /** @description Like added successfully */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -328,7 +432,37 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
+        /** Remove a like from a crossfade */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The ID of the crossfade */
+                    crossfadeId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Like removed successfully */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description unexpected error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+            };
+        };
         options?: never;
         head?: never;
         patch?: never;
@@ -353,13 +487,13 @@ export interface components {
             id: string;
             creatorId: string;
             title: string;
+            /** @default false */
+            liked: boolean;
             icon: {
                 character: string;
                 backgroundColor: string;
             };
             songs: components["schemas"]["Song"][];
-            /** Format: int32 */
-            likes: number;
         };
         Crossfades: components["schemas"]["Crossfade"][];
         Error: {
