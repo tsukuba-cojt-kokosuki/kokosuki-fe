@@ -1,6 +1,7 @@
 import { useState } from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { Check, Copy, Heart, Share, SquarePen } from "lucide-react"
+import twemoji from "twemoji"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -37,10 +38,12 @@ const Card = (props: CardProps) => {
       <div className="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1rem)] xl:w-[calc(20%-1rem)] m-2 shadow-xl hover:bg-stone-600 flex flex-col">
         <a
           href={crossfadeUrl}
-          className="flex-grow flex flex-col"
+          className="flex-grow flex flex-col p-5"
         >
-          <div className="aspect-square overflow-hidden bg-white block p-4 h-48 w-48"></div>
-          <div className="px-4 pb-2 h-24 flex flex-col justify-start">
+          <div className="mx-auto mb-4">
+            <Thumbnail {...props.icon} />
+          </div>
+          <div className="h-20 flex flex-col justify-start">
             <h3 className="text-xl sm:text-lg md:text-xl lg:text-xl line-clamp-3 hover:underline">
               {props.title}
             </h3>
@@ -112,3 +115,24 @@ const Card = (props: CardProps) => {
 }
 
 export default Card
+
+type ThumbnailProps = CardProps["icon"]
+
+const Thumbnail = ({ backgroundColor, character }: ThumbnailProps) => {
+  const codePoint = twemoji.convert.toCodePoint(character)
+  const iconUrl = `https://cdnjs.cloudflare.com/ajax/libs/twemoji/15.1.0/72x72/${codePoint}.png`
+
+  return (
+    <div
+      className="h-40 w-40 flex justify-center"
+      style={{
+        backgroundColor: backgroundColor,
+      }}
+    >
+      <img
+        src={iconUrl}
+        className="m-auto h-20 w-20 block"
+      />
+    </div>
+  )
+}
