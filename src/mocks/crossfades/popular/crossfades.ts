@@ -121,7 +121,7 @@ const GetPopularCrossfades = http.get("http://localhost:8787/crossfades/popular"
       creatorId: "3fba5f12-37c8-4261-9dd6-db8ce79e9878",
       title: "Crossfade 6",
       icon: {
-        character: "crossfade3",
+        character: "🌽",
         backgroundColor: "#ABABAB",
       },
       songs: [
@@ -187,7 +187,7 @@ const GetPopularCrossfades = http.get("http://localhost:8787/crossfades/popular"
       creatorId: "fb6e8914-c592-482e-be16-6233b1fd95a9",
       title: "Crossfade 9",
       icon: {
-        character: "crossfade3",
+        character: "🥕",
         backgroundColor: "#000009",
       },
       songs: [
