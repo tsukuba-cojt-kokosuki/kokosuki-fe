@@ -283,13 +283,18 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+<<<<<<< HEAD
+    "/crossfades/{crossfadeId}": {
+=======
     "/crossfades/{crossfadeId}/likes": {
+>>>>>>> caaaa66dcc2b98b19a5d2fa4845110ecbf435afb
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
+        
         get?: never;
         put?: never;
         /** Post crossfade likes */
