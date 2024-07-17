@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ChevronDown, ChevronUp, Delete, Play } from "lucide-react"
+import { ChevronDown, ChevronUp, Delete, Music2, Play } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
@@ -27,12 +27,13 @@ import { Song } from "./page"
 type SongListProps = {
   songs: Song[]
   isPlayer: boolean
+  selectedIndex: number | null
   setSongs: Dispatch<SetStateAction<Song[]>>
   // 選んだ曲のインデックスを設定する関数 引数はindex
   setSelectedSong: Dispatch<SetStateAction<number | null>>
 }
 
-const SongList = ({ songs, isPlayer, setSongs, setSelectedSong }: SongListProps) => {
+const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }: SongListProps) => {
   // 合計再生時間を計算
   const totalPlayTime = songs.reduce((acc, song) => {
     return acc + (song.endTime - song.startTime)
@@ -89,35 +90,48 @@ const SongList = ({ songs, isPlayer, setSongs, setSelectedSong }: SongListProps)
         <TableBody>
           {songs.map((song, index) => (
             <TableRow key={index}>
-              <TableCell>
+              <TableCell className="flex">
+                {index === selectedIndex && <Music2 className="animate-bounce h-6 w-6" />}
                 <YouTubeTitle youtubeId={song.songId} />
               </TableCell>
               <TableCell> {song.endTime - song.startTime} 秒</TableCell>
+              <TableCell>
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  onClick={() => handleMakeSelected(index)}
+                >
+                  <Play />
+                </Button>
+              </TableCell>
               {!isPlayer && (
                 <>
                   <TableCell>
-                    <Button onClick={() => handleMakeSelected(index)}>
-                      <Play />
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Button onClick={() => handleDeleteSong(index)}>
-                      <Delete />
+                    <Button
+                      size="icon"
+                      variant="secondary"
+                      className="w-10 h-10 m-0 p-0"
+                      hopover="adfadfadf"
+                      onClick={() => handleDeleteSong(index)}
+                    >
+                      <Delete className="w-6 h-6" />
                     </Button>
                   </TableCell>
                   <TableCell>
                     <div className="m-0 p-0">
                       <Button
                         onClick={() => handleSwapUpSong(index)}
+                        size="icon"
                         variant="ghost"
                       >
-                        <ChevronUp className="w-8 h-8" />
+                        <ChevronUp />
                       </Button>
                       <Button
                         onClick={() => handleSwapDownSong(index)}
+                        size="icon"
                         variant="ghost"
                       >
-                        <ChevronDown className="w-8 h-8" />
+                        <ChevronDown />
                       </Button>
                     </div>
                   </TableCell>

@@ -86,6 +86,7 @@ const Play = () => {
           <SongList
             isPlayer={true}
             songs={songs}
+            selectedIndex={selectedSongIndex}
             setSongs={setSongs}
             setSelectedSong={setSelectedSongIndex}
           />

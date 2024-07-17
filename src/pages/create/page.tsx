@@ -90,8 +90,10 @@ const Create = () => {
       <div className="grid grid-cols-2 gap-20">
         <div>
           <SongList
+            isPlayer={false}
             songs={songs}
             setSongs={setSongs}
+            selectedIndex={selectedSongIndex}
             setSelectedSong={setSelectedSongIndex}
           />
         </div>

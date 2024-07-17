@@ -3,6 +3,7 @@ import { Music } from "lucide-react"
 import { set } from "react-hook-form"
 import ReactPlayer from "react-player"
 import { Button } from "@/components/ui/button"
+import { Progress } from "@/components/ui/progress"
 import { RangeSlider, Slider } from "@/components/ui/slider"
 import { YouTubeTitle } from "@/components/youtube-title"
 import { Song } from "./page"
@@ -22,7 +23,7 @@ const VideoPlayer = ({
   updateSelectedSong,
   toNextSong,
 }: VideoPlayerProps) => {
-  const [values, setValues] = useState<[number, number]>([0, 1])
+  const [timeRangeValues, setTimeRangeValues] = useState<[number, number]>([0, 1])
   const [playing, setPlaying] = useState(true)
   const player = useRef<ReactPlayer>(null)
   // const [timeOutId, setTimeOutId] = useState<number>(0)
@@ -47,7 +48,7 @@ const VideoPlayer = ({
     // 曲の再生位置を設定
     player.current.seekTo(selectedSong.startTime)
     // シークバーの設定
-    setValues([selectedSong.startTime, selectedSong.endTime])
+    setTimeRangeValues([selectedSong.startTime, selectedSong.endTime])
     // 曲の長さを取得
     setSongLength(player.current.getDuration())
   }
@@ -56,20 +57,20 @@ const VideoPlayer = ({
   const setSongStartTime = () => {
     if (player.current === null) return
     const currentTime = Math.round(player.current.getCurrentTime())
-    setValues([currentTime, values[1]])
+    setTimeRangeValues([currentTime, timeRangeValues[1]])
   }
 
   // 現在の再生位置を終点にする
   const setSongEndTime = () => {
     if (player.current === null) return
     const currentTime = Math.round(player.current.getCurrentTime())
-    setValues([values[0], currentTime])
+    setTimeRangeValues([timeRangeValues[0], currentTime])
   }
 
   // 試聴開始
   function startPreview() {
     if (player.current === null) return
-    player.current.seekTo(values[0])
+    player.current.seekTo(timeRangeValues[0])
     onPlay()
   }
 
@@ -91,13 +92,13 @@ const VideoPlayer = ({
     if (!playing) return
 
     // 音量を再生箇所によって変えていく
-    if (values[0] <= currentTime && currentTime <= values[0] + 2) {
-      setVolume(easeOutCirc((currentTime - values[0]) / 2))
+    if (timeRangeValues[0] <= currentTime && currentTime <= timeRangeValues[0] + 2) {
+      setVolume(easeOutCirc((currentTime - timeRangeValues[0]) / 2))
     }
-    if (values[1] - 2 <= currentTime && currentTime <= values[1]) {
-      setVolume(easeInCirc((values[1] - currentTime) / 2))
+    if (timeRangeValues[1] - 2 <= currentTime && currentTime <= timeRangeValues[1]) {
+      setVolume(easeInCirc((timeRangeValues[1] - currentTime) / 2))
     }
-    if (currentTime > values[1] && currentTime < values[1] + 0.3) {
+    if (currentTime > timeRangeValues[1] && currentTime < timeRangeValues[1] + 0.3) {
       if (isPlayer) {
         // 次の曲へ移動
         setPlaying(false)
@@ -122,15 +123,15 @@ const VideoPlayer = ({
         return [prevValues[0], Math.max(newValues[1], prevValues[0] + minDistance)]
       }
     }
-    setValues(handleNewValues)
+    setTimeRangeValues(handleNewValues)
     setVolume(1.0)
 
     // selectedSongを更新
     if (selectedSong === null) return
     updateSelectedSong({
       ...selectedSong,
-      startTime: values[0],
-      endTime: values[1],
+      startTime: timeRangeValues[0],
+      endTime: timeRangeValues[1],
     })
   }
 
@@ -151,7 +152,7 @@ const VideoPlayer = ({
       {!isPlayer && (
         <>
           <RangeSlider
-            value={values}
+            value={timeRangeValues}
             onValueChange={handleRangeSliderChange}
             min={0}
             max={songLength}
@@ -165,9 +166,18 @@ const VideoPlayer = ({
           </div>
         </>
       )}
-      <div className="flex items-center">
+      <div className="flex items-center pt-4">
         <Music className="m-4" /> <YouTubeTitle youtubeId={selectedSong?.songId} />
       </div>
+      {isPlayer && (
+        <Progress
+          value={
+            ((songCurrentTime - timeRangeValues[0]) * 100) /
+            (timeRangeValues[1] - timeRangeValues[0])
+          }
+          max={100}
+        />
+      )}
     </>
   )
 }
