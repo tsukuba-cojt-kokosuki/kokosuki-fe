@@ -76,8 +76,8 @@ const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }:
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>URL</TableHead>
-            <TableHead>長さ</TableHead>
+            <TableHead className="w-2/3">URL</TableHead>
+            <TableHead className="w-1/6">長さ</TableHead>
             {!isPlayer && (
               <>
                 <TableHead></TableHead>
@@ -90,9 +90,13 @@ const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }:
         <TableBody>
           {songs.map((song, index) => (
             <TableRow key={index}>
-              <TableCell className="flex">
-                {index === selectedIndex && <Music2 className="animate-bounce h-6 w-6" />}
-                <YouTubeTitle youtubeId={song.songId} />
+              <TableCell>
+                <div className="flex items-center">
+                  {index === selectedIndex && (
+                    <Music2 className="shrink-0 animate-bounce h-6 w-6" />
+                  )}
+                  <YouTubeTitle youtubeId={song.songId} />
+                </div>
               </TableCell>
               <TableCell> {song.endTime - song.startTime} 秒</TableCell>
               <TableCell>
