@@ -1,9 +1,7 @@
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import HelmetPack from "@/components/helmet-pack"
-import { SongList } from "./song-list"
-import { VideoPlayer } from "./video-player"
+import { useParams } from "react-router-dom"
+import { SongList } from "./../create/song-list"
+import { VideoPlayer } from "./../create/video-player"
 
 export type Song = {
   songId: string
@@ -24,7 +22,7 @@ const defaultSongs = [
   {
     songId: "33HhfJsg2LE",
     startTime: 143,
-    endTime: 172,
+    endTime: 154,
     createDate: new Date(),
     updateDate: new Date(),
   },
@@ -38,7 +36,7 @@ const defaultSongs = [
   {
     songId: "ftU99KUGIMk",
     startTime: 61,
-    endTime: 92,
+    endTime: 75,
     createDate: new Date(),
     updateDate: new Date(),
   },
@@ -58,17 +56,9 @@ const defaultSongs = [
   },
 ]
 
-// 保存するときに走らせる関数
-const SaveCrossfade = () => {}
+const Play = () => {
+  const { id: crossFadeId } = useParams()
 
-// 完成ボタン
-const Complete = () => {
-  SaveCrossfade()
-  console.log("complete")
-  // 保存後にページ遷移
-}
-
-const Create = () => {
   const [songs, setSongs] = useState<Song[]>(defaultSongs)
   const [selectedSongIndex, setSelectedSongIndex] = useState<number | null>(0)
 
@@ -79,45 +69,38 @@ const Create = () => {
     setSongs(newSongs)
   }
 
+  const nextSong = () => {
+    if (selectedSongIndex === null) return
+    if (selectedSongIndex + 1 >= songs.length) {
+      // 終了
+    } else {
+      setSelectedSongIndex(selectedSongIndex + 1)
+    }
+  }
+
   return (
     <>
-      <HelmetPack
-        title="Kokosuki Create Page"
-        description="Let's make your crossfade!"
-        image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-        link="https://kokosuki.com/create"
-      />
-
-      <div className="pb-6 w-1/2 font-bold">
-        <Input
-          type="text"
-          placeholder="クロスフェードのタイトル名"
-          className="text-2xl"
-        />
-      </div>
+      これはidが{crossFadeId}
       <div className="grid grid-cols-2 gap-20">
         <div>
           <SongList
-            isPlayer={false}
+            isPlayer={true}
             songs={songs}
-            setSongs={setSongs}
             selectedIndex={selectedSongIndex}
+            setSongs={setSongs}
             setSelectedSong={setSelectedSongIndex}
           />
         </div>
         <div>
           <VideoPlayer
+            isPlayer={true}
             selectedSong={selectedSongIndex === null ? null : (songs[selectedSongIndex] as Song)}
             updateSelectedSong={updateSelectedSong}
+            toNextSong={nextSong}
           />
         </div>
-      </div>
-      <div className="flex gap-10 pt-10">
-        <Button onClick={SaveCrossfade}>保存</Button>
-        <Button onClick={Complete}>完成</Button>
       </div>
     </>
   )
 }
-
-export default Create
+export default Play

@@ -1,8 +1,16 @@
 import useSWR from "swr"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import Card from "@/components/card"
-import { paths } from "@/lib/api/schema"
 import { CardContainer } from "@/components/card-container"
 import HelmetPack from "@/components/helmet-pack"
+import { paths } from "@/lib/api/schema"
 
 type latestCrossfadesResponse =
   paths["/crossfades/latest"]["get"]["responses"]["200"]["content"]["application/json"]
@@ -12,26 +20,23 @@ type popularCrossfadesResponse =
 const Index = () => {
   return (
     <>
-    <HelmetPack
+      <HelmetPack
+        title="Kokosuki Top Page"
+        description="Let's make your crossfade!"
+        image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+        link="https://kokosuki.com"
+      />
 
-    title="Kokosuki Top Page"
-    description="Let's make your crossfade!"
-    image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-    link="https://kokosuki.com"
-
-    />
-    
-    <div className="container mx-auto">
-      <LatestCrossfades />
-      <PopularCrossfades />
-    </div>
-
+      <div className="container mx-auto">
+        <LatestCrossfades />
+        <PopularCrossfades />
+      </div>
     </>
   )
 }
 
 const LatestCrossfades = () => {
-  const { data , error } = useSWR<latestCrossfadesResponse>("/crossfades/latest")
+  const { data, error } = useSWR<latestCrossfadesResponse>("/crossfades/latest")
   if (error) {
     return <div className="text-center">Failed to load</div>
   }
@@ -44,17 +49,17 @@ const LatestCrossfades = () => {
     <section className="mb-12">
       <h1 className="text-3xl font-bold">新着のクロスフェード</h1>
       <div className="line-clamp-2">
-      <CardContainer>
-        {data.map((crossfade, i) => (
-          <Card
-            key={i}
-            title={crossfade.title}
-            link="https://google.com"
-            image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-            showSquarePen={false}
-          />
-        ))}
-      </CardContainer>
+        <CardContainer>
+          {data.map((crossfade, i) => (
+            <Card
+              key={i}
+              title={crossfade.title}
+              link={`/play/${crossfade.id}`}
+              image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+              showSquarePen={false}
+            />
+          ))}
+        </CardContainer>
       </div>
     </section>
   )
@@ -74,17 +79,17 @@ const PopularCrossfades = () => {
     <section className="mb-12">
       <h1 className="text-3xl font-bold">人気のクロスフェード</h1>
       <div className="line-clamp-2">
-      <CardContainer>
-        {data.map((crossfade, i) => (
-          <Card
-            key={i}
-            title={crossfade.title}
-            link="https://google.com"
-            image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-            showSquarePen={false}
-          />
-        ))}
-      </CardContainer>
+        <CardContainer>
+          {data.map((crossfade, i) => (
+            <Card
+              key={i}
+              title={crossfade.title}
+              link="https://google.com"
+              image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+              showSquarePen={false}
+            />
+          ))}
+        </CardContainer>
       </div>
     </section>
   )

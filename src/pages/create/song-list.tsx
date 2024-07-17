@@ -1,16 +1,9 @@
 import { Dispatch, SetStateAction, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ChevronDown, ChevronUp, Music2, Play, X } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -28,42 +21,139 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { YouTubeTitle } from "@/components/youtube-title"
 import { Song } from "./page"
 
 type SongListProps = {
   songs: Song[]
+  isPlayer: boolean
+  selectedIndex: number | null
   setSongs: Dispatch<SetStateAction<Song[]>>
+  // 選んだ曲のインデックスを設定する関数 引数はindex
+  setSelectedSong: Dispatch<SetStateAction<number | null>>
 }
 
-const SongList = ({ songs, setSongs }: SongListProps) => {
+const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }: SongListProps) => {
+  // 合計再生時間を計算
+  const totalPlayTime = songs.reduce((acc, song) => {
+    return acc + (song.endTime - song.startTime)
+  }, 0)
+
+  const handleDeleteSong = (index: number) => {
+    setSongs((songs) => songs.filter((_, i) => i !== index))
+  }
+
+  const handleMakeSelected = (index: number) => {
+    setSelectedSong(index)
+  }
+
+  const swapSong = (songs: Song[], index1: number, index2: number) => {
+    const newSongs = [...songs]
+    const tmp = newSongs[index1]
+    newSongs[index1] = newSongs[index2]
+    newSongs[index2] = tmp
+    setSongs(newSongs)
+  }
+
+  const handleSwapUpSong = (index: number) => {
+    if (index === 0) {
+      return
+    }
+    // songs[index] と songs[index - 1] を入れ替える
+    swapSong(songs, index, index - 1)
+  }
+
+  const handleSwapDownSong = (index: number) => {
+    if (index === songs.length - 1) {
+      return
+    }
+    // songs[index] と songs[index + 1] を入れ替える
+    swapSong(songs, index, index + 1)
+  }
+
   return (
-    <div className="w-96">
+    <div className="w-160">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>URL</TableHead>
-            <TableHead>start</TableHead>
-            <TableHead>end</TableHead>
+            <TableHead>長さ</TableHead>
+            {!isPlayer && (
+              <>
+                <TableHead></TableHead>
+                <TableHead></TableHead>
+                <TableHead></TableHead>
+              </>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
           {songs.map((song, index) => (
             <TableRow key={index}>
-              <TableCell> {song.url} </TableCell>
-              <TableCell> {song.startTime} </TableCell>
-              <TableCell> {song.endTime} </TableCell>
+              <TableCell className="flex">
+                {index === selectedIndex && <Music2 className="animate-bounce h-6 w-6" />}
+                <YouTubeTitle youtubeId={song.songId} />
+              </TableCell>
+              <TableCell> {song.endTime - song.startTime} 秒</TableCell>
+              <TableCell>
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  onClick={() => handleMakeSelected(index)}
+                >
+                  <Play />
+                </Button>
+              </TableCell>
+              {!isPlayer && (
+                <>
+                  <TableCell>
+                    <Button
+                      size="icon"
+                      variant="secondary"
+                      className="w-10 h-10 m-0 p-0"
+                      hopover="adfadfadf"
+                      onClick={() => handleDeleteSong(index)}
+                    >
+                      <X />
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <div className="m-0 p-0">
+                      <Button
+                        onClick={() => handleSwapUpSong(index)}
+                        size="icon"
+                        variant="ghost"
+                      >
+                        <ChevronUp />
+                      </Button>
+                      <Button
+                        onClick={() => handleSwapDownSong(index)}
+                        size="icon"
+                        variant="ghost"
+                      >
+                        <ChevronDown />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </>
+              )}
             </TableRow>
           ))}
+          <TableRow>
+            <TableCell>合計</TableCell>
+            <TableCell>{totalPlayTime}秒</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
         </TableBody>
       </Table>
-      <AddSongDialog setSongs={setSongs} />
+      {!isPlayer && <AddSongDialog setSongs={setSongs} />}
     </div>
   )
 }
 
 export { SongList }
 
-const addSongFormSchema = z.object({
+const addSongDialogFormSchema = z.object({
   url: z
     .string()
     .min(1, { message: "YouTube の URLを入力してください" })
@@ -115,14 +205,14 @@ type AddSongDialogProps = {
 const AddSongDialog = ({ setSongs }: AddSongDialogProps) => {
   const [open, setOpen] = useState(false)
 
-  const form = useForm<z.infer<typeof addSongFormSchema>>({
-    resolver: zodResolver(addSongFormSchema),
+  const form = useForm<z.infer<typeof addSongDialogFormSchema>>({
+    resolver: zodResolver(addSongDialogFormSchema),
     defaultValues: {
       url: "",
     },
   })
 
-  const onSubmit = (values: z.infer<typeof addSongFormSchema>) => {
+  const onSubmit = (values: z.infer<typeof addSongDialogFormSchema>) => {
     const url = new URL(values.url)
     const songId = url.searchParams.get("v") as string
 
@@ -130,52 +220,34 @@ const AddSongDialog = ({ setSongs }: AddSongDialogProps) => {
       return [
         ...songs,
         {
-          songId,
-          url: values.url,
+          songId: songId,
           startTime: 0,
-          endTime: 60,
+          endTime: 999,
           createDate: new Date(),
           updateDate: new Date(),
         },
       ]
     })
-
     setOpen(false)
   }
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={setOpen}
-    >
-      <DialogTrigger asChild>
-        <Button>曲を追加</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>曲を追加</DialogTitle>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>YouTube URL</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DialogFooter className="mt-3">
-              <Button type="submit">追加</Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name="url"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>YoutubeのURLで曲を追加</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
   )
 }
