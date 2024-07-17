@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/form"
 import Card from "@/components/card"
 import { CardContainer } from "@/components/card-container"
+import HelmetPack from "@/components/helmet-pack"
 import { paths } from "@/lib/api/schema"
 
 type latestCrossfadesResponse =
@@ -18,10 +19,19 @@ type popularCrossfadesResponse =
 
 const Index = () => {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <LatestCrossfades />
-      <PopularCrossfades />
-    </div>
+    <>
+      <HelmetPack
+        title="Kokosuki Top Page"
+        description="Let's make your crossfade!"
+        image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+        link="https://kokosuki.com"
+      />
+
+      <div className="container mx-auto">
+        <LatestCrossfades />
+        <PopularCrossfades />
+      </div>
+    </>
   )
 }
 
@@ -37,7 +47,7 @@ const LatestCrossfades = () => {
 
   return (
     <section className="mb-12">
-      <h1 className="text-3xl font-bold mb-6">新着のクロスフェード</h1>
+      <h1 className="text-3xl font-bold">新着のクロスフェード</h1>
       <div className="line-clamp-2">
         <CardContainer>
           {data.map((crossfade, i) => (
@@ -67,7 +77,7 @@ const PopularCrossfades = () => {
 
   return (
     <section className="mb-12">
-      <h1 className="text-3xl font-bold mb-6">人気のクロスフェード</h1>
+      <h1 className="text-3xl font-bold">人気のクロスフェード</h1>
       <div className="line-clamp-2">
         <CardContainer>
           {data.map((crossfade, i) => (

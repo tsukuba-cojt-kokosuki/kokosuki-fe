@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import HelmetPack from "@/components/helmet-pack"
 import { SongList } from "./song-list"
 import { VideoPlayer } from "./video-player"
 
@@ -80,6 +81,13 @@ const Create = () => {
 
   return (
     <>
+      <HelmetPack
+        title="Kokosuki Create Page"
+        description="Let's make your crossfade!"
+        image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
+        link="https://kokosuki.com/create"
+      />
+
       <div className="pb-6 w-1/2 font-bold">
         <Input
           type="text"
