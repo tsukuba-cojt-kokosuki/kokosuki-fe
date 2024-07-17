@@ -20,7 +20,7 @@ const List = () => {
         image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
         link="https://kokosuki.com/list"
       />
-      <h1 className=" text-2xl font-bold">マイ クロスフェード</h1>
+      <h1 className="text-3xl font-bold">マイ クロスフェード</h1>
       {userId === null ? (
         <div className="text-center">ログインしていません</div>
       ) : (

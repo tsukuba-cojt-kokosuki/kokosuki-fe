@@ -19,7 +19,7 @@ const Index = () => {
         link="https://kokosuki.com"
       />
 
-      <div className="container mx-auto">
+      <div>
         <LatestCrossfades />
         <PopularCrossfades />
       </div>
