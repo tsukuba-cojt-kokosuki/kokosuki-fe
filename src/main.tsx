@@ -4,6 +4,7 @@ import "@fontsource-variable/noto-sans-jp"
 import { createRoot } from "react-dom/client"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import "./index.css"
+import { fetch } from "./lib/api/fetch"
 import { setupMsw } from "./mocks/setup"
 import Create from "./pages/create/page"
 import Index from "./pages/index/page"
@@ -49,16 +50,8 @@ createRoot(document.getElementById("root")!).render(
         const url = urlOrPathname.startsWith("http")
           ? urlOrPathname
           : `${import.meta.env.VITE_BACKEND_URL ?? "https://kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev"}${urlOrPathname}`
-        const host = new URL(url).host
 
-        const res = await fetch(url, {
-          credentials:
-            host.endsWith("kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev") ||
-            host.endsWith("kokosuki-be-dev.tsukuba-cojt-kokosuki.workers.dev") ||
-            host.endsWith("localhost:8787")
-              ? "include"
-              : "same-origin",
-        })
+        const res = await fetch(url)
         return await res.json()
       },
     }}
