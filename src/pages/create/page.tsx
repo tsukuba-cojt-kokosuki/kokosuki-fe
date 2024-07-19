@@ -58,14 +58,10 @@ const defaultSongs = [
   },
 ]
 
-// 保存するときに走らせる関数
-const SaveCrossfade = () => {}
-
-// 完成ボタン
-const Complete = () => {
-  SaveCrossfade()
-  console.log("complete")
-  // 保存後にページ遷移
+const SaveCrossfade = () => {
+  // post
+  console.log("SaveCrossfade")
+  // playページに遷移
 }
 
 const Create = () => {
@@ -113,8 +109,7 @@ const Create = () => {
         </div>
       </div>
       <div className="flex gap-10 pt-10">
-        <Button onClick={SaveCrossfade}>保存</Button>
-        <Button onClick={Complete}>完成</Button>
+        <Button onClick={SaveCrossfade}>完成</Button>
       </div>
     </>
   )
