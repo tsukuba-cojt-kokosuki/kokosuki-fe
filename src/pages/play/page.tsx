@@ -1,16 +1,24 @@
 import { useState } from "react"
+import useSWR from "swr"
 import { useParams } from "react-router-dom"
+import { Thumbnail } from "@/components/card"
+import { paths } from "@/lib/api/schema"
+import { components } from "@/lib/api/schema"
 import { SongList } from "./../create/song-list"
 import { VideoPlayer } from "./../create/video-player"
 
+/*
 export type Song = {
   songId: string
   startTime: number
   endTime: number
-  createDate: Date
-  updateDate: Date
 }
+*/
 
+type crossfadesGetResponse =
+  paths["/crossfades/{crossfadeId}"]["get"]["responses"]["200"]["content"]["application/json"]
+type Song = components["schemas"]["Song"]
+/*
 const defaultSongs = [
   {
     songId: "dQw4w9WgXcQ",
@@ -55,12 +63,18 @@ const defaultSongs = [
     updateDate: new Date(),
   },
 ]
+*/
 
 const Play = () => {
+  const { data, error } = useSWR<crossfadesGetResponse>("/crossfades/" + crossFadeId)
+
   const { id: crossFadeId } = useParams()
 
-  const [songs, setSongs] = useState<Song[]>(defaultSongs)
+  const songs = data?.songs
+
   const [selectedSongIndex, setSelectedSongIndex] = useState<number | null>(0)
+
+  console.log(songs)
 
   const updateSelectedSong = (song: Song) => {
     if (selectedSongIndex === null) return

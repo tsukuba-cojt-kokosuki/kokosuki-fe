@@ -15,12 +15,12 @@ const GetCrossfadesCrossfadeId = http.get("http://localhost:8787/crossfades/:cro
     },
     songs: [
       {
-        videoId: "videoId1",
+        videoId: "dQw4w9WgXcQ",
         start: 0,
         end: 10,
       },
       {
-        videoId: "videoId2",
+        videoId: "33HhfJsg2LE",
         start: 10,
         end: 20,
       },
