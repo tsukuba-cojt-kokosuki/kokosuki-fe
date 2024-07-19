@@ -9,7 +9,6 @@ import Create from "./pages/create/page"
 import Index from "./pages/index/page"
 import Layout from "./pages/layout"
 import List from "./pages/list/page"
-import Login from "./pages/login/pages"
 import NotFound from "./pages/not-found"
 import Play from "./pages/play/page"
 import { UserContextProvider } from "./pages/user-context"
@@ -55,6 +54,7 @@ createRoot(document.getElementById("root")!).render(
         const res = await fetch(url, {
           credentials:
             host.endsWith("kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev") ||
+            host.endsWith("kokosuki-be-dev.tsukuba-cojt-kokosuki.workers.dev") ||
             host.endsWith("localhost:8787")
               ? "include"
               : "same-origin",
