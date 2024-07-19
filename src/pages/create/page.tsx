@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Thumbnail } from "@/components/card"
 import HelmetPack from "@/components/helmet-pack"
+import ThumbnailEditor from "@/components/thumbnail-editor"
 import { SongList } from "./song-list"
 import { VideoPlayer } from "./video-player"
 
@@ -67,6 +69,8 @@ const SaveCrossfade = () => {
 const Create = () => {
   const [songs, setSongs] = useState<Song[]>(defaultSongs)
   const [selectedSongIndex, setSelectedSongIndex] = useState<number | null>(0)
+  const [thumbnailEmoji, setThumbnailEmoji] = useState<string>("🎵")
+  const [thumbnailBackgroundColor, setThumbnailBackgroundColor] = useState<string>("#eeffff")
 
   const updateSelectedSong = (song: Song) => {
     if (selectedSongIndex === null) return
@@ -84,13 +88,6 @@ const Create = () => {
         link="https://kokosuki.com/create"
       />
 
-      <div className="pb-6 w-1/2 font-bold">
-        <Input
-          type="text"
-          placeholder="クロスフェードのタイトル名"
-          className="text-2xl"
-        />
-      </div>
       <div className="grid grid-cols-2 gap-20">
         <div>
           <SongList
@@ -102,6 +99,29 @@ const Create = () => {
           />
         </div>
         <div>
+          <div className="flex p-4">
+            <Thumbnail
+              backgroundColor={thumbnailBackgroundColor}
+              character={thumbnailEmoji}
+            />
+
+            <div className="items-center p-4">
+              <ThumbnailEditor
+                emoji={thumbnailEmoji}
+                backgroundColor={thumbnailBackgroundColor}
+                setEmoji={setThumbnailEmoji}
+                setBackgroundColor={setThumbnailBackgroundColor}
+              />
+              <div className="pb-6 pt-6  font-bold">
+                <Input
+                  type="text"
+                  placeholder="クロスフェードのタイトル名"
+                  className="text-2xl"
+                />
+              </div>
+            </div>
+          </div>
+
           <VideoPlayer
             selectedSong={selectedSongIndex === null ? null : (songs[selectedSongIndex] as Song)}
             updateSelectedSong={updateSelectedSong}
