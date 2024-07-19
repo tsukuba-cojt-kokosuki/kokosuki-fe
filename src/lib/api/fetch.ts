@@ -25,4 +25,7 @@ const fetchWrapper: FetchWrapper = async (input, init) => {
   })
 }
 
-export { fetchWrapper as fetch }
+const apiOrigin =
+  import.meta.env.VITE_BACKEND_URL ?? "https://kokosuki-be-prod.tsukuba-cojt-kokosuki.workers.dev"
+
+export { apiOrigin, fetchWrapper as fetch }
