@@ -198,62 +198,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/crossfades/{crossfadeId}/edit": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Post edit crossfade */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the user to retrieve */
-                    crossfadeId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Crossfade object that needs to be added */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["Crossfade"];
-                };
-            };
-            responses: {
-                /** @description Crossfade edited successfully */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            /** @description The id of the edited crossfade */
-                            id?: string;
-                        };
-                    };
-                };
-                /** @description unexpected error */
-                default: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/crossfades/popular": {
         parameters: {
             query?: never;
@@ -384,7 +328,47 @@ export interface paths {
                 };
             };
         };
-        put?: never;
+        /** Post edit crossfade */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the user to retrieve */
+                    crossfadeId: string;
+                };
+                cookie?: never;
+            };
+            /** @description Crossfade object that needs to be added */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Crossfade"];
+                };
+            };
+            responses: {
+                /** @description Crossfade edited successfully */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @description The id of the edited crossfade */
+                            id?: string;
+                        };
+                    };
+                };
+                /** @description unexpected error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+            };
+        };
         post?: never;
         delete?: never;
         options?: never;

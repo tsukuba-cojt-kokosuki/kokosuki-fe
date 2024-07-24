@@ -36,7 +36,7 @@ type SongListProps = {
 const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }: SongListProps) => {
   // 合計再生時間を計算
   const totalPlayTime = songs.reduce((acc, song) => {
-    return acc + (song.endTime - song.startTime)
+    return acc + (song.end - song.start)
   }, 0)
 
   const handleDeleteSong = (index: number) => {
@@ -76,8 +76,8 @@ const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }:
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>URL</TableHead>
-            <TableHead>長さ</TableHead>
+            <TableHead className="w-2/3">URL</TableHead>
+            <TableHead className="w-1/6">長さ</TableHead>
             {!isPlayer && (
               <>
                 <TableHead></TableHead>
@@ -90,11 +90,15 @@ const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }:
         <TableBody>
           {songs.map((song, index) => (
             <TableRow key={index}>
-              <TableCell className="flex">
-                {index === selectedIndex && <Music2 className="animate-bounce h-6 w-6" />}
-                <YouTubeTitle youtubeId={song.songId} />
+              <TableCell>
+                <div className="flex items-center">
+                  {index === selectedIndex && (
+                    <Music2 className="shrink-0 animate-bounce h-6 w-6" />
+                  )}
+                  <YouTubeTitle youtubeId={song.videoId} />
+                </div>
               </TableCell>
-              <TableCell> {song.endTime - song.startTime} 秒</TableCell>
+              <TableCell> {song.end - song.start} 秒</TableCell>
               <TableCell>
                 <Button
                   size="icon"
@@ -178,7 +182,7 @@ const addSongDialogFormSchema = z.object({
         return false
       }
 
-      const songId = url.searchParams.get("v")
+      const videoId = url.searchParams.get("v")
 
       if (url.hostname !== "www.youtube.com") {
         context.addIssue({
@@ -187,7 +191,7 @@ const addSongDialogFormSchema = z.object({
         })
       }
 
-      if (!songId) {
+      if (!videoId) {
         context.addIssue({
           message: "URL に Video ID が見つかりません",
           code: z.ZodIssueCode.custom,
@@ -214,17 +218,15 @@ const AddSongDialog = ({ setSongs }: AddSongDialogProps) => {
 
   const onSubmit = (values: z.infer<typeof addSongDialogFormSchema>) => {
     const url = new URL(values.url)
-    const songId = url.searchParams.get("v") as string
+    const videoId = url.searchParams.get("v") as string
 
     setSongs((songs) => {
       return [
         ...songs,
         {
-          songId: songId,
-          startTime: 0,
-          endTime: 999,
-          createDate: new Date(),
-          updateDate: new Date(),
+          videoId: videoId,
+          start: 0,
+          end: 999,
         },
       ]
     })

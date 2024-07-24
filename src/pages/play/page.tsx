@@ -1,72 +1,29 @@
 import { useState } from "react"
+import { useEffect } from "react"
+import useSWR from "swr"
+import { set } from "react-hook-form"
 import { useParams } from "react-router-dom"
+import { Thumbnail } from "@/components/card"
+import { paths } from "@/lib/api/schema"
+import { components } from "@/lib/api/schema"
 import { SongList } from "./../create/song-list"
 import { VideoPlayer } from "./../create/video-player"
 
-export type Song = {
-  songId: string
-  startTime: number
-  endTime: number
-  createDate: Date
-  updateDate: Date
-}
-
-const defaultSongs = [
-  {
-    songId: "dQw4w9WgXcQ",
-    startTime: 20,
-    endTime: 25,
-    createDate: new Date(),
-    updateDate: new Date(),
-  },
-  {
-    songId: "33HhfJsg2LE",
-    startTime: 143,
-    endTime: 154,
-    createDate: new Date(),
-    updateDate: new Date(),
-  },
-  {
-    songId: "0oPZr_b-P54",
-    startTime: 48,
-    endTime: 70,
-    createDate: new Date(),
-    updateDate: new Date(),
-  },
-  {
-    songId: "ftU99KUGIMk",
-    startTime: 61,
-    endTime: 75,
-    createDate: new Date(),
-    updateDate: new Date(),
-  },
-  {
-    songId: "YGh0i_yTru0",
-    startTime: 59,
-    endTime: 81,
-    createDate: new Date(),
-    updateDate: new Date(),
-  },
-  {
-    songId: "mIqLF3KfIJs",
-    startTime: 37,
-    endTime: 70,
-    createDate: new Date(),
-    updateDate: new Date(),
-  },
-]
+type crossfadesGetResponse =
+  paths["/crossfades/{crossfadeId}"]["get"]["responses"]["200"]["content"]["application/json"]
+export type Song = components["schemas"]["Song"]
 
 const Play = () => {
   const { id: crossFadeId } = useParams()
-
-  const [songs, setSongs] = useState<Song[]>(defaultSongs)
+  const { data, error } = useSWR<crossfadesGetResponse>("/crossfades/" + crossFadeId)
   const [selectedSongIndex, setSelectedSongIndex] = useState<number | null>(0)
 
-  const updateSelectedSong = (song: Song) => {
-    if (selectedSongIndex === null) return
-    const newSongs = [...songs]
-    newSongs[selectedSongIndex] = song
-    setSongs(newSongs)
+  if (error) {
+    return <div>Error loading data.</div>
+  }
+
+  if (!data) {
+    return <div>Loading...</div>
   }
 
   const nextSong = () => {
@@ -85,17 +42,17 @@ const Play = () => {
         <div>
           <SongList
             isPlayer={true}
-            songs={songs}
+            songs={data.songs}
             selectedIndex={selectedSongIndex}
-            setSongs={setSongs}
             setSelectedSong={setSelectedSongIndex}
           />
         </div>
         <div>
           <VideoPlayer
             isPlayer={true}
-            selectedSong={selectedSongIndex === null ? null : (songs[selectedSongIndex] as Song)}
-            updateSelectedSong={updateSelectedSong}
+            selectedSong={
+              selectedSongIndex === null ? null : (data.songs[selectedSongIndex] as Song)
+            }
             toNextSong={nextSong}
           />
         </div>
@@ -104,3 +61,9 @@ const Play = () => {
   )
 }
 export default Play
+
+/*
+
+      
+      
+ */

@@ -136,3 +136,5 @@ const Thumbnail = ({ backgroundColor, character }: ThumbnailProps) => {
     </div>
   )
 }
+
+export { Thumbnail }
