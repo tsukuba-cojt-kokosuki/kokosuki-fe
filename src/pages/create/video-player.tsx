@@ -38,7 +38,7 @@ const VideoPlayer = ({
   useEffect(() => {
     if (selectedSong === null) return
     // YouTubeのURLを設定
-    setYoutubeUrl(`https://www.youtube.com/watch?v=${selectedSong.songId}`)
+    setYoutubeUrl(`https://www.youtube.com/watch?v=${selectedSong.videoId}`)
   }, [selectedSong])
 
   const onReady = () => {
@@ -46,9 +46,9 @@ const VideoPlayer = ({
     if (player.current === null) return
     setPlaying(true)
     // 曲の再生位置を設定
-    player.current.seekTo(selectedSong.startTime)
+    player.current.seekTo(selectedSong.start)
     // シークバーの設定
-    setTimeRangeValues([selectedSong.startTime, selectedSong.endTime])
+    setTimeRangeValues([selectedSong.start, selectedSong.end])
     // 曲の長さを取得
     setSongLength(player.current.getDuration())
   }
@@ -130,8 +130,8 @@ const VideoPlayer = ({
     if (selectedSong === null) return
     updateSelectedSong({
       ...selectedSong,
-      startTime: timeRangeValues[0],
-      endTime: timeRangeValues[1],
+      start: timeRangeValues[0],
+      end: timeRangeValues[1],
     })
   }
 
@@ -167,7 +167,7 @@ const VideoPlayer = ({
         </>
       )}
       <div className="flex items-center pt-4">
-        <Music className="m-4" /> <YouTubeTitle youtubeId={selectedSong?.songId} />
+        <Music className="m-4" /> <YouTubeTitle youtubeId={selectedSong?.videoId} />
       </div>
       {isPlayer && (
         <Progress
