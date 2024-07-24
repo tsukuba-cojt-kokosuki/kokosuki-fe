@@ -33,7 +33,7 @@ const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/:userId/c
       creatorId: "0bddc2ec-e543-4e13-91a8-4a6b980389e5",
       title: "Crossfade 2",
       icon: {
-        character: "🍖",
+        character: "🍣",
         backgroundColor: "#1F1F1F",
       },
       songs: [
@@ -55,7 +55,7 @@ const GetUsersUserIdCrossfades = http.get("http://localhost:8787/users/:userId/c
       creatorId: "f79e9cc2-09c0-4db1-a7f7-59b6916d378e",
       title: "Crossfade 3",
       icon: {
-        character: "🥟",
+        character: "🍣",
         backgroundColor: "#545454",
       },
       songs: [
