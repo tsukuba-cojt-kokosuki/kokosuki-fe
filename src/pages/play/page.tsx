@@ -45,7 +45,7 @@ const Play = () => {
         </div>
         <div>
           <VideoPlayer
-            isPlayer={true}
+            modifiable={true}
             selectedSong={
               selectedSongIndex === null ? null : (data.songs[selectedSongIndex] as Song)
             }

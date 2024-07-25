@@ -29,20 +29,14 @@ const defaultSongs = [
 const Create = () => {
   const {
     songs,
+    selectedSongIndex,
     addSong,
     deleteSong,
-    updateSong,
     swapSongs,
-    selectedSongIndex,
     setSelectedSongIndex,
+    updateSelectedSong,
   } = useSongs(defaultSongs, 0)
   const [icon, setIcon] = useState<Icon>({ character: "🎵", backgroundColor: "#eeffff" })
-
-  const updateSelectedSong = (song: Song) => {
-    if (selectedSongIndex === null) return
-
-    updateSong(selectedSongIndex, song)
-  }
 
   return (
     <>
@@ -96,8 +90,10 @@ const Create = () => {
             <VideoPlayerSkeleton />
           ) : (
             <VideoPlayer
+              modifiable={true}
               selectedSong={songs[selectedSongIndex] as Song}
               updateSelectedSong={updateSelectedSong}
+              toNextSong={() => {}}
             />
           )}
         </div>

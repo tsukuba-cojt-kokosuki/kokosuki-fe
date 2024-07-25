@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ChevronDown, ChevronUp, Music2, Play, X } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -29,7 +28,7 @@ type SongListProps = {
   modifiable: boolean
   selectedIndex: number | null
   // 選んだ曲のインデックスを設定する関数 引数はindex
-  setSelectedSong: Dispatch<SetStateAction<number | null>>
+  setSelectedSong: (index: number | null) => void
   deleteSong: (index: number) => void
   swapSongs: (a: number, b: number) => void
   addSong: (song: Song) => void

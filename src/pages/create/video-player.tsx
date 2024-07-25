@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { Music } from "lucide-react"
 import ReactPlayer from "react-player"
 import { Button } from "@/components/ui/button"
@@ -10,37 +10,27 @@ import { Song } from "./songs"
 const minDistance = 1
 
 type VideoPlayerProps = {
-  isPlayer: boolean
-  selectedSong: Song | null
+  modifiable: boolean
+  selectedSong: Song
   updateSelectedSong: (song: Song) => void
   toNextSong: () => void
 }
 
 const VideoPlayer = ({
-  isPlayer,
+  modifiable,
   selectedSong,
   updateSelectedSong,
   toNextSong,
 }: VideoPlayerProps) => {
+  const player = useRef<ReactPlayer>(null)
   const [timeRangeValues, setTimeRangeValues] = useState<[number, number]>([0, 1])
   const [playing, setPlaying] = useState(true)
-  const player = useRef<ReactPlayer>(null)
-  const [youtubeUrl, setYoutubeUrl] = useState<string>(
-    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  )
   const [songLength, setSongLength] = useState<number>(0)
   const [songCurrentTime, setSongCurrentTime] = useState<number>(0)
   const [volume, setVolume] = useState<number>(1)
-
-  // 曲が選択されたら
-  useEffect(() => {
-    if (selectedSong === null) return
-    // YouTubeのURLを設定
-    setYoutubeUrl(`https://www.youtube.com/watch?v=${selectedSong.videoId}`)
-  }, [selectedSong])
+  const youtubeUrl = `https://www.youtube.com/watch?v=${selectedSong.videoId}`
 
   const onReady = () => {
-    if (selectedSong === null) return
     if (player.current === null) return
     setPlaying(true)
     // 曲の再生位置を設定
@@ -97,7 +87,7 @@ const VideoPlayer = ({
       setVolume(easeInCirc((timeRangeValues[1] - currentTime) / 2))
     }
     if (currentTime > timeRangeValues[1] && currentTime < timeRangeValues[1] + 0.3) {
-      if (isPlayer) {
+      if (modifiable) {
         // 次の曲へ移動
         setPlaying(false)
         toNextSong()
@@ -145,9 +135,14 @@ const VideoPlayer = ({
         onProgress={handleSongCurrentTime}
         progressInterval={50}
         volume={volume}
-        controls={!isPlayer}
+        controls={modifiable}
+        style={{
+          aspectRatio: "16 / 9",
+          width: "100%",
+          maxWidth: "100%",
+        }}
       />
-      {!isPlayer && (
+      {modifiable && (
         <>
           <RangeSlider
             value={timeRangeValues}
@@ -155,7 +150,7 @@ const VideoPlayer = ({
             min={0}
             max={songLength}
             className="mt-6 mb-6"
-            disabled={isPlayer}
+            disabled={!modifiable}
           />
           <div className="flex gap-4 mt-4">
             <Button onClick={setSongStartTime}>現在の再生箇所を始点に</Button>
@@ -165,9 +160,9 @@ const VideoPlayer = ({
         </>
       )}
       <div className="flex items-center pt-4">
-        <Music className="m-4" /> <YouTubeTitle youtubeId={selectedSong?.videoId} />
+        <Music className="m-4" /> <YouTubeTitle youtubeId={selectedSong.videoId} />
       </div>
-      {isPlayer && (
+      {!modifiable && (
         <Progress
           value={
             ((songCurrentTime - timeRangeValues[0]) * 100) /
