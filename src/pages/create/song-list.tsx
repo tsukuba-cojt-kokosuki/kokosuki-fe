@@ -25,23 +25,32 @@ import { Song } from "./songs"
 
 type SongListProps = {
   songs: Song[]
-  modifiable: boolean
   selectedIndex: number | null
   // 選んだ曲のインデックスを設定する関数 引数はindex
   setSelectedSong: (index: number | null) => void
-  deleteSong: (index: number) => void
-  swapSongs: (a: number, b: number) => void
-  addSong: (song: Song) => void
-}
+} & (
+  | {
+      modifiable: true
+      deleteSong: (index: number) => void
+      swapSongs: (a: number, b: number) => void
+      addSong: (song: Song) => void
+    }
+  | {
+      modifiable: false
+      deleteSong?: undefined
+      swapSongs?: undefined
+      addSong?: undefined
+    }
+)
 
 const SongList = ({
   songs,
   modifiable,
   selectedIndex,
   setSelectedSong,
-  addSong,
-  deleteSong,
-  swapSongs,
+  deleteSong = () => {},
+  swapSongs = () => {},
+  addSong = () => {},
 }: SongListProps) => {
   // 合計再生時間を計算
   const totalPlayTime = songs.reduce((acc, song) => {
@@ -195,7 +204,9 @@ const addSongDialogFormSchema = z.object({
     }),
 })
 
-type AddSongDialogProps = Pick<SongListProps, "addSong">
+type AddSongDialogProps = {
+  addSong: (song: Song) => void
+}
 
 const AddSongDialog = ({ addSong }: AddSongDialogProps) => {
   const form = useForm<z.infer<typeof addSongDialogFormSchema>>({

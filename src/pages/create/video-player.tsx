@@ -10,17 +10,25 @@ import { Song } from "./songs"
 const minDistance = 1
 
 type VideoPlayerProps = {
-  modifiable: boolean
   selectedSong: Song
-  updateSelectedSong: (song: Song) => void
-  toNextSong: () => void
-}
+} & (
+  | {
+      modifiable: true
+      updateSelectedSong: (song: Song) => void
+      toNextSong?: undefined
+    }
+  | {
+      modifiable: false
+      updateSelectedSong?: undefined
+      toNextSong: () => void
+    }
+)
 
 const VideoPlayer = ({
   modifiable,
   selectedSong,
-  updateSelectedSong,
-  toNextSong,
+  toNextSong = () => {},
+  updateSelectedSong = () => {},
 }: VideoPlayerProps) => {
   const player = useRef<ReactPlayer>(null)
   const [timeRangeValues, setTimeRangeValues] = useState<[number, number]>([0, 1])
@@ -87,7 +95,7 @@ const VideoPlayer = ({
       setVolume(easeInCirc((timeRangeValues[1] - currentTime) / 2))
     }
     if (currentTime > timeRangeValues[1] && currentTime < timeRangeValues[1] + 0.3) {
-      if (modifiable) {
+      if (!modifiable) {
         // 次の曲へ移動
         setPlaying(false)
         toNextSong()

@@ -93,7 +93,6 @@ const Create = () => {
               modifiable={true}
               selectedSong={songs[selectedSongIndex] as Song}
               updateSelectedSong={updateSelectedSong}
-              toNextSong={() => {}}
             />
           )}
         </div>
