@@ -1,11 +1,7 @@
 import { useState } from "react"
-import { useEffect } from "react"
 import useSWR from "swr"
-import { set } from "react-hook-form"
 import { useParams } from "react-router-dom"
-import { Thumbnail } from "@/components/card"
-import { paths } from "@/lib/api/schema"
-import { components } from "@/lib/api/schema"
+import { components, paths } from "@/lib/api/schema"
 import { SongList } from "./../create/song-list"
 import { VideoPlayer } from "./../create/video-player"
 
@@ -41,7 +37,7 @@ const Play = () => {
       <div className="grid grid-cols-2 gap-20">
         <div>
           <SongList
-            isPlayer={true}
+            modifiable={true}
             songs={data.songs}
             selectedIndex={selectedSongIndex}
             setSelectedSong={setSelectedSongIndex}

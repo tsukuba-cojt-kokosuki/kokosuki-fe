@@ -6,9 +6,10 @@ import HelmetPack from "@/components/helmet-pack"
 import ThumbnailEditor from "@/components/thumbnail-editor"
 import { components } from "@/lib/api/schema"
 import { SongList } from "./song-list"
+import { Song, useSongs } from "./songs"
 import { VideoPlayer } from "./video-player"
+import { VideoPlayerSkeleton } from "./video-player-skeleton"
 
-export type Song = components["schemas"]["Song"]
 type Icon = components["schemas"]["Crossfade"]["icon"]
 
 const SaveCrossfade = () => {
@@ -17,16 +18,30 @@ const SaveCrossfade = () => {
   // playページに遷移
 }
 
+const defaultSongs = [
+  {
+    videoId: "dQw4w9WgXcQ",
+    start: 15,
+    end: 30,
+  },
+]
+
 const Create = () => {
-  const [songs, setSongs] = useState<Song[]>([])
-  const [selectedSongIndex, setSelectedSongIndex] = useState<number | null>(null)
+  const {
+    songs,
+    addSong,
+    deleteSong,
+    updateSong,
+    swapSongs,
+    selectedSongIndex,
+    setSelectedSongIndex,
+  } = useSongs(defaultSongs, 0)
   const [icon, setIcon] = useState<Icon>({ character: "🎵", backgroundColor: "#eeffff" })
 
   const updateSelectedSong = (song: Song) => {
     if (selectedSongIndex === null) return
-    const newSongs = [...songs]
-    newSongs[selectedSongIndex] = song
-    setSongs(newSongs)
+
+    updateSong(selectedSongIndex, song)
   }
 
   return (
@@ -41,11 +56,14 @@ const Create = () => {
       <div className="grid grid-cols-2 gap-20">
         <div>
           <SongList
-            isPlayer={false}
+            modifiable={true}
             songs={songs}
-            setSongs={setSongs}
             selectedIndex={selectedSongIndex}
             setSelectedSong={setSelectedSongIndex}
+            addSong={addSong}
+            deleteSong={deleteSong}
+            swapSongs={swapSongs}
+          />
           <Button
             onClick={SaveCrossfade}
             className="block mt-8"
@@ -77,14 +95,14 @@ const Create = () => {
           {selectedSongIndex === null ? (
             <VideoPlayerSkeleton />
           ) : (
-          <VideoPlayer
+            <VideoPlayer
               selectedSong={songs[selectedSongIndex] as Song}
-            updateSelectedSong={updateSelectedSong}
-          />
+              updateSelectedSong={updateSelectedSong}
+            />
           )}
         </div>
       </div>
-          </>
+    </>
   )
 }
 

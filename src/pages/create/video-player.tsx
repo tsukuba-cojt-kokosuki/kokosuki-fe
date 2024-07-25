@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { RangeSlider } from "@/components/ui/slider"
 import { YouTubeTitle } from "@/components/youtube-title"
-import { Song } from "./page"
+import { Song } from "./songs"
 
 const minDistance = 1
 
@@ -25,7 +25,6 @@ const VideoPlayer = ({
   const [timeRangeValues, setTimeRangeValues] = useState<[number, number]>([0, 1])
   const [playing, setPlaying] = useState(true)
   const player = useRef<ReactPlayer>(null)
-  // const [timeOutId, setTimeOutId] = useState<number>(0)
   const [youtubeUrl, setYoutubeUrl] = useState<string>(
     "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   )
