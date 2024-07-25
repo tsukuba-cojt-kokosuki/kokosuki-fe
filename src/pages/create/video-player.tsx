@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 import { Music } from "lucide-react"
-import { set } from "react-hook-form"
 import ReactPlayer from "react-player"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { RangeSlider, Slider } from "@/components/ui/slider"
+import { RangeSlider } from "@/components/ui/slider"
 import { YouTubeTitle } from "@/components/youtube-title"
 import { Song } from "./page"
 

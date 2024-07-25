@@ -9,6 +9,7 @@ import { SongList } from "./song-list"
 import { VideoPlayer } from "./video-player"
 
 export type Song = components["schemas"]["Song"]
+type Icon = components["schemas"]["Crossfade"]["icon"]
 
 const SaveCrossfade = () => {
   // post
@@ -19,8 +20,7 @@ const SaveCrossfade = () => {
 const Create = () => {
   const [songs, setSongs] = useState<Song[]>([])
   const [selectedSongIndex, setSelectedSongIndex] = useState<number | null>(null)
-  const [thumbnailEmoji, setThumbnailEmoji] = useState<string>("🎵")
-  const [thumbnailBackgroundColor, setThumbnailBackgroundColor] = useState<string>("#eeffff")
+  const [icon, setIcon] = useState<Icon>({ character: "🎵", backgroundColor: "#eeffff" })
 
   const updateSelectedSong = (song: Song) => {
     if (selectedSongIndex === null) return
@@ -49,24 +49,18 @@ const Create = () => {
           />
         </div>
         <div>
-          <div className="flex p-4">
-            <Thumbnail
-              backgroundColor={thumbnailBackgroundColor}
-              character={thumbnailEmoji}
-            />
-
-            <div className="items-center p-4">
-              <ThumbnailEditor
-                emoji={thumbnailEmoji}
-                backgroundColor={thumbnailBackgroundColor}
-                setEmoji={setThumbnailEmoji}
-                setBackgroundColor={setThumbnailBackgroundColor}
+          <div className="flex gap-6 p-4 mb-2">
+            <Thumbnail {...icon} />
+            <div className="h-40 flex flex-col justify-around">
+              <Input
+                type="text"
+                placeholder="クロスフェードのタイトル"
+                className="text-2xl w-80 font-bold"
               />
-              <div className="pb-6 pt-6  font-bold">
-                <Input
-                  type="text"
-                  placeholder="クロスフェードのタイトル名"
-                  className="text-2xl"
+              <div className="w-fit">
+                <ThumbnailEditor
+                  icon={icon}
+                  updateIcon={setIcon}
                 />
               </div>
             </div>
