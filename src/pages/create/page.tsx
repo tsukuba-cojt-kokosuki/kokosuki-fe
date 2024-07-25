@@ -46,16 +46,25 @@ const Create = () => {
             setSongs={setSongs}
             selectedIndex={selectedSongIndex}
             setSelectedSong={setSelectedSongIndex}
-          />
+          <Button
+            onClick={SaveCrossfade}
+            className="block mt-8"
+          >
+            完成
+          </Button>
         </div>
         <div>
-          <div className="flex gap-6 p-4 mb-2">
-            <Thumbnail {...icon} />
-            <div className="h-40 flex flex-col justify-around">
+          <div className="flex gap-6 py-4 mb-2">
+            <Thumbnail
+              {...icon}
+              className="h-24 w-24"
+            />
+            <div className="h-24 flex flex-col justify-between">
               <Input
                 type="text"
                 placeholder="クロスフェードのタイトル"
-                className="text-2xl w-80 font-bold"
+                className="text-xl w-80 font-bold"
+                defaultValue="新規クロスフェード"
               />
               <div className="w-fit">
                 <ThumbnailEditor
@@ -65,17 +74,17 @@ const Create = () => {
               </div>
             </div>
           </div>
-
+          {selectedSongIndex === null ? (
+            <VideoPlayerSkeleton />
+          ) : (
           <VideoPlayer
-            selectedSong={selectedSongIndex === null ? null : (songs[selectedSongIndex] as Song)}
+              selectedSong={songs[selectedSongIndex] as Song}
             updateSelectedSong={updateSelectedSong}
           />
+          )}
         </div>
       </div>
-      <div className="flex gap-10 pt-10">
-        <Button onClick={SaveCrossfade}>完成</Button>
-      </div>
-    </>
+          </>
   )
 }
 

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { Check, Copy, Heart, Share, SquarePen } from "lucide-react"
+import { twMerge } from "tailwind-merge"
 import twemoji from "twemoji"
 import { Button } from "@/components/ui/button"
 import {
@@ -116,23 +117,27 @@ const Card = (props: CardProps) => {
 
 export default Card
 
-type ThumbnailProps = CardProps["icon"]
+type ThumbnailProps = CardProps["icon"] & {
+  className?: string
+}
 
-const Thumbnail = ({ backgroundColor, character }: ThumbnailProps) => {
+const Thumbnail = ({ backgroundColor, character, className }: ThumbnailProps) => {
   const codePoint = twemoji.convert.toCodePoint(character)
   const iconUrl = `https://cdnjs.cloudflare.com/ajax/libs/twemoji/15.1.0/72x72/${codePoint}.png`
 
   return (
     <div
-      className="h-40 w-40 flex justify-center"
+      className={twMerge("h-40 w-40", className)}
       style={{
         backgroundColor: backgroundColor,
       }}
     >
-      <img
-        src={iconUrl}
-        className="m-auto h-20 w-20 block"
-      />
+      <div className="h-full w-full flex justify-center">
+        <img
+          src={iconUrl}
+          className="m-auto h-1/2 w-1/2 block"
+        />
+      </div>
     </div>
   )
 }
