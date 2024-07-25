@@ -86,8 +86,15 @@ const SongList = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-2/3">URL</TableHead>
+            <TableHead className="w-2/3">タイトル</TableHead>
             <TableHead className="w-1/6">長さ</TableHead>
+            <TableHead></TableHead>
+            {modifiable && (
+              <>
+                <TableHead></TableHead>
+                <TableHead></TableHead>
+              </>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -149,6 +156,12 @@ const SongList = ({
             <TableCell>合計</TableCell>
             <TableCell>{totalPlayTime}秒</TableCell>
             <TableCell></TableCell>
+            {modifiable && (
+              <>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </>
+            )}
           </TableRow>
         </TableBody>
       </Table>
@@ -235,7 +248,7 @@ const AddSongDialog = ({ addSong }: AddSongDialogProps) => {
           name="url"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>YoutubeのURLで曲を追加</FormLabel>
+              <FormLabel>YouTubeのURLで曲を追加</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
