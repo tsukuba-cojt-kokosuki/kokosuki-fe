@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input"
 import { Thumbnail } from "@/components/card"
 import HelmetPack from "@/components/helmet-pack"
 import ThumbnailEditor from "@/components/thumbnail-editor"
-import { components } from "@/lib/api/schema"
+import { apiOrigin, fetch } from "@/lib/api/fetch"
+import { components, paths } from "@/lib/api/schema"
 import { SongList } from "./song-list"
 import { Song, useSongs } from "./songs"
 import { VideoPlayer } from "./video-player"
@@ -12,11 +13,9 @@ import { VideoPlayerSkeleton } from "./video-player-skeleton"
 
 type Icon = components["schemas"]["Crossfade"]["icon"]
 
-const SaveCrossfade = () => {
-  // post
-  console.log("SaveCrossfade")
-  // playページに遷移
-}
+type RequestBody = paths["/crossfades/new"]["post"]["requestBody"]["content"]["application/json"]
+type ResponseBody =
+  paths["/crossfades/new"]["post"]["responses"]["201"]["content"]["application/json"]
 
 const defaultSongs = [
   {
@@ -37,6 +36,26 @@ const Create = () => {
     updateSelectedSong,
   } = useSongs(defaultSongs, 0)
   const [icon, setIcon] = useState<Icon>({ character: "🎵", backgroundColor: "#eeffff" })
+  const [title, setTItle] = useState<string>("新規クロスフェード")
+
+  const SaveCrossfade = async () => {
+    const body: RequestBody = {
+      id: "",
+      creatorId: "",
+      title: title,
+      liked: false,
+      icon: icon,
+      songs: songs,
+    }
+
+    const res = await fetch(`${apiOrigin}/crossfades/new`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    })
+    const data: ResponseBody = await res.json()
+
+    window.location.href = `/play/${data.id}`
+  }
 
   return (
     <>
@@ -76,7 +95,8 @@ const Create = () => {
                 type="text"
                 placeholder="クロスフェードのタイトル"
                 className="text-xl w-80 font-bold"
-                defaultValue="新規クロスフェード"
+                value={title}
+                onChange={(e) => setTItle(e.target.value)}
               />
               <div className="w-fit">
                 <ThumbnailEditor
