@@ -6,9 +6,11 @@ import HelmetPack from "@/components/helmet-pack"
 import ThumbnailEditor from "@/components/thumbnail-editor"
 import { components } from "@/lib/api/schema"
 import { SongList } from "./song-list"
+import { Song, useSongs } from "./songs"
 import { VideoPlayer } from "./video-player"
+import { VideoPlayerSkeleton } from "./video-player-skeleton"
 
-export type Song = components["schemas"]["Song"]
+type Icon = components["schemas"]["Crossfade"]["icon"]
 
 const SaveCrossfade = () => {
   // post
@@ -16,18 +18,25 @@ const SaveCrossfade = () => {
   // playページに遷移
 }
 
-const Create = () => {
-  const [songs, setSongs] = useState<Song[]>([])
-  const [selectedSongIndex, setSelectedSongIndex] = useState<number | null>(null)
-  const [thumbnailEmoji, setThumbnailEmoji] = useState<string>("🎵")
-  const [thumbnailBackgroundColor, setThumbnailBackgroundColor] = useState<string>("#eeffff")
+const defaultSongs = [
+  {
+    videoId: "dQw4w9WgXcQ",
+    start: 15,
+    end: 30,
+  },
+]
 
-  const updateSelectedSong = (song: Song) => {
-    if (selectedSongIndex === null) return
-    const newSongs = [...songs]
-    newSongs[selectedSongIndex] = song
-    setSongs(newSongs)
-  }
+const Create = () => {
+  const {
+    songs,
+    selectedSongIndex,
+    addSong,
+    deleteSong,
+    swapSongs,
+    setSelectedSongIndex,
+    updateSelectedSong,
+  } = useSongs(defaultSongs, 0)
+  const [icon, setIcon] = useState<Icon>({ character: "🎵", backgroundColor: "#eeffff" })
 
   return (
     <>
@@ -41,45 +50,52 @@ const Create = () => {
       <div className="grid grid-cols-2 gap-20">
         <div>
           <SongList
-            isPlayer={false}
+            modifiable={true}
             songs={songs}
-            setSongs={setSongs}
             selectedIndex={selectedSongIndex}
             setSelectedSong={setSelectedSongIndex}
+            addSong={addSong}
+            deleteSong={deleteSong}
+            swapSongs={swapSongs}
           />
+          <Button
+            onClick={SaveCrossfade}
+            className="block mt-8"
+          >
+            完成
+          </Button>
         </div>
         <div>
-          <div className="flex p-4">
+          <div className="flex gap-6 py-4 mb-2">
             <Thumbnail
-              backgroundColor={thumbnailBackgroundColor}
-              character={thumbnailEmoji}
+              {...icon}
+              className="h-24 w-24"
             />
-
-            <div className="items-center p-4">
-              <ThumbnailEditor
-                emoji={thumbnailEmoji}
-                backgroundColor={thumbnailBackgroundColor}
-                setEmoji={setThumbnailEmoji}
-                setBackgroundColor={setThumbnailBackgroundColor}
+            <div className="h-24 flex flex-col justify-between">
+              <Input
+                type="text"
+                placeholder="クロスフェードのタイトル"
+                className="text-xl w-80 font-bold"
+                defaultValue="新規クロスフェード"
               />
-              <div className="pb-6 pt-6  font-bold">
-                <Input
-                  type="text"
-                  placeholder="クロスフェードのタイトル名"
-                  className="text-2xl"
+              <div className="w-fit">
+                <ThumbnailEditor
+                  icon={icon}
+                  updateIcon={setIcon}
                 />
               </div>
             </div>
           </div>
-
-          <VideoPlayer
-            selectedSong={selectedSongIndex === null ? null : (songs[selectedSongIndex] as Song)}
-            updateSelectedSong={updateSelectedSong}
-          />
+          {selectedSongIndex === null ? (
+            <VideoPlayerSkeleton />
+          ) : (
+            <VideoPlayer
+              modifiable={true}
+              selectedSong={songs[selectedSongIndex] as Song}
+              updateSelectedSong={updateSelectedSong}
+            />
+          )}
         </div>
-      </div>
-      <div className="flex gap-10 pt-10">
-        <Button onClick={SaveCrossfade}>完成</Button>
       </div>
     </>
   )

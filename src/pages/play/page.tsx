@@ -1,21 +1,18 @@
 import { useState } from "react"
-import { useEffect } from "react"
 import useSWR from "swr"
-import { set } from "react-hook-form"
 import { useParams } from "react-router-dom"
-import { Thumbnail } from "@/components/card"
 import { paths } from "@/lib/api/schema"
-import { components } from "@/lib/api/schema"
+import { Song } from "../create/songs"
+import { VideoPlayerSkeleton } from "../create/video-player-skeleton"
 import { SongList } from "./../create/song-list"
 import { VideoPlayer } from "./../create/video-player"
 
-type crossfadesGetResponse =
+type CrossfadesGetResponse =
   paths["/crossfades/{crossfadeId}"]["get"]["responses"]["200"]["content"]["application/json"]
-export type Song = components["schemas"]["Song"]
 
 const Play = () => {
   const { id: crossFadeId } = useParams()
-  const { data, error } = useSWR<crossfadesGetResponse>("/crossfades/" + crossFadeId)
+  const { data, error } = useSWR<CrossfadesGetResponse>("/crossfades/" + crossFadeId)
   const [selectedSongIndex, setSelectedSongIndex] = useState<number | null>(0)
 
   if (error) {
@@ -27,43 +24,37 @@ const Play = () => {
   }
 
   const nextSong = () => {
-    if (selectedSongIndex === null) return
-    if (selectedSongIndex + 1 >= songs.length) {
-      // 終了
-    } else {
-      setSelectedSongIndex(selectedSongIndex + 1)
-    }
+    console.log("nextSong")
+    setSelectedSongIndex((selectedSongIndex) => {
+      if (selectedSongIndex === null || selectedSongIndex === data.songs.length - 1)
+        return selectedSongIndex
+
+      return selectedSongIndex + 1
+    })
   }
 
   return (
-    <>
-      これはidが{crossFadeId}
-      <div className="grid grid-cols-2 gap-20">
-        <div>
-          <SongList
-            isPlayer={true}
-            songs={data.songs}
-            selectedIndex={selectedSongIndex}
-            setSelectedSong={setSelectedSongIndex}
-          />
-        </div>
-        <div>
+    <div className="grid grid-cols-2 gap-20">
+      <div>
+        <SongList
+          modifiable={false}
+          songs={data.songs}
+          selectedIndex={selectedSongIndex}
+          setSelectedSong={setSelectedSongIndex}
+        />
+      </div>
+      <div>
+        {selectedSongIndex === null ? (
+          <VideoPlayerSkeleton />
+        ) : (
           <VideoPlayer
-            isPlayer={true}
-            selectedSong={
-              selectedSongIndex === null ? null : (data.songs[selectedSongIndex] as Song)
-            }
+            modifiable={false}
+            selectedSong={data.songs[selectedSongIndex] as Song}
             toNextSong={nextSong}
           />
-        </div>
+        )}
       </div>
-    </>
+    </div>
   )
 }
 export default Play
-
-/*
-
-      
-      
- */

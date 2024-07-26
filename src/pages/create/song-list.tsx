@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ChevronDown, ChevronUp, Music2, Play, X } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -22,37 +21,48 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { YouTubeTitle } from "@/components/youtube-title"
-import { Song } from "./page"
+import { Song } from "./songs"
 
 type SongListProps = {
   songs: Song[]
-  isPlayer: boolean
   selectedIndex: number | null
-  setSongs: Dispatch<SetStateAction<Song[]>>
   // 選んだ曲のインデックスを設定する関数 引数はindex
-  setSelectedSong: Dispatch<SetStateAction<number | null>>
-}
+  setSelectedSong: (index: number | null) => void
+} & (
+  | {
+      modifiable: true
+      deleteSong: (index: number) => void
+      swapSongs: (a: number, b: number) => void
+      addSong: (song: Song) => void
+    }
+  | {
+      modifiable: false
+      deleteSong?: undefined
+      swapSongs?: undefined
+      addSong?: undefined
+    }
+)
 
-const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }: SongListProps) => {
+const SongList = ({
+  songs,
+  modifiable,
+  selectedIndex,
+  setSelectedSong,
+  deleteSong = () => {},
+  swapSongs = () => {},
+  addSong = () => {},
+}: SongListProps) => {
   // 合計再生時間を計算
   const totalPlayTime = songs.reduce((acc, song) => {
     return acc + (song.end - song.start)
   }, 0)
 
   const handleDeleteSong = (index: number) => {
-    setSongs((songs) => songs.filter((_, i) => i !== index))
+    deleteSong(index)
   }
 
   const handleMakeSelected = (index: number) => {
     setSelectedSong(index)
-  }
-
-  const swapSong = (songs: Song[], index1: number, index2: number) => {
-    const newSongs = [...songs]
-    const tmp = newSongs[index1]
-    newSongs[index1] = newSongs[index2]
-    newSongs[index2] = tmp
-    setSongs(newSongs)
   }
 
   const handleSwapUpSong = (index: number) => {
@@ -60,7 +70,7 @@ const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }:
       return
     }
     // songs[index] と songs[index - 1] を入れ替える
-    swapSong(songs, index, index - 1)
+    swapSongs(index, index - 1)
   }
 
   const handleSwapDownSong = (index: number) => {
@@ -68,7 +78,7 @@ const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }:
       return
     }
     // songs[index] と songs[index + 1] を入れ替える
-    swapSong(songs, index, index + 1)
+    swapSongs(index, index + 1)
   }
 
   return (
@@ -76,11 +86,11 @@ const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }:
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-2/3">URL</TableHead>
+            <TableHead className="w-2/3">タイトル</TableHead>
             <TableHead className="w-1/6">長さ</TableHead>
-            {!isPlayer && (
+            <TableHead></TableHead>
+            {modifiable && (
               <>
-                <TableHead></TableHead>
                 <TableHead></TableHead>
                 <TableHead></TableHead>
               </>
@@ -108,14 +118,13 @@ const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }:
                   <Play />
                 </Button>
               </TableCell>
-              {!isPlayer && (
+              {modifiable && (
                 <>
                   <TableCell>
                     <Button
                       size="icon"
                       variant="secondary"
                       className="w-10 h-10 m-0 p-0"
-                      hopover="adfadfadf"
                       onClick={() => handleDeleteSong(index)}
                     >
                       <X />
@@ -147,10 +156,16 @@ const SongList = ({ songs, isPlayer, selectedIndex, setSongs, setSelectedSong }:
             <TableCell>合計</TableCell>
             <TableCell>{totalPlayTime}秒</TableCell>
             <TableCell></TableCell>
+            {modifiable && (
+              <>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </>
+            )}
           </TableRow>
         </TableBody>
       </Table>
-      {!isPlayer && <AddSongDialog setSongs={setSongs} />}
+      {modifiable && <AddSongDialog addSong={addSong} />}
     </div>
   )
 }
@@ -203,12 +218,10 @@ const addSongDialogFormSchema = z.object({
 })
 
 type AddSongDialogProps = {
-  setSongs: Dispatch<SetStateAction<Song[]>>
+  addSong: (song: Song) => void
 }
 
-const AddSongDialog = ({ setSongs }: AddSongDialogProps) => {
-  const [open, setOpen] = useState(false)
-
+const AddSongDialog = ({ addSong }: AddSongDialogProps) => {
   const form = useForm<z.infer<typeof addSongDialogFormSchema>>({
     resolver: zodResolver(addSongDialogFormSchema),
     defaultValues: {
@@ -220,17 +233,11 @@ const AddSongDialog = ({ setSongs }: AddSongDialogProps) => {
     const url = new URL(values.url)
     const videoId = url.searchParams.get("v") as string
 
-    setSongs((songs) => {
-      return [
-        ...songs,
-        {
-          videoId: videoId,
-          start: 0,
-          end: 999,
-        },
-      ]
+    addSong({
+      videoId,
+      start: 0,
+      end: 10,
     })
-    setOpen(false)
   }
 
   return (
@@ -241,7 +248,7 @@ const AddSongDialog = ({ setSongs }: AddSongDialogProps) => {
           name="url"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>YoutubeのURLで曲を追加</FormLabel>
+              <FormLabel>YouTubeのURLで曲を追加</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
