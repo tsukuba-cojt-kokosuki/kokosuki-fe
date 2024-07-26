@@ -37,8 +37,21 @@ const Create = () => {
   } = useSongs(defaultSongs, 0)
   const [icon, setIcon] = useState<Icon>({ character: "🎵", backgroundColor: "#eeffff" })
   const [title, setTItle] = useState<string>("新規クロスフェード")
+  const [errors, setErrors] = useState<string[]>([])
 
   const SaveCrossfade = async () => {
+    const validationErrors = []
+    if (!title) {
+      validationErrors.push("タイトルは必須です。")
+    }
+    if (songs.length === 0) {
+      validationErrors.push("少なくとも1つの曲を追加してください。")
+    }
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+    setErrors([])
     const body: RequestBody = {
       id: "",
       creatorId: "",
@@ -83,6 +96,13 @@ const Create = () => {
           >
             完成
           </Button>
+          {errors.length > 0 && (
+            <div className="text-red-500 mt-2">
+              {errors.map((error, index) => (
+                <p key={index}>{error}</p>
+              ))}
+            </div>
+          )}
         </div>
         <div>
           <div className="flex gap-6 py-4 mb-2">
