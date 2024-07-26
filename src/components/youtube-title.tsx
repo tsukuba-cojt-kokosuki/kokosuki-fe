@@ -8,7 +8,7 @@ type YouTubeTitleProps = {
 const YouTubeTitle = ({ youtubeId }: YouTubeTitleProps) => {
   // YouTube の動画タイトルは頻繁に変わるものではないので、useSWRImmutable を使って一度取得したらキャッシュを使い回す
   const { data, error, isLoading } = useSWRImmutable(
-    `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${youtubeId}&key=AIzaSyClGx_5aGhwIivUhduJiQO8twAUW8Rb-_w`,
+    `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${youtubeId}&key=${import.meta.env.VITE_YOUTUBE_API_KEY}`,
   )
 
   if (error) return <div>Failed to Load</div>
