@@ -38,6 +38,16 @@ const VideoPlayer = ({
   const [volume, setVolume] = useState<number>(1)
   const youtubeUrl = `https://www.youtube.com/watch?v=${selectedSong.videoId}`
 
+  const updateSongRangeValues = () => {
+    // selectedSongを更新
+    if (selectedSong === null) return
+    updateSelectedSong({
+      ...selectedSong,
+      start: timeRangeValues[0],
+      end: timeRangeValues[1],
+    })
+  }
+
   const onReady = () => {
     if (player.current === null) return
     setPlaying(true)
@@ -54,6 +64,7 @@ const VideoPlayer = ({
     if (player.current === null) return
     const currentTime = Math.round(player.current.getCurrentTime())
     setTimeRangeValues([currentTime, timeRangeValues[1]])
+    updateSongRangeValues()
   }
 
   // 現在の再生位置を終点にする
@@ -61,6 +72,7 @@ const VideoPlayer = ({
     if (player.current === null) return
     const currentTime = Math.round(player.current.getCurrentTime())
     setTimeRangeValues([timeRangeValues[0], currentTime])
+    updateSongRangeValues()
   }
 
   // 試聴開始
@@ -122,13 +134,8 @@ const VideoPlayer = ({
     setTimeRangeValues(handleNewValues)
     setVolume(1.0)
 
-    // selectedSongを更新
-    if (selectedSong === null) return
-    updateSelectedSong({
-      ...selectedSong,
-      start: timeRangeValues[0],
-      end: timeRangeValues[1],
-    })
+    updateSongRangeValues()
+    updateSongRangeValues()
   }
 
   return (
