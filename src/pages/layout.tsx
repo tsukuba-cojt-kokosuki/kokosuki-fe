@@ -59,7 +59,7 @@ const Layout = () => {
                     to="list"
                     className="text-white"
                   >
-                    クロスフェード一覧
+                    マイクロスフェード一覧
                   </Link>
                 </li>
                 <li>
