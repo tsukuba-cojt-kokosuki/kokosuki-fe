@@ -46,6 +46,7 @@ const LatestCrossfades = () => {
             <Card
               key={i}
               showEditButton={false}
+              showDeleteButton={false}
               {...crossfade}
             />
           ))}
@@ -74,6 +75,7 @@ const PopularCrossfades = () => {
             <Card
               key={i}
               showEditButton={false}
+              showDeleteButton={false}
               {...crossfade}
             />
           ))}

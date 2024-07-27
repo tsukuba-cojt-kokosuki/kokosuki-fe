@@ -1,8 +1,10 @@
 import { useState } from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
-import { Check, Copy, Heart, Share, SquarePen } from "lucide-react"
+import { Check, Copy, Heart, Share, SquarePen, Trash2 } from "lucide-react"
 import { twMerge } from "tailwind-merge"
 import twemoji from "twemoji"
+import { apiOrigin, fetch } from "@/lib/api/fetch"
+import { paths } from "@/lib/api/schema"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -12,17 +14,31 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { components } from "@/lib/api/schema"
 
 type CardProps = components["schemas"]["Crossfade"] & {
   showEditButton?: boolean
+  showDeleteButton?: boolean
 }
+type ErrorResponse = paths["/crossfades/{crossfadeId}"]["delete"]["responses"]["default"]["content"]["application/json"]
 
 const Card = (props: CardProps) => {
   const [copied, setCopied] = useState(false)
   const [liked, setLiked] = useState(false)
+  const [error, setError] = useState<ErrorResponse | null>(null);
 
   const crossfadeUrl = `${window.location.origin}/play/${props.id}`
 
@@ -33,6 +49,17 @@ const Card = (props: CardProps) => {
   }
   const handleLikeClick = () => {
     setLiked(!liked)
+  }
+  const DeleteCrossfade = async () => {
+    const res = await fetch(`${apiOrigin}/crossfades/${props.id}`, {
+      method: "DELETE",
+    })
+    if (!res.ok) {
+      const errorData: ErrorResponse = await res.json();
+      setError(errorData);
+      return
+    }
+    window.location.href = `/play/list`
   }
   return (
     <>
@@ -109,6 +136,36 @@ const Card = (props: CardProps) => {
             </DialogContent>
           </Dialog>
           {props.showEditButton && <SquarePen />}
+          {props.showDeleteButton && <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="ghost"
+                className="p-0 h-fit"
+              >
+                <Trash2 />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>{props.title} を削除しますか?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  {error && (
+                    <div className="error-message">
+                      Error {error.code}: {error.message}
+                    </div>
+                  )}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>キャンセル</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={DeleteCrossfade}
+                >
+                  削除
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>}
         </div>
       </div>
     </>
