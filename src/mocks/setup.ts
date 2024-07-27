@@ -7,7 +7,7 @@ import { GetUsersMe } from "./users/me"
 import { GetUsersUserId, GetUsersUserIdCrossfades } from "./users/userId"
 
 export const setupMsw = async () => {
-  if (import.meta.env.DEV && import.meta.env.VITE_MSW_ENABLED) {
+  if (import.meta.env.DEV && import.meta.env.VITE_MSW_ENABLED === "true") {
     await setupWorker(
       ...[
         GetUsersMe,
