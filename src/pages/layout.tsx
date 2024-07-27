@@ -111,7 +111,7 @@ const Layout = () => {
                   className="text-white block py-2 text-center text-xl"
                   onClick={toggleMenu}
                 >
-                  クロスフェード一覧
+                  マイクロスフェード一覧
                 </Link>
               </li>
               <li>
