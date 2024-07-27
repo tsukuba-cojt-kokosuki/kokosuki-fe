@@ -1,10 +1,10 @@
 import { setupWorker } from "msw/browser"
-import { GetCrossfadesCrossfadeId } from "./crossfades/crossfadeId/crossfade"
-import { PostCrossfadeIdLikes } from "./crossfades/crossfadeId/likes/like"
-import { GetLatestCrossfades } from "./crossfades/latest/crossfades"
-import { GetPopularCrossfades } from "./crossfades/popular/crossfades"
-import { GetUsersMe } from "./users/me/me"
-import { GetUsersUserIdCrossfades } from "./users/userId/crossfades"
+import { GetCrossfadesCrossfadeId } from "./crossfades/crossfadeId"
+import { PostCrossfadeIdLikes } from "./crossfades/crossfadeId/likes"
+import { GetLatestCrossfades } from "./crossfades/latest"
+import { GetPopularCrossfades } from "./crossfades/popular"
+import { GetUsersMe } from "./users/me"
+import { GetUsersUserIdCrossfades } from "./users/userId"
 
 export const setupMsw = async () => {
   if (import.meta.env.DEV && import.meta.env.VITE_MSW_ENABLED) {
