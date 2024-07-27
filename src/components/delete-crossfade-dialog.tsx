@@ -36,13 +36,10 @@ const DeleteCrossfadeDialog = ({ crossfadeId, title }: DeleteCrossfadeDialogProp
       setError("削除するのに失敗しました");
       return;
     }
-    await Promise.all([
-      mutate("/crossfades/latest"),
-      mutate("/crossfades/popular"),
-      mutate(`/users/${userId}/crossfades`),
-    ]);
-    window.location.href = `/play/list`;
-  };
+    mutate(`/users/${userId}/crossfades`)
+    mutate("/crossfades/latest")
+    mutate("/crossfades/popular")
+  }
 
   return (
     <AlertDialog>
