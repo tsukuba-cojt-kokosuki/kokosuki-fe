@@ -22,3 +22,4 @@ $ pnpm dev
 - [Tailwind CSS](https://tailwindcss.com/docs/installation) - CSS フレームワーク
 - [SWR](https://swr.vercel.app/) - データフェッチングライブラリ
 - [Vite](https://vitejs.dev/guide/) - ビルドツール
+- [MSW](https://mswjs.io/) - モックライブラリ
