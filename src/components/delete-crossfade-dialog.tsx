@@ -26,6 +26,7 @@ const DeleteCrossfadeDialog = ({ crossfadeId, title }: DeleteCrossfadeDialogProp
   const [error, setError] = useState<string | null>(null);
   const { id: userId } = useContext(UserContext);
   const { mutate } = useSWRConfig()
+  const [open, setOpen] = useState(false);
 
   const DeleteCrossfade = async () => {
     setSending(true);
@@ -40,10 +41,11 @@ const DeleteCrossfadeDialog = ({ crossfadeId, title }: DeleteCrossfadeDialogProp
     mutate(`/users/${userId}/crossfades`)
     mutate("/crossfades/latest")
     mutate("/crossfades/popular")
+    setOpen(false);
   }
 
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button variant="ghost" className="p-0 h-fit" disabled={sending}>
           <Trash2 />
