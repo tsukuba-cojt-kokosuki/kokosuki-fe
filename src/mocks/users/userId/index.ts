@@ -1,13 +1,27 @@
-import { crossfades } from "@/mocks/data"
+import { crossfades, users } from "@/mocks/data"
 import { HttpResponse, http } from "msw"
 import { paths } from "@/lib/api/schema"
 
-type Schema = paths["/users/{userId}/crossfades"]["get"]
-type Response = Schema["responses"]["200"]["content"]["application/json"]
+const GetUsersUserId = http.get("http://localhost:8787/users/:userId", ({ params }) => {
+  type Schema = paths["/users/{userId}"]["get"]
+  type Response = Schema["responses"]["200"]["content"]["application/json"]
+
+  const userId = params.userId
+  const user = users.find((user) => user.id === userId)
+
+  if (!user) {
+    return new HttpResponse(null, { status: 404 })
+  }
+
+  return HttpResponse.json<Response>(user)
+})
 
 const GetUsersUserIdCrossfades = http.get(
   "http://localhost:8787/users/:userId/crossfades",
   ({ params }) => {
+    type Schema = paths["/users/{userId}/crossfades"]["get"]
+    type Response = Schema["responses"]["200"]["content"]["application/json"]
+
     const userId = params.userId
     const filteredCrossfades = crossfades
       .filter((crossfade) => crossfade.creatorId === userId)
@@ -26,4 +40,4 @@ const GetUsersUserIdCrossfades = http.get(
   },
 )
 
-export { GetUsersUserIdCrossfades }
+export { GetUsersUserId, GetUsersUserIdCrossfades }
