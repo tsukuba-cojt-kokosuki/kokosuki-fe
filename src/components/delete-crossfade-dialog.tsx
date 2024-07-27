@@ -13,7 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { mutate } from "swr"
+import { useSWRConfig } from 'swr'
 import { UserContext } from "@/pages/user-context"
 
 type DeleteCrossfadeDialogProps = {
@@ -25,6 +25,7 @@ const DeleteCrossfadeDialog = ({ crossfadeId, title }: DeleteCrossfadeDialogProp
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { id: userId } = useContext(UserContext);
+  const { mutate } = useSWRConfig()
 
   const DeleteCrossfade = async () => {
     setSending(true);
