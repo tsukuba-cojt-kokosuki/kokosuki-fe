@@ -12,12 +12,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { DeleteCrossfadeDialog } from "@/components/delete-crossfade-dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { components } from "@/lib/api/schema"
 
 type CardProps = components["schemas"]["Crossfade"] & {
   showEditButton?: boolean
+  showDeleteButton?: boolean
 }
 
 const Card = (props: CardProps) => {
@@ -109,6 +111,7 @@ const Card = (props: CardProps) => {
             </DialogContent>
           </Dialog>
           {props.showEditButton && <SquarePen />}
+          {props.showDeleteButton && <DeleteCrossfadeDialog crossfadeId={props.id} title={props.title}/>}
         </div>
       </div>
     </>

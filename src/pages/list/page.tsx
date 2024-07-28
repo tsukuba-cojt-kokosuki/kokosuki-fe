@@ -54,6 +54,7 @@ const MyCrossfades = ({ userId }: MyCrossfadesProps) => {
           <Card
             key={i}
             showEditButton={true}
+            showDeleteButton={true}
             {...crossfade}
           />
         ))}
