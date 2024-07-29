@@ -1,12 +1,13 @@
-import { ReactNode, useContext, useState } from "react"
+import { MouseEventHandler, ReactNode, useContext, useState } from "react"
 import { useSWRConfig } from "swr"
 import { UserContext } from "@/pages/user-context"
+import { LoaderCircle } from "lucide-react"
+import { toast } from "sonner"
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -22,19 +23,21 @@ type DeleteCrossfadeDialogProps = {
 
 const DeleteCrossfadeDialog = ({ crossfade, children }: DeleteCrossfadeDialogProps) => {
   const [sending, setSending] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [open, setOpen] = useState(false)
   const { id: userId } = useContext(UserContext)
   const { mutate } = useSWRConfig()
-  const [open, setOpen] = useState(false)
 
-  const DeleteCrossfade = async () => {
+  const handleDeleteCrossfade: MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+
     setSending(true)
     const res = await fetch(`${apiOrigin}/crossfades/${crossfade.id}`, {
       method: "DELETE",
     })
     setSending(false)
     if (!res.ok) {
-      setError("削除するのに失敗しました")
+      toast.error("削除に失敗しました")
       return
     }
     mutate(`/users/${userId}/crossfades`)
@@ -52,17 +55,15 @@ const DeleteCrossfadeDialog = ({ crossfade, children }: DeleteCrossfadeDialogPro
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{crossfade.title} を削除しますか?</AlertDialogTitle>
-          <AlertDialogDescription>
-            {error && <div className="error-message">{error}</div>}
-          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>キャンセル</AlertDialogCancel>
+          <AlertDialogCancel disabled={sending}>キャンセル</AlertDialogCancel>
           <AlertDialogAction
-            onClick={DeleteCrossfade}
+            onClick={handleDeleteCrossfade}
             disabled={sending}
+            className="w-16"
           >
-            削除
+            {sending ? <LoaderCircle className="animate-spin" /> : "削除"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
