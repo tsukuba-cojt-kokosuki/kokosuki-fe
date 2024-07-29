@@ -1,7 +1,7 @@
 import { setupWorker } from "msw/browser"
 import {
+  DeleteCrossfadesCrossfadeId,
   GetCrossfadesCrossfadeId,
-  PostCrossfadesCrossfadeId,
   PutCrossfadesCrossfadeId,
 } from "./crossfades/crossfadeId"
 import { PostCrossfadeIdLikes } from "./crossfades/crossfadeId/likes"
@@ -20,7 +20,7 @@ export const setupMsw = async () => {
         GetLatestCrossfades,
         GetPopularCrossfades,
         GetCrossfadesCrossfadeId,
-        PostCrossfadesCrossfadeId,
+        DeleteCrossfadesCrossfadeId,
         PutCrossfadesCrossfadeId,
         PostCrossfadeIdLikes,
       ],
