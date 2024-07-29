@@ -2,6 +2,7 @@ import { MouseEventHandler, ReactNode, useContext, useState } from "react"
 import { useSWRConfig } from "swr"
 import { UserContext } from "@/pages/user-context"
 import { LoaderCircle } from "lucide-react"
+import { useLocation, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import {
   AlertDialog,
@@ -26,6 +27,8 @@ const DeleteCrossfadeDialog = ({ crossfade, children }: DeleteCrossfadeDialogPro
   const [open, setOpen] = useState(false)
   const { id: userId } = useContext(UserContext)
   const { mutate } = useSWRConfig()
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const handleDeleteCrossfade: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
@@ -37,12 +40,17 @@ const DeleteCrossfadeDialog = ({ crossfade, children }: DeleteCrossfadeDialogPro
     })
     setSending(false)
     if (!res.ok) {
-      toast.error("削除に失敗しました")
+      toast.error(`クロスフェード ${crossfade.title} の削除に失敗しました`)
       return
     }
     mutate(`/users/${userId}/crossfades`)
     mutate("/crossfades/latest")
     mutate("/crossfades/popular")
+
+    toast.success(`クロスフェード ${crossfade.title} を削除しました`)
+    if (location.pathname.startsWith("/play") || location.pathname.startsWith("/edit")) {
+      navigate("/")
+    }
     setOpen(false)
   }
 
