@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Thumbnail } from "@/components/card"
@@ -6,6 +8,7 @@ import HelmetPack from "@/components/helmet-pack"
 import ThumbnailEditor from "@/components/thumbnail-editor"
 import { apiOrigin, fetch } from "@/lib/api/fetch"
 import { components, paths } from "@/lib/api/schema"
+import { crossfadeSchema } from "@/lib/crossfade-validator"
 import { SongList } from "./song-list"
 import { Song, useSongs } from "./songs"
 import { VideoPlayer } from "./video-player"
@@ -26,6 +29,7 @@ const defaultSongs = [
 ]
 
 const Create = () => {
+  const navigate = useNavigate()
   const {
     songs,
     selectedSongIndex,
@@ -37,21 +41,8 @@ const Create = () => {
   } = useSongs(defaultSongs, 0)
   const [icon, setIcon] = useState<Icon>({ character: "🎵", backgroundColor: "#eeffff" })
   const [title, setTItle] = useState<string>("新規クロスフェード")
-  const [errors, setErrors] = useState<string[]>([])
 
   const SaveCrossfade = async () => {
-    const validationErrors = []
-    if (!title) {
-      validationErrors.push("タイトルは必須です。")
-    }
-    if (songs.length === 0) {
-      validationErrors.push("少なくとも1つの曲を追加してください。")
-    }
-    if (validationErrors.length > 0) {
-      setErrors(validationErrors)
-      return
-    }
-    setErrors([])
     const body: RequestBody = {
       id: "",
       creatorId: "",
@@ -61,13 +52,20 @@ const Create = () => {
       songs: songs,
     }
 
+    const validationErrors = crossfadeSchema.safeParse(body)
+    if (!validationErrors.success) {
+      toast.error(validationErrors.error.message)
+      return
+    }
+
     const res = await fetch(`${apiOrigin}/crossfades/new`, {
       method: "POST",
       body: JSON.stringify(body),
     })
     const data: ResponseBody = await res.json()
 
-    window.location.href = `/play/${data.id}`
+    toast.success(`クロスフェード ${title} を作成しました`)
+    navigate(`/play/${data.id}`)
   }
 
   return (
@@ -96,13 +94,6 @@ const Create = () => {
           >
             完成
           </Button>
-          {errors.length > 0 && (
-            <div className="text-red-500 mt-2">
-              {errors.map((error, index) => (
-                <p key={index}>{error}</p>
-              ))}
-            </div>
-          )}
         </div>
         <div>
           <div className="flex gap-6 py-4 mb-2">

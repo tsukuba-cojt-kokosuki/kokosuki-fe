@@ -3,10 +3,12 @@ import "@fontsource-variable/inter"
 import "@fontsource-variable/noto-sans-jp"
 import { createRoot } from "react-dom/client"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import { Toaster } from "sonner"
 import "./index.css"
 import { fetch } from "./lib/api/fetch"
 import { setupMsw } from "./mocks/setup"
 import Create from "./pages/create/page"
+import Edit from "./pages/edit/page"
 import Index from "./pages/index/page"
 import Layout from "./pages/layout"
 import List from "./pages/list/page"
@@ -38,6 +40,11 @@ const router = createBrowserRouter([
         element: <Play />,
         errorElement: <NotFound />,
       },
+      {
+        path: "edit/:id",
+        element: <Edit />,
+        errorElement: <NotFound />,
+      },
     ],
   },
 ])
@@ -58,6 +65,7 @@ createRoot(document.getElementById("root")!).render(
   >
     <UserContextProvider>
       <RouterProvider router={router} />
+      <Toaster />
     </UserContextProvider>
   </SWRConfig>,
 )
