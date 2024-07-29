@@ -1,6 +1,12 @@
 import { z } from "zod"
 import { components } from "./api/schema"
 
+// 絵文字の文字数をカウントする
+const countGrapheme = (string: string) => {
+  const segmenter = new Intl.Segmenter("ja", { granularity: "grapheme" })
+  return [...segmenter.segment(string)].length
+}
+
 const crossfadeSchema = z
   .object({
     id: z.string(),
@@ -34,7 +40,8 @@ const crossfadeSchema = z
       })
     }
 
-    if (val.icon.character.trim().length !== 1) {
+    if (countGrapheme(val.icon.character.trim()) !== 1) {
+      console.log(val.icon.character.trim())
       ctx.addIssue({
         message: "アイコンは1文字である必要があります。",
         code: z.ZodIssueCode.custom,
