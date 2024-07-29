@@ -1,6 +1,6 @@
 import { useState } from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
-import { Check, Copy, Heart, Share, SquarePen } from "lucide-react"
+import { Check, Copy, Heart, Share, SquarePen, Trash2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
 import twemoji from "twemoji"
@@ -18,16 +18,17 @@ import { Label } from "@/components/ui/label"
 import { DeleteCrossfadeDialog } from "@/components/delete-crossfade-dialog"
 import { components } from "@/lib/api/schema"
 
-type CardProps = components["schemas"]["Crossfade"] & {
+type CardProps = {
+  crossfade: components["schemas"]["Crossfade"]
   showEditButton?: boolean
   showDeleteButton?: boolean
 }
 
-const Card = (props: CardProps) => {
+const Card = ({ crossfade, showEditButton, showDeleteButton }: CardProps) => {
   const [copied, setCopied] = useState(false)
   const [liked, setLiked] = useState(false)
 
-  const crossfadeUrl = `${window.location.origin}/play/${props.id}`
+  const crossfadeUrl = `${window.location.origin}/play/${crossfade.id}`
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(crossfadeUrl)
@@ -41,15 +42,15 @@ const Card = (props: CardProps) => {
     <>
       <div className="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1rem)] xl:w-[calc(20%-1rem)] m-2 shadow-xl hover:bg-stone-600 flex flex-col">
         <Link
-          to={`/play/${props.id}`}
+          to={`/play/${crossfade.id}`}
           className="flex-grow flex flex-col p-5"
         >
           <div className="mx-auto mb-4">
-            <Thumbnail {...props.icon} />
+            <Thumbnail {...crossfade.icon} />
           </div>
           <div className="h-20 flex flex-col justify-start">
             <h3 className="text-xl sm:text-lg md:text-xl lg:text-xl line-clamp-3 hover:underline">
-              {props.title}
+              {crossfade.title}
             </h3>
           </div>
         </Link>
@@ -73,7 +74,7 @@ const Card = (props: CardProps) => {
             <DialogContent className="sm:max-w-md">
               <div className="relative">
                 <DialogHeader>
-                  <DialogTitle>{props.title} を共有</DialogTitle>
+                  <DialogTitle>{crossfade.title} を共有</DialogTitle>
                   <DialogDescription>以下のリンクから共有できます。</DialogDescription>
                 </DialogHeader>
                 <div className="flex items-center space-x-2 mt-2">
@@ -111,12 +112,16 @@ const Card = (props: CardProps) => {
               </div>
             </DialogContent>
           </Dialog>
-          {props.showEditButton && <SquarePen />}
-          {props.showDeleteButton && (
-            <DeleteCrossfadeDialog
-              crossfadeId={props.id}
-              title={props.title}
-            />
+          {showEditButton && <SquarePen />}
+          {showDeleteButton && (
+            <DeleteCrossfadeDialog crossfade={crossfade}>
+              <Button
+                variant="ghost"
+                className="p-0 h-fit"
+              >
+                <Trash2 />
+              </Button>
+            </DeleteCrossfadeDialog>
           )}
         </div>
       </div>
@@ -126,7 +131,7 @@ const Card = (props: CardProps) => {
 
 export default Card
 
-type ThumbnailProps = CardProps["icon"] & {
+type ThumbnailProps = components["schemas"]["Crossfade"]["icon"] & {
   className?: string
 }
 
