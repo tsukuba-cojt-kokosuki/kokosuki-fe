@@ -1,6 +1,7 @@
 import { useState } from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { Check, Copy, Heart, Share, SquarePen } from "lucide-react"
+import { Link } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
 import twemoji from "twemoji"
 import { Button } from "@/components/ui/button"
@@ -12,9 +13,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { DeleteCrossfadeDialog } from "@/components/delete-crossfade-dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { DeleteCrossfadeDialog } from "@/components/delete-crossfade-dialog"
 import { components } from "@/lib/api/schema"
 
 type CardProps = components["schemas"]["Crossfade"] & {
@@ -39,8 +40,8 @@ const Card = (props: CardProps) => {
   return (
     <>
       <div className="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1rem)] xl:w-[calc(20%-1rem)] m-2 shadow-xl hover:bg-stone-600 flex flex-col">
-        <a
-          href={crossfadeUrl}
+        <Link
+          to={`/play/${props.id}`}
           className="flex-grow flex flex-col p-5"
         >
           <div className="mx-auto mb-4">
@@ -51,7 +52,7 @@ const Card = (props: CardProps) => {
               {props.title}
             </h3>
           </div>
-        </a>
+        </Link>
         <div className="px-4 py-4 flex space-x-2 border-t">
           <Button
             variant="ghost"
@@ -111,7 +112,12 @@ const Card = (props: CardProps) => {
             </DialogContent>
           </Dialog>
           {props.showEditButton && <SquarePen />}
-          {props.showDeleteButton && <DeleteCrossfadeDialog crossfadeId={props.id} title={props.title}/>}
+          {props.showDeleteButton && (
+            <DeleteCrossfadeDialog
+              crossfadeId={props.id}
+              title={props.title}
+            />
+          )}
         </div>
       </div>
     </>
