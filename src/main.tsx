@@ -8,6 +8,7 @@ import "./index.css"
 import { fetch } from "./lib/api/fetch"
 import { setupMsw } from "./mocks/setup"
 import Create from "./pages/create/page"
+import Edit from "./pages/edit/page"
 import Index from "./pages/index/page"
 import Layout from "./pages/layout"
 import List from "./pages/list/page"
@@ -37,6 +38,11 @@ const router = createBrowserRouter([
       {
         path: "play/:id",
         element: <Play />,
+        errorElement: <NotFound />,
+      },
+      {
+        path: "edit/:id",
+        element: <Edit />,
         errorElement: <NotFound />,
       },
     ],

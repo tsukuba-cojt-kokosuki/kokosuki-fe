@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -28,6 +29,7 @@ const defaultSongs = [
 ]
 
 const Create = () => {
+  const navigate = useNavigate()
   const {
     songs,
     selectedSongIndex,
@@ -62,7 +64,8 @@ const Create = () => {
     })
     const data: ResponseBody = await res.json()
 
-    window.location.href = `/play/${data.id}`
+    toast.success(`クロスフェード ${title} を作成しました`)
+    navigate(`/play/${data.id}`)
   }
 
   return (
