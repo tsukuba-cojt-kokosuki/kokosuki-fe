@@ -1,5 +1,6 @@
 import { useState } from "react"
 import useSWR from "swr"
+import { Check } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
@@ -95,8 +96,8 @@ const Editor = ({ crossfade }: EditorProps) => {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-20">
-      <div>
+    <div className="flex flex-col justify-between w-full h-full gap-4 lg:gap-20 lg:flex-row">
+      <div className="order-2 grow lg:order-1">
         <SongList
           modifiable={true}
           songs={songs}
@@ -106,24 +107,18 @@ const Editor = ({ crossfade }: EditorProps) => {
           deleteSong={deleteSong}
           swapSongs={swapSongs}
         />
-        <Button
-          onClick={saveCrossfade}
-          className="block mt-8"
-        >
-          更新
-        </Button>
       </div>
-      <div>
-        <div className="flex gap-6 py-4 mb-2">
+      <div className="sticky top-0 order-1 pb-4 lg:order-2 bg-background">
+        <header className="flex gap-3 py-4 mb-2 lg:gap-6">
           <Thumbnail
             {...icon}
-            className="h-24 w-24"
+            className="w-20 h-20 lg:h-24 lg:w-24 shrink-0"
           />
-          <div className="h-24 flex flex-col justify-between">
+          <div className="flex flex-col justify-between h-20 lg:h-24">
             <Input
               type="text"
               placeholder="クロスフェードのタイトル"
-              className="text-xl w-80 font-bold"
+              className="text-base font-semibold h-9 lg:font-bold lg:text-xl lg:w-80 w-44 lg:h-auto"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -134,7 +129,13 @@ const Editor = ({ crossfade }: EditorProps) => {
               />
             </div>
           </div>
-        </div>
+          <div className="flex items-center h-20 gap-2 ml-auto lg:h-24">
+            <Button onClick={saveCrossfade}>
+              <Check className="w-4 h-4 mr-1 translate-y-[1px] hidden lg:inline" />
+              更新
+            </Button>
+          </div>
+        </header>
         {selectedSongIndex === null ? (
           <VideoPlayerSkeleton />
         ) : (
