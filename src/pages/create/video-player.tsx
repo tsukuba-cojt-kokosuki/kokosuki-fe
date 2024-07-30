@@ -188,7 +188,7 @@ const VideoPlayer = ({
             disabled={!modifiable}
           />
           <div className="flex flex-col gap-2 pt-2 lg:gap-4 lg:flex-row">
-            <div className="flex justify-between gap-2">
+            <div className="flex justify-between gap-2 lg:gap-4">
               <Button
                 onClick={setSongStartTime}
                 variant="secondary"
