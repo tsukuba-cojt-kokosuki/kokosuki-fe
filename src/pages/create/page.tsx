@@ -1,5 +1,4 @@
 import { useState } from "react"
-import favicon from "@/favicon.ico"
 import { Check } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
@@ -82,10 +81,8 @@ const Create = () => {
   return (
     <>
       <HelmetPack
-        title="Create | Kokosuki"
-        description="Let's make your crossfade!"
-        link="https://kokosuki.com/create"
-        image={favicon}
+        title="新規作成 | Kokosuki"
+        description="Let's create your crossfade!"
       />
 
       <div className="flex flex-col justify-between w-full h-full gap-4 lg:gap-20 lg:flex-row">
