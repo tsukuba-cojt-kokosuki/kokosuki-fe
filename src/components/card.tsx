@@ -46,7 +46,16 @@ const Card = ({ crossfade, showEditButton, showDeleteButton }: CardProps) => {
           <Heart className={liked ? "fill-current" : ""} />
         </Button>
         <ShareCrossfadeDialog crossfade={crossfade} />
-        {showEditButton && <SquarePen />}
+        {showEditButton && (
+          <Link to={`/edit/${crossfade.id}`}>
+            <Button
+              variant="ghost"
+              className="p-0 h-fit"
+            >
+              <SquarePen />
+            </Button>
+          </Link>
+        )}
         {showDeleteButton && (
           <DeleteCrossfadeDialog crossfade={crossfade}>
             <Button
