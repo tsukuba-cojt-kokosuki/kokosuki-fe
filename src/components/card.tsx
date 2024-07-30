@@ -29,6 +29,7 @@ const Card = ({ crossfade, showEditButton, showDeleteButton }: CardProps) => {
   const [liked, setLiked] = useState(false)
 
   const crossfadeUrl = `${window.location.origin}/play/${crossfade.id}`
+  const editUrl = `${window.location.origin}/edit/${crossfade.id}`
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(crossfadeUrl)
@@ -112,7 +113,7 @@ const Card = ({ crossfade, showEditButton, showDeleteButton }: CardProps) => {
               </div>
             </DialogContent>
           </Dialog>
-          {showEditButton && <SquarePen />}
+          {showEditButton && <a href={editUrl}><SquarePen /></a>}
           {showDeleteButton && (
             <DeleteCrossfadeDialog crossfade={crossfade}>
               <Button
