@@ -1,5 +1,6 @@
 import { useContext, useState } from "react"
 import useSWR from "swr"
+import { Pencil, Trash2 } from "lucide-react"
 import { Link, useParams } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Thumbnail } from "@/components/card"
@@ -39,8 +40,8 @@ const Play = () => {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-20">
-      <div>
+    <div className="flex flex-col justify-between w-full h-full gap-4 lg:gap-20 lg:flex-row">
+      <div className="order-2 grow lg:order-1">
         <SongList
           modifiable={false}
           songs={data.songs}
@@ -48,38 +49,46 @@ const Play = () => {
           setSelectedSong={setSelectedSongIndex}
         />
       </div>
-      <div>
-        <div className="flex gap-6 py-4 mb-2">
-          <Thumbnail
-            {...data.icon}
-            className="h-24 w-24 shrink-0"
-          />
-          <div className="flex justify-between w-full items-center">
-            <div className="h-24 flex flex-col justify-center">
-              <h1 className="text-xl font-bold mb-1">{data.title}</h1>
-              <div className="text-sm">
-                作成者:
-                <UserName
-                  userId={data.creatorId}
-                  className="mx-2"
-                />
+      <div className="sticky top-0 order-1 pb-4 lg:order-2 bg-background">
+        <header className="flex gap-3 py-4 mb-2 lg:gap-6">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex flex-row h-full gap-3 lg:gap-6">
+              <Thumbnail
+                {...data.icon}
+                className="w-16 h-16 lg:h-24 lg:w-24 shrink-0"
+              />
+              <div className="flex flex-col justify-center shrink">
+                <h1 className="mb-1 text-lg font-bold leading-5 lg:text-xl">{data.title}</h1>
+                <div className="text-xs lg:text-sm">
+                  作成者:
+                  <UserName
+                    userId={data.creatorId}
+                    className="mx-2"
+                  />
+                </div>
               </div>
             </div>
             {user?.id === data.creatorId && (
-              <div className="flex gap-2 h-fit">
+              <div className="flex flex-row gap-2 h-fit">
                 <Button
                   variant="outline"
                   asChild
                 >
-                  <Link to={`/edit/${crossFadeId}`}>編集</Link>
+                  <Link to={`/edit/${crossFadeId}`}>
+                    <span className="hidden lg:inline">編集</span>
+                    <Pencil className="inline w-6 h-6 lg:hidden" />
+                  </Link>
                 </Button>
                 <DeleteCrossfadeDialog crossfade={data}>
-                  <Button variant="outline">削除</Button>
+                  <Button variant="outline">
+                    <span className="hidden lg:inline">削除</span>
+                    <Trash2 className="inline lg:hidden" />
+                  </Button>
                 </DeleteCrossfadeDialog>
               </div>
             )}
           </div>
-        </div>
+        </header>
         {selectedSongIndex === null ? (
           <VideoPlayerSkeleton />
         ) : (

@@ -100,7 +100,6 @@ const VideoPlayer = ({
   }
 
   const handleSongCurrentTime = () => {
-    console.log(selectedSong,timeRangeValues)
     updateSongRangeValues()
 
     // イージング関数を作る
@@ -153,7 +152,7 @@ const VideoPlayer = ({
   }
 
   return (
-    <>
+    <div>
       <ReactPlayer
         url={youtubeUrl}
         ref={player}
@@ -169,7 +168,10 @@ const VideoPlayer = ({
           aspectRatio: "16 / 9",
           width: "100%",
           maxWidth: "100%",
+          margin: "0 auto",
         }}
+        height="100%"
+        witdh="100%"
       />
       {modifiable && (
         <>
@@ -188,8 +190,8 @@ const VideoPlayer = ({
           </div>
         </>
       )}
-      <div className="flex items-center pt-4">
-        <Music className="m-4" /> <YouTubeTitle youtubeId={selectedSong.videoId} />
+      <div className="flex items-center pt-4 mb-2 text-sm md:text-base">
+        <Music className="mr-4" /> <YouTubeTitle youtubeId={selectedSong.videoId} />
       </div>
       {!modifiable && (
         <Progress
@@ -198,9 +200,10 @@ const VideoPlayer = ({
             (timeRangeValues[1] - timeRangeValues[0])
           }
           max={100}
+          className="h-2 md:h-3"
         />
       )}
-    </>
+    </div>
   )
 }
 
