@@ -1,16 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ChevronDown, ChevronUp, Music2, Play, X } from "lucide-react"
+import { ChevronDown, ChevronUp, Play, X } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {
   Table,
@@ -83,96 +77,79 @@ const SongList = ({
 
   return (
     <div className="w-160">
-      <Table>
+      <Table className="[&_td]:p-2 [&_th]:px-2">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-2/3">タイトル</TableHead>
-            <TableHead className="w-1/6">長さ</TableHead>
+            <TableHead>タイトル</TableHead>
+            <TableHead className="px-2 w-14">長さ</TableHead>
             <TableHead></TableHead>
-            {modifiable && (
-              <>
-                <TableHead></TableHead>
-                <TableHead></TableHead>
-              </>
-            )}
           </TableRow>
         </TableHeader>
         <TableBody>
           {songs.map((song, index) => (
             <TableRow key={index}>
               <TableCell>
-                <div className="flex items-center">
-                  {index === selectedIndex && (
-                    <Music2 className="shrink-0 animate-bounce h-6 w-6" />
+                {index === selectedIndex && modifiable && <Badge className="my-1">編集中</Badge>}
+                {index === selectedIndex && !modifiable && <Badge className="my-1">再生中</Badge>}
+                <YouTubeTitle youtubeId={song.videoId} />
+              </TableCell>
+              <TableCell>{song.end - song.start}秒</TableCell>
+              <TableCell>
+                <div className="flex items-center gap-3">
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    onClick={() => handleMakeSelected(index)}
+                  >
+                    <Play />
+                  </Button>
+                  {modifiable && (
+                    <>
+                      <Button
+                        size="icon"
+                        variant="secondary"
+                        className="w-10 h-10 p-0 m-0"
+                        onClick={() => handleDeleteSong(index)}
+                      >
+                        <X />
+                      </Button>
+                      <div className="flex flex-col gap-3">
+                        <Button
+                          onClick={() => handleSwapUpSong(index)}
+                          variant="ghost"
+                          size="icon"
+                        >
+                          <ChevronUp />
+                        </Button>
+                        <Button
+                          onClick={() => handleSwapDownSong(index)}
+                          variant="ghost"
+                          size="icon"
+                        >
+                          <ChevronDown />
+                        </Button>
+                      </div>
+                    </>
                   )}
-                  <YouTubeTitle youtubeId={song.videoId} />
                 </div>
               </TableCell>
-              <TableCell> {song.end - song.start} 秒</TableCell>
-              <TableCell>
-                <Button
-                  size="icon"
-                  variant="secondary"
-                  onClick={() => handleMakeSelected(index)}
-                >
-                  <Play />
-                </Button>
-              </TableCell>
-              {modifiable && (
-                <>
-                  <TableCell>
-                    <Button
-                      size="icon"
-                      variant="secondary"
-                      className="w-10 h-10 m-0 p-0"
-                      onClick={() => handleDeleteSong(index)}
-                    >
-                      <X />
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <div className="m-0 p-0">
-                      <Button
-                        onClick={() => handleSwapUpSong(index)}
-                        size="icon"
-                        variant="ghost"
-                      >
-                        <ChevronUp />
-                      </Button>
-                      <Button
-                        onClick={() => handleSwapDownSong(index)}
-                        size="icon"
-                        variant="ghost"
-                      >
-                        <ChevronDown />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </>
-              )}
             </TableRow>
           ))}
-          <TableRow>
+          <TableRow className="font-semibold">
             <TableCell>合計</TableCell>
             <TableCell>{totalPlayTime}秒</TableCell>
             <TableCell></TableCell>
-            {modifiable && (
-              <>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-              </>
-            )}
           </TableRow>
         </TableBody>
       </Table>
-      {modifiable && <AddSongDialog addSong={addSong} />}
+      {modifiable && <AddSongForm addSong={addSong} />}
     </div>
   )
 }
 
 export { SongList }
 
-const addSongDialogFormSchema = z.object({
+const addSongFormSchema = z.object({
   url: z
     .string()
     .min(1, { message: "YouTube の URLを入力してください" })
@@ -197,15 +174,14 @@ const addSongDialogFormSchema = z.object({
         return false
       }
 
-      const videoId = url.searchParams.get("v")
-
       if (url.hostname !== "www.youtube.com") {
         context.addIssue({
-          message: "YouTube の URLを入力してください",
+          message: "YouTube の URL を入力してください",
           code: z.ZodIssueCode.custom,
         })
       }
 
+      const videoId = url.searchParams.get("v")
       if (!videoId) {
         context.addIssue({
           message: "URL に Video ID が見つかりません",
@@ -217,19 +193,19 @@ const addSongDialogFormSchema = z.object({
     }),
 })
 
-type AddSongDialogProps = {
+type AddSongFormProps = {
   addSong: (song: Song) => void
 }
 
-const AddSongDialog = ({ addSong }: AddSongDialogProps) => {
-  const form = useForm<z.infer<typeof addSongDialogFormSchema>>({
-    resolver: zodResolver(addSongDialogFormSchema),
+const AddSongForm = ({ addSong }: AddSongFormProps) => {
+  const form = useForm<z.infer<typeof addSongFormSchema>>({
+    resolver: zodResolver(addSongFormSchema),
     defaultValues: {
       url: "",
     },
   })
 
-  const onSubmit = (values: z.infer<typeof addSongDialogFormSchema>) => {
+  const onSubmit = (values: z.infer<typeof addSongFormSchema>) => {
     const url = new URL(values.url)
     const videoId = url.searchParams.get("v") as string
 
@@ -242,20 +218,32 @@ const AddSongDialog = ({ addSong }: AddSongDialogProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex w-full gap-2 mt-3"
+      >
         <FormField
           control={form.control}
           name="url"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>YouTubeのURLで曲を追加</FormLabel>
+            <FormItem className="flex-grow block">
               <FormControl>
-                <Input {...field} />
+                <Input
+                  {...field}
+                  placeholder="YouTube の 動画 URL を入力"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        <Button
+          type="submit"
+          className="block"
+          variant="secondary"
+        >
+          追加
+        </Button>
       </form>
     </Form>
   )

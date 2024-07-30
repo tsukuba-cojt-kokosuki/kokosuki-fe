@@ -47,7 +47,12 @@ const ThumbnailEditor = ({
     <>
       <Dialog onOpenChange={handleClose}>
         <DialogTrigger asChild>
-          <Button variant="outline">サムネ設定</Button>
+          <Button
+            variant="secondary"
+            size="sm"
+          >
+            サムネ設定
+          </Button>
         </DialogTrigger>
 
         <DialogContent className="max-w-fit">

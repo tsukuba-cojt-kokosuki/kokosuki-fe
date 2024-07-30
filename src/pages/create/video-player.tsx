@@ -173,6 +173,10 @@ const VideoPlayer = ({
         height="100%"
         witdh="100%"
       />
+      <div className="flex items-center py-2 text-sm md:text-base">
+        <Music className="mr-3" />
+        <YouTubeTitle youtubeId={selectedSong.videoId} />
+      </div>
       {modifiable && (
         <>
           <RangeSlider
@@ -180,19 +184,38 @@ const VideoPlayer = ({
             onValueChange={handleRangeSliderChange}
             min={0}
             max={songLength}
-            className="mt-6 mb-6"
+            className="py-4"
             disabled={!modifiable}
           />
-          <div className="flex gap-4 mt-4">
-            <Button onClick={setSongStartTime}>現在の再生箇所を始点に</Button>
-            <Button onClick={setSongEndTime}>現在の再生箇所を終点に</Button>
-            <Button onClick={startPreview}>プレビュー</Button>
+          <div className="flex flex-col gap-2 pt-2 lg:gap-4 lg:flex-row">
+            <div className="flex justify-between gap-2">
+              <Button
+                onClick={setSongStartTime}
+                variant="secondary"
+                size="sm"
+                className="flex-grow text-xs lg:text-sm"
+              >
+                現在の再生箇所を始点に
+              </Button>
+              <Button
+                onClick={setSongEndTime}
+                variant="secondary"
+                size="sm"
+                className="flex-grow text-xs lg:text-sm"
+              >
+                現在の再生箇所を終点に
+              </Button>
+            </div>
+            <Button
+              onClick={startPreview}
+              variant="secondary"
+              size="sm"
+            >
+              プレビュー
+            </Button>
           </div>
         </>
       )}
-      <div className="flex items-center pt-4 mb-2 text-sm md:text-base">
-        <Music className="mr-4" /> <YouTubeTitle youtubeId={selectedSong.videoId} />
-      </div>
       {!modifiable && (
         <Progress
           value={
