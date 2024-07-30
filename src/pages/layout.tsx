@@ -1,124 +1,68 @@
-import { useContext, useEffect, useState } from "react"
-import { CircleUserRound } from "lucide-react"
+import { useContext, useState } from "react"
+import { CircleUserRound, Menu, X } from "lucide-react"
 import { Link, Outlet } from "react-router-dom"
+import { Button } from "@/components/ui/button"
 import { UserContext } from "./user-context"
 
 const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const toggleMenu = () => {
+  const handleToggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "unset"
-    }
-  }, [isMenuOpen])
-
   return (
     <>
-      <div className="bg-background min-h-screen">
-        <header className="relative z-50">
-          <div className="flex w-full justify-between bg-neutral-600 pl-4 pr-4 md:pl-8 md:pr-8 pt-3 pb-3">
-            <div className="flex items-center">
-              <Link
-                className="font-bold text-xl md:text-2xl flex-initial text-white"
-                to="/"
-              >
-                Kokosuki
-              </Link>
-            </div>
-            <div className="md:hidden">
-              <button
-                onClick={toggleMenu}
-                className="text-white focus:outline-none"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </button>
-            </div>
-            <nav className="hidden md:block">
-              <ul className="font-semibold flex gap-10 items-center">
-                <li>
-                  <Link
-                    to="list"
-                    className="text-white"
-                  >
-                    マイクロスフェード一覧
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="create"
-                    className="block pl-3 pr-3 pt-1 pb-1 rounded-lg bg-background text-white"
-                  >
-                    新規作成
-                  </Link>
-                </li>
-                <li>
-                  <User />
-                </li>
-              </ul>
-            </nav>
+      <div className="min-h-screen bg-background">
+        <header className="relative z-50 flex items-center justify-between w-full px-4 lg:px-6 h-14 bg-neutral-600">
+          <div className="flex items-center">
+            <Link
+              className="flex-initial text-xl font-bold text-white lg:text-2xl"
+              to="/"
+            >
+              Kokosuki
+            </Link>
+          </div>
+          <div className="lg:hidden">
+            <Button
+              onClick={handleToggleMenu}
+              variant="ghost"
+              className="p-0"
+            >
+              <Menu />
+            </Button>
           </div>
           <div
-            className={`fixed inset-0 bg-black transition-opacity duration-300 ease-in-out ${isMenuOpen ? "opacity-50" : "opacity-0 pointer-events-none"} z-40`}
-            onClick={toggleMenu}
-          ></div>
+            className={`fixed inset-0 bg-black transition-opacity duration-300 ease-in-out ${isMenuOpen ? "opacity-50" : "opacity-0"} z-40 lg:hidden pointer-events-none`}
+            onClick={handleToggleMenu}
+          />
           <nav
-            className={`fixed right-0 top-0 bottom-0 w-full bg-neutral-600 transition-transform duration-300 ease-in-out ${isMenuOpen ? "translate-x-0" : "translate-x-full"} z-50`}
+            className={`fixed inset-0 lg:block h-dvh w-dvw lg:w-auto bg-neutral-600 lg:inset-auto lg:static lg:h-fit lg:translate-x-0 ${isMenuOpen ? "block translate-x-0" : "block translate-x-full"} transition-transform duration-300 ease-in-out z-50`}
           >
-            <div className="flex justify-end py-3 px-4">
-              <button
-                onClick={toggleMenu}
-                className="text-white focus:outline-none"
+            <div className="flex items-center w-full h-14 lg:hidden">
+              <Button
+                onClick={handleToggleMenu}
+                variant="ghost"
+                className="ml-auto"
               >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+                <X />
+              </Button>
             </div>
-            <ul className="font-semibold flex flex-col gap-4 p-4">
+            <ul className="flex flex-col items-center gap-6 px-8 py-3 text-xl font-semibold lg:gap-6 lg:flex-row lg:px-0 lg:text-base lg:py-0">
               <li>
                 <Link
                   to="list"
-                  className="text-white block py-2 text-center text-xl"
-                  onClick={toggleMenu}
+                  className="text-white"
+                  onClick={handleToggleMenu}
                 >
-                  マイクロスフェード一覧
+                  マイ クロスフェード
                 </Link>
               </li>
               <li>
                 <Link
                   to="create"
-                  className="text-white block py-2 px-3 bg-background rounded-lg text-center text-xl"
-                  onClick={toggleMenu}
+                  className="block pt-1 pb-1 pl-3 pr-3 text-white rounded-lg bg-background"
+                  onClick={handleToggleMenu}
                 >
                   新規作成
                 </Link>
@@ -129,7 +73,7 @@ const Layout = () => {
             </ul>
           </nav>
         </header>
-        <main className="container p-8">
+        <main className="container z-0 px-6 py-3 lg:p-8">
           <Outlet />
         </main>
       </div>
@@ -155,10 +99,10 @@ const User = () => {
           ログイン
         </a>
       ) : (
-        <span className="flex gap-2">
+        <div className="flex items-center gap-2">
           <CircleUserRound />
-          {user.name}
-        </span>
+          <div>{user.name}</div>
+        </div>
       )}
     </>
   )

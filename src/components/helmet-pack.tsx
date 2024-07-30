@@ -1,36 +1,73 @@
-import { Helmet } from "react-helmet";
+import favicon from "@/favicon.ico"
+import { Helmet } from "react-helmet"
 
-const HelmetPack = (props: {
+type HelmetPackProps = {
   title: string
   description: string
-  image: string
-  link: string
+}
 
-}) => {
-return (
+const HelmetPack = (props: HelmetPackProps) => {
+  return (
     <Helmet>
-     <title>{props.title}</title>
+      <title>{props.title}</title>
+      <link
+        rel="icon"
+        href={favicon}
+      />
+      <meta
+        name="title"
+        content={props.title}
+      />
+      <meta
+        name="description"
+        content={props.description}
+      />
+      <meta
+        name="favicon"
+        content={favicon}
+      />
 
-    <link rel="icon" href="#" />
+      <meta
+        property="og:title"
+        content={props.title}
+      />
+      <meta
+        property="og:description"
+        content={props.description}
+      />
+      <meta
+        property="og:type"
+        content="website"
+      />
+      <meta
+        property="og:url"
+        content={location.href}
+      />
+      <meta
+        property="og:image"
+        content={favicon}
+      />
+      <meta
+        property="og:site_name"
+        content="Kokosuki"
+      />
 
-    <meta name="title" content={props.title} />
-    <meta name="description" content={props.description} />
-    <meta name="favicon" content={props.image} />
-
-    <meta property="og:title" content={props.title} />
-    <meta property="og:description" content={props.description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={props.link} />
-    <meta property="og:image" content="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg" />
-    <meta property="og:site_name" content="Kokosuki" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={props.title} />
-    <meta name="twitter:description" content={props.description} />
-    <meta name="twitter:image" content={props.image} />
- 
-      
-      
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+      <meta
+        name="twitter:title"
+        content={props.title}
+      />
+      <meta
+        name="twitter:description"
+        content={props.description}
+      />
+      <meta
+        name="twitter:image"
+        content={favicon}
+      />
     </Helmet>
   )
 }

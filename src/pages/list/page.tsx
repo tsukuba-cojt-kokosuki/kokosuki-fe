@@ -15,10 +15,8 @@ const List = () => {
   return (
     <>
       <HelmetPack
-        title="Kokosuki List Page"
+        title="マイ クロスフェード | Kokosuki"
         description="Let's check this crossfade!"
-        image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-        link="https://kokosuki.com/list"
       />
       <h1 className="text-3xl font-bold">マイ クロスフェード</h1>
       {userId === null ? (

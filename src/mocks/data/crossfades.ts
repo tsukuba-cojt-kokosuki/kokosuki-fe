@@ -25,6 +25,76 @@ const crossfades: Crossfade[] = [
         start: 10,
         end: 20,
       },
+      {
+        videoId: "z6x_Xk0WFko",
+        start: 0,
+        end: 10,
+      },
+      {
+        videoId: "0P0aQreFs8w",
+        start: 10,
+        end: 20,
+      },
+      {
+        videoId: "z6x_Xk0WFko",
+        start: 0,
+        end: 10,
+      },
+      {
+        videoId: "0P0aQreFs8w",
+        start: 10,
+        end: 20,
+      },
+      {
+        videoId: "z6x_Xk0WFko",
+        start: 0,
+        end: 10,
+      },
+      {
+        videoId: "0P0aQreFs8w",
+        start: 10,
+        end: 20,
+      },
+      {
+        videoId: "z6x_Xk0WFko",
+        start: 0,
+        end: 10,
+      },
+      {
+        videoId: "0P0aQreFs8w",
+        start: 10,
+        end: 20,
+      },
+      {
+        videoId: "z6x_Xk0WFko",
+        start: 0,
+        end: 10,
+      },
+      {
+        videoId: "0P0aQreFs8w",
+        start: 10,
+        end: 20,
+      },
+      {
+        videoId: "z6x_Xk0WFko",
+        start: 0,
+        end: 10,
+      },
+      {
+        videoId: "0P0aQreFs8w",
+        start: 10,
+        end: 20,
+      },
+      {
+        videoId: "z6x_Xk0WFko",
+        start: 0,
+        end: 10,
+      },
+      {
+        videoId: "0P0aQreFs8w",
+        start: 10,
+        end: 20,
+      },
     ],
     liked: true,
     likes: 10,

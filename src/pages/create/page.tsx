@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Check } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
@@ -40,7 +41,7 @@ const Create = () => {
     updateSelectedSong,
   } = useSongs(defaultSongs, 0)
   const [icon, setIcon] = useState<Icon>({ character: "🎵", backgroundColor: "#eeffff" })
-  const [title, setTItle] = useState<string>("新規クロスフェード")
+  const [title, setTitle] = useState<string>("新規クロスフェード")
 
   const SaveCrossfade = async () => {
     const body: RequestBody = {
@@ -80,14 +81,12 @@ const Create = () => {
   return (
     <>
       <HelmetPack
-        title="Kokosuki Create Page"
-        description="Let's make your crossfade!"
-        image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-        link="https://kokosuki.com/create"
+        title="新規作成 | Kokosuki"
+        description="Let's create your crossfade!"
       />
 
-      <div className="grid grid-cols-2 gap-20">
-        <div>
+      <div className="flex flex-col justify-between w-full h-full gap-4 lg:gap-20 lg:flex-row">
+        <div className="order-2 grow lg:order-1">
           <SongList
             modifiable={true}
             songs={songs}
@@ -97,26 +96,20 @@ const Create = () => {
             deleteSong={deleteSong}
             swapSongs={swapSongs}
           />
-          <Button
-            onClick={SaveCrossfade}
-            className="block mt-8"
-          >
-            完成
-          </Button>
         </div>
-        <div>
-          <div className="flex gap-6 py-4 mb-2">
+        <div className="sticky top-0 order-1 pb-4 lg:order-2 bg-background">
+          <header className="flex gap-3 py-4 mb-2 lg:gap-6">
             <Thumbnail
               {...icon}
-              className="h-24 w-24"
+              className="w-20 h-20 lg:h-24 lg:w-24 shrink-0"
             />
-            <div className="h-24 flex flex-col justify-between">
+            <div className="flex flex-col justify-between h-20 lg:h-24">
               <Input
                 type="text"
                 placeholder="クロスフェードのタイトル"
-                className="text-xl w-80 font-bold"
+                className="text-base font-semibold h-9 lg:font-bold lg:text-xl lg:w-80 w-44 lg:h-auto"
                 value={title}
-                onChange={(e) => setTItle(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <div className="w-fit">
                 <ThumbnailEditor
@@ -125,7 +118,13 @@ const Create = () => {
                 />
               </div>
             </div>
-          </div>
+            <div className="flex items-center h-20 gap-2 ml-auto lg:h-24">
+              <Button onClick={SaveCrossfade}>
+                <Check className="w-4 h-4 mr-1 translate-y-[1px] hidden lg:inline" />
+                完成
+              </Button>
+            </div>
+          </header>
           {selectedSongIndex === null ? (
             <VideoPlayerSkeleton />
           ) : (

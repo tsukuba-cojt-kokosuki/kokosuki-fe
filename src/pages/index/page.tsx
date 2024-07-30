@@ -13,10 +13,8 @@ const Index = () => {
   return (
     <>
       <HelmetPack
-        title="Kokosuki Top Page"
-        description="Let's make your crossfade!"
-        image="https://www.hitachi-solutions-create.co.jp/column/img/image-generation-ai.jpg"
-        link="https://kokosuki.com"
+        title="Kokosuki"
+        description="Let's create your crossfade!"
       />
 
       <div>

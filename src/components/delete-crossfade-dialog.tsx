@@ -69,7 +69,7 @@ const DeleteCrossfadeDialog = ({ crossfade, children }: DeleteCrossfadeDialogPro
           <AlertDialogAction
             onClick={handleDeleteCrossfade}
             disabled={sending}
-            className="w-16"
+            className="lg:w-16"
           >
             {sending ? <LoaderCircle className="animate-spin" /> : "削除"}
           </AlertDialogAction>
