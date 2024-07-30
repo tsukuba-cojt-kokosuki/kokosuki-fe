@@ -4,7 +4,7 @@ import {
   GetCrossfadesCrossfadeId,
   PutCrossfadesCrossfadeId,
 } from "./crossfades/crossfadeId"
-import { PostCrossfadeIdLikes } from "./crossfades/crossfadeId/likes"
+import { DeleteCrossfadeIdLikes, PostCrossfadeIdLikes } from "./crossfades/crossfadeId/likes"
 import { GetLatestCrossfades } from "./crossfades/latest"
 import { GetPopularCrossfades } from "./crossfades/popular"
 import { GetUsersMe } from "./users/me"
@@ -23,6 +23,7 @@ export const setupMsw = async () => {
         DeleteCrossfadesCrossfadeId,
         PutCrossfadesCrossfadeId,
         PostCrossfadeIdLikes,
+        DeleteCrossfadeIdLikes,
       ],
     ).start({
       // mock にないリクエストは通してあげる

@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge"
 import twemoji from "twemoji"
 import { Button } from "@/components/ui/button"
 import { DeleteCrossfadeDialog } from "@/components/delete-crossfade-dialog"
+import { apiOrigin, fetch } from "@/lib/api/fetch"
 import { components } from "@/lib/api/schema"
 import { ShareCrossfadeDialog } from "./share-crossfade-dialog"
 
@@ -15,10 +16,20 @@ type CardProps = {
 }
 
 const Card = ({ crossfade, showEditButton, showDeleteButton }: CardProps) => {
-  const [liked, setLiked] = useState(false)
+  const [liked, setLiked] = useState(crossfade.liked)
 
-  const handleLikeClick = () => {
-    setLiked(!liked)
+  const handleLikeClick = async () => {
+    const method = liked ? "DELETE" : "POST"
+    setLiked((liked) => !liked) // optimistic update
+
+    const res = await fetch(`${apiOrigin}/crossfades/${crossfade.id}/likes`, {
+      method,
+    })
+
+    if (!res.ok) {
+      console.error(`Failed to like crossfade ${crossfade.id} ${crossfade.title}`)
+      setLiked(method === "DELETE" ? true : false) // revert optimistic update
+    }
   }
 
   return (
