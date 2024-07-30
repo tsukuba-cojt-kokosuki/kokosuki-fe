@@ -58,36 +58,44 @@ const ThumbnailEditor = ({
         <DialogContent className="max-w-fit">
           <DialogHeader>
             <DialogTitle>サムネイル作成</DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="hidden lg:inline">
               背景色と絵文字を選んで、サムネイルを作成しましょう！
             </DialogDescription>
           </DialogHeader>
-          <div className="flex gap-8">
-            <div className="flex flex-col gap-4">
-              <div className="flex gap-4">
+          <div className="flex flex-col gap-8 lg:flex-row">
+            <div className="flex flex-col order-2 gap-4 lg:order-1">
+              <div className="flex flex-col gap-2 lg:gap-4 lg:flex-row">
                 <h2 className="font-semibold">背景色</h2>
                 <Input
-                  className="w-20 h-20"
+                  className="w-14 h-14 lg:w-20 lg:h-20"
                   type="color"
                   value={icon.backgroundColor}
                   onChange={handleColorClick}
                 />
               </div>
-              <div className="flex gap-4">
+              <div className="flex flex-col gap-2 lg:gap-4 lg:flex-row">
                 <h2 className="font-semibold">絵文字</h2>
-                <EmojiPicker
-                  emojiStyle={EmojiStyle.TWITTER}
-                  theme={Theme.DARK}
-                  onEmojiClick={handleEmojiClick}
-                  searchDisabled={true}
-                  previewConfig={{
-                    showPreview: false,
-                  }}
-                  height="20rem"
-                />
+                <div className="w-64 h-64 lg:w-96 lg:h-72">
+                  <EmojiPicker
+                    emojiStyle={EmojiStyle.TWITTER}
+                    theme={Theme.DARK}
+                    onEmojiClick={handleEmojiClick}
+                    searchDisabled={true}
+                    previewConfig={{
+                      showPreview: false,
+                    }}
+                    style={{
+                      height: "100%",
+                      width: "100%",
+                    }}
+                  />
+                </div>
               </div>
             </div>
-            <Thumbnail {...icon} />
+            <Thumbnail
+              {...icon}
+              className="order-1 w-20 h-20 mx-auto lg:order-2"
+            />
           </div>
           <DialogFooter className="mt-4">
             <DialogClose asChild>
