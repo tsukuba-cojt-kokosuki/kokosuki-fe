@@ -4,6 +4,7 @@ import { components } from "@/lib/api/schema"
 import { Button } from "./ui/button"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -69,12 +70,14 @@ const ShareCrossfadeDialog = ({ crossfade }: ShareCrossfadeDialogProps) => {
           </div>
         </div>
         <DialogFooter>
-          <Button
-            type="button"
-            variant="secondary"
-          >
-            Close
-          </Button>
+          <DialogClose asChild>
+            <Button
+              type="button"
+              variant="secondary"
+            >
+              閉じる
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
