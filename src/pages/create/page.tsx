@@ -54,7 +54,16 @@ const Create = () => {
 
     const validationErrors = crossfadeSchema.safeParse(body)
     if (!validationErrors.success) {
-      toast.error(validationErrors.error.message)
+      const errorMessages = validationErrors.error.errors.map(err => err.message)
+      toast.error(
+        <div>
+          <ul>
+            {errorMessages.map((message, index) => (
+              <li key={index}>❗️{message}</li>
+            ))}
+          </ul>
+        </div>,
+      )
       return
     }
 
