@@ -31,7 +31,7 @@ const VideoPlayer = ({
   updateSelectedSong = () => {},
 }: VideoPlayerProps) => {
   const player = useRef<ReactPlayer>(null)
-  const [timeRangeValues, setTimeRangeValues] = useState<[number, number]>([0, 1])
+  const [timeRangeValues, setTimeRangeValues] = useState<[number, number]>([0, 10])
   const [playing, setPlaying] = useState(true)
   const [songLength, setSongLength] = useState<number>(0)
   const [songCurrentTime, setSongCurrentTime] = useState<number>(0)
@@ -63,6 +63,12 @@ const VideoPlayer = ({
   const setSongStartTime = () => {
     if (player.current === null) return
     const currentTime = Math.round(player.current.getCurrentTime())
+    // もし、終点よりも後ろに設定しようとしたら、終点はその1秒うしろにする
+    if (currentTime >= timeRangeValues[1]) {
+      setTimeRangeValues([timeRangeValues[1] - 1, timeRangeValues[1]])
+      updateSongRangeValues()
+      return
+    }
     setTimeRangeValues([currentTime, timeRangeValues[1]])
     updateSongRangeValues()
   }
@@ -71,6 +77,12 @@ const VideoPlayer = ({
   const setSongEndTime = () => {
     if (player.current === null) return
     const currentTime = Math.round(player.current.getCurrentTime())
+    // もし、始点よりも前に設定しようとしたら、始点はその1秒前にする
+    if (currentTime <= timeRangeValues[0]) {
+      setTimeRangeValues([timeRangeValues[0], timeRangeValues[0] + 1])
+      updateSongRangeValues()
+      return
+    }
     setTimeRangeValues([timeRangeValues[0], currentTime])
     updateSongRangeValues()
   }
@@ -88,6 +100,9 @@ const VideoPlayer = ({
   }
 
   const handleSongCurrentTime = () => {
+    console.log(selectedSong,timeRangeValues)
+    updateSongRangeValues()
+
     // イージング関数を作る
     const easeOutCirc = (t: number) => Math.sqrt(1 - Math.pow(t - 1, 2))
     const easeInCirc = (t: number) => 1 - Math.sqrt(1 - Math.pow(t, 2))
@@ -134,7 +149,6 @@ const VideoPlayer = ({
     setTimeRangeValues(handleNewValues)
     setVolume(1.0)
 
-    updateSongRangeValues()
     updateSongRangeValues()
   }
 
