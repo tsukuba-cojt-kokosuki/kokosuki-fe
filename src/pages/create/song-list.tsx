@@ -174,14 +174,21 @@ const addSongFormSchema = z.object({
         return false
       }
 
-      if (url.hostname !== "www.youtube.com") {
+      if (
+        !(
+          url.hostname === "www.youtube.com" ||
+          url.hostname === "m.youtube.com" ||
+          url.hostname === "youtu.be"
+        )
+      ) {
         context.addIssue({
           message: "YouTube の URL を入力してください",
           code: z.ZodIssueCode.custom,
         })
       }
 
-      const videoId = url.searchParams.get("v")
+      const videoId =
+        url.hostname === "youtu.be" ? url.pathname.substring(1) : url.searchParams.get("v")
       if (!videoId) {
         context.addIssue({
           message: "URL に Video ID が見つかりません",
@@ -207,7 +214,10 @@ const AddSongForm = ({ addSong }: AddSongFormProps) => {
 
   const onSubmit = (values: z.infer<typeof addSongFormSchema>) => {
     const url = new URL(values.url)
-    const videoId = url.searchParams.get("v") as string
+    const videoId =
+      url.hostname === "youtu.be"
+        ? url.pathname.substring(1)
+        : (url.searchParams.get("v") as string)
 
     addSong({
       videoId,

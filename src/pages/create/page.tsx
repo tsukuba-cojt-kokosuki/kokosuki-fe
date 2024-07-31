@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Check } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,6 +10,7 @@ import ThumbnailEditor from "@/components/thumbnail-editor"
 import { apiOrigin, fetch } from "@/lib/api/fetch"
 import { components, paths } from "@/lib/api/schema"
 import { crossfadeSchema } from "@/lib/crossfade-validator"
+import { UserContext } from "../user-context"
 import { SongList } from "./song-list"
 import { Song, useSongs } from "./songs"
 import { VideoPlayer } from "./video-player"
@@ -42,6 +43,18 @@ const Create = () => {
   } = useSongs(defaultSongs, 0)
   const [icon, setIcon] = useState<Icon>({ character: "🎵", backgroundColor: "#eeffff" })
   const [title, setTitle] = useState<string>("新規クロスフェード")
+  const user = useContext(UserContext)
+
+  if (!user) {
+    return (
+      <div className="text-center">
+        ログインすると、クロスフェードを作成できます
+        <Link to="/login">
+          <Button>ログイン</Button>
+        </Link>
+      </div>
+    )
+  }
 
   const SaveCrossfade = async () => {
     const body: RequestBody = {
@@ -55,7 +68,7 @@ const Create = () => {
 
     const validationErrors = crossfadeSchema.safeParse(body)
     if (!validationErrors.success) {
-      const errorMessages = validationErrors.error.errors.map(err => err.message)
+      const errorMessages = validationErrors.error.errors.map((err) => err.message)
       toast.error(
         <div>
           <ul>
