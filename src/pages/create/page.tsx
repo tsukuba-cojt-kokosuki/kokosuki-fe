@@ -24,7 +24,7 @@ type ResponseBody =
 
 const defaultSongs = [
   {
-    videoId: "dQw4w9WgXcQ",
+    videoId: "HyavGNrcTjw",
     start: 15,
     end: 30,
   },
