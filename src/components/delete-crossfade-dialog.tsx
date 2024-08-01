@@ -43,9 +43,9 @@ const DeleteCrossfadeDialog = ({ crossfade, children }: DeleteCrossfadeDialogPro
       toast.error(`クロスフェード ${crossfade.title} の削除に失敗しました`)
       return
     }
-    mutate(`/users/${userId}/crossfades`)
-    mutate("/crossfades/latest")
-    mutate("/crossfades/popular")
+    await mutate(`/users/${userId}/crossfades`)
+    await mutate("/crossfades/latest")
+    await mutate("/crossfades/popular")
 
     toast.success(`クロスフェード ${crossfade.title} を削除しました`)
     if (location.pathname.startsWith("/play") || location.pathname.startsWith("/edit")) {
