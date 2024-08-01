@@ -5,7 +5,7 @@ import { CardContainer } from "@/components/card-container"
 import HelmetPack from "@/components/helmet-pack"
 import { LoginMessage } from "@/components/login-message"
 import { paths } from "@/lib/api/schema"
-import { UserContext } from "../user-context"
+import { UserContext } from "../../components/user-context"
 
 type CrossfadesResponse =
   paths["/users/{userId}/crossfades"]["get"]["responses"]["200"]["content"]["application/json"]

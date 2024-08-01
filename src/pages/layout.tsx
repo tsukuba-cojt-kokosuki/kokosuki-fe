@@ -2,7 +2,7 @@ import { useContext, useState } from "react"
 import { CircleUserRound, Menu, X } from "lucide-react"
 import { Link, Outlet } from "react-router-dom"
 import { Button } from "@/components/ui/button"
-import { UserContext } from "./user-context"
+import { UserContext } from "../components/user-context"
 
 const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
