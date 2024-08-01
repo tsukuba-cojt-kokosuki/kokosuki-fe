@@ -3,6 +3,7 @@ import useSWR from "swr"
 import Card from "@/components/card"
 import { CardContainer } from "@/components/card-container"
 import HelmetPack from "@/components/helmet-pack"
+import { LoginMessage } from "@/components/login-message"
 import { paths } from "@/lib/api/schema"
 import { UserContext } from "../user-context"
 
@@ -19,11 +20,7 @@ const List = () => {
         description="Let's check this crossfade!"
       />
       <h1 className="text-3xl font-bold">マイ クロスフェード</h1>
-      {userId === null ? (
-        <div className="text-center">ログインしていません</div>
-      ) : (
-        <MyCrossfades userId={userId} />
-      )}
+      {userId === null ? <LoginMessage /> : <MyCrossfades userId={userId} />}
     </>
   )
 }
