@@ -1,12 +1,13 @@
 import { useContext, useState } from "react"
 import { mutate } from "swr"
 import { Check } from "lucide-react"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Thumbnail } from "@/components/card"
 import HelmetPack from "@/components/helmet-pack"
+import { LoginMessage } from "@/components/login-message"
 import ThumbnailEditor from "@/components/thumbnail-editor"
 import { apiOrigin, fetch } from "@/lib/api/fetch"
 import { components, paths } from "@/lib/api/schema"
@@ -46,14 +47,12 @@ const Create = () => {
   const [title, setTitle] = useState<string>("新規クロスフェード")
   const user = useContext(UserContext)
 
-  if (!user) {
+  if (!user.id) {
     return (
-      <div className="text-center">
-        ログインすると、クロスフェードを作成できます
-        <Link to="/login">
-          <Button>ログイン</Button>
-        </Link>
-      </div>
+      <>
+        <h1 className="text-3xl font-bold">新規作成</h1>
+        <LoginMessage />
+      </>
     )
   }
 
