@@ -1,6 +1,5 @@
 import { MouseEventHandler, ReactNode, useContext, useState } from "react"
 import { useSWRConfig } from "swr"
-import { UserContext } from "@/pages/user-context"
 import { LoaderCircle } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
@@ -14,6 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { UserContext } from "@/components/user-context"
 import { apiOrigin, fetch } from "@/lib/api/fetch"
 import { components } from "@/lib/api/schema"
 

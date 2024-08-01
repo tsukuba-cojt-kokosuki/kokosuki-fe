@@ -12,11 +12,11 @@ import ThumbnailEditor from "@/components/thumbnail-editor"
 import { apiOrigin, fetch } from "@/lib/api/fetch"
 import { components, paths } from "@/lib/api/schema"
 import { crossfadeSchema } from "@/lib/crossfade-validator"
-import { UserContext } from "../user-context"
-import { SongList } from "./song-list"
-import { Song, useSongs } from "./songs"
-import { VideoPlayer } from "./video-player"
-import { VideoPlayerSkeleton } from "./video-player-skeleton"
+import { SongList } from "../../components/song-list"
+import { Song, useSongs } from "../../components/songs"
+import { UserContext } from "../../components/user-context"
+import { VideoPlayer } from "../../components/video-player"
+import { VideoPlayerSkeleton } from "../../components/video-player-skeleton"
 
 type Icon = components["schemas"]["Crossfade"]["icon"]
 

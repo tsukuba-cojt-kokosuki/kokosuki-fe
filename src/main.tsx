@@ -4,6 +4,7 @@ import "@fontsource-variable/noto-sans-jp"
 import { createRoot } from "react-dom/client"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { Toaster } from "sonner"
+import { UserContextProvider } from "./components/user-context"
 import "./index.css"
 import { fetch } from "./lib/api/fetch"
 import { setupMsw } from "./mocks/setup"
@@ -14,7 +15,6 @@ import Layout from "./pages/layout"
 import List from "./pages/list/page"
 import NotFound from "./pages/not-found"
 import Play from "./pages/play/page"
-import { UserContextProvider } from "./pages/user-context"
 
 await setupMsw()
 

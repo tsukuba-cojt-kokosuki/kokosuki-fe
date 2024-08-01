@@ -8,11 +8,11 @@ import { DeleteCrossfadeDialog } from "@/components/delete-crossfade-dialog"
 import HelmetPack from "@/components/helmet-pack"
 import { UserName } from "@/components/username"
 import { paths } from "@/lib/api/schema"
-import { Song } from "../create/songs"
-import { VideoPlayerSkeleton } from "../create/video-player-skeleton"
-import { UserContext } from "../user-context"
-import { SongList } from "./../create/song-list"
-import { VideoPlayer } from "./../create/video-player"
+import { SongList } from "../../components/song-list"
+import { Song } from "../../components/songs"
+import { UserContext } from "../../components/user-context"
+import { VideoPlayer } from "../../components/video-player"
+import { VideoPlayerSkeleton } from "../../components/video-player-skeleton"
 
 type CrossfadesGetResponse =
   paths["/crossfades/{crossfadeId}"]["get"]["responses"]["200"]["content"]["application/json"]
