@@ -91,9 +91,9 @@ const Editor = ({ crossfade }: EditorProps) => {
       body: JSON.stringify(body),
     })
     if (res.ok) {
-      mutate("/crossfades/latest")
-      mutate("/crossfades/popular")
-      if (user) mutate(`/users/${user.id}/crossfades`)
+      await mutate("/crossfades/latest")
+      await mutate("/crossfades/popular")
+      if (user) await mutate(`/users/${user.id}/crossfades`)
 
       toast.success(`クロスフェード ${title} を更新しました`)
       navigate(`/play/${crossfade.id}`)

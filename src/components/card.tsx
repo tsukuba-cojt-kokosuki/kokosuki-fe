@@ -34,9 +34,9 @@ const Card = ({ crossfade, showEditButton, showDeleteButton }: CardProps) => {
       setLiked(method === "DELETE" ? true : false) // revert optimistic update
     }
 
-    mutate("/crossfades/latest")
-    mutate("/crossfades/popular")
-    if (user) mutate(`/users/${user.id}/crossfades`)
+    await mutate("/crossfades/latest")
+    await mutate("/crossfades/popular")
+    if (user) await mutate(`/users/${user.id}/crossfades`)
   }
 
   return (

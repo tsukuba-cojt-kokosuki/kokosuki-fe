@@ -90,9 +90,9 @@ const Create = () => {
       toast.success(`クロスフェード ${title} を作成しました`)
       const data: ResponseBody = await res.json()
 
-      mutate("/crossfades/latest")
-      mutate("/crossfades/popular")
-      mutate(`/users/${user.id}/crossfades`)
+      await mutate("/crossfades/latest")
+      await mutate("/crossfades/popular")
+      await mutate(`/users/${user.id}/crossfades`)
 
       navigate(`/play/${data.id}`)
     } else {
