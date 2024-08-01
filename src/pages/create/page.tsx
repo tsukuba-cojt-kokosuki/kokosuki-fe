@@ -1,4 +1,5 @@
 import { useContext, useState } from "react"
+import { mutate } from "swr"
 import { Check } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
@@ -85,10 +86,18 @@ const Create = () => {
       method: "POST",
       body: JSON.stringify(body),
     })
-    const data: ResponseBody = await res.json()
+    if (res.ok) {
+      toast.success(`クロスフェード ${title} を作成しました`)
+      const data: ResponseBody = await res.json()
 
-    toast.success(`クロスフェード ${title} を作成しました`)
-    navigate(`/play/${data.id}`)
+      mutate("/crossfades/latest")
+      mutate("/crossfades/popular")
+      mutate(`/users/${user.id}/crossfades`)
+
+      navigate(`/play/${data.id}`)
+    } else {
+      toast.error("クロスフェードの作成に失敗しました")
+    }
   }
 
   return (

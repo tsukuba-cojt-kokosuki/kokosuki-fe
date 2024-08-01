@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { mutate } from "swr"
+import { UserContext } from "@/pages/user-context"
 import { Heart, SquarePen, Trash2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
@@ -17,6 +19,7 @@ type CardProps = {
 
 const Card = ({ crossfade, showEditButton, showDeleteButton }: CardProps) => {
   const [liked, setLiked] = useState(crossfade.liked)
+  const user = useContext(UserContext)
 
   const handleLikeClick = async () => {
     const method = liked ? "DELETE" : "POST"
@@ -30,6 +33,10 @@ const Card = ({ crossfade, showEditButton, showDeleteButton }: CardProps) => {
       console.error(`Failed to like crossfade ${crossfade.id} ${crossfade.title}`)
       setLiked(method === "DELETE" ? true : false) // revert optimistic update
     }
+
+    mutate("/crossfades/latest")
+    mutate("/crossfades/popular")
+    if (user) mutate(`/users/${user.id}/crossfades`)
   }
 
   return (

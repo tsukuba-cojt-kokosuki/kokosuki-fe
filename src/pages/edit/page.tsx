@@ -1,5 +1,5 @@
-import { useState } from "react"
-import useSWR from "swr"
+import { useContext, useState } from "react"
+import useSWR, { mutate } from "swr"
 import { Check } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
 import { toast } from "sonner"
@@ -15,6 +15,7 @@ import { SongList } from "../create/song-list"
 import { Song, useSongs } from "../create/songs"
 import { VideoPlayer } from "../create/video-player"
 import { VideoPlayerSkeleton } from "../create/video-player-skeleton"
+import { UserContext } from "../user-context"
 
 type Icon = components["schemas"]["Crossfade"]["icon"]
 
@@ -58,6 +59,7 @@ const Editor = ({ crossfade }: EditorProps) => {
   } = useSongs(crossfade.songs, 0)
   const [icon, setIcon] = useState<Icon>(crossfade.icon)
   const [title, setTitle] = useState<string>(crossfade.title)
+  const user = useContext(UserContext)
 
   const saveCrossfade = async () => {
     const body: Request = {
@@ -71,7 +73,7 @@ const Editor = ({ crossfade }: EditorProps) => {
 
     const validationErrors = crossfadeSchema.safeParse(body)
     if (!validationErrors.success) {
-      const errorMessages = validationErrors.error.errors.map(err => err.message)
+      const errorMessages = validationErrors.error.errors.map((err) => err.message)
       toast.error(
         <div>
           <ul>
@@ -89,6 +91,10 @@ const Editor = ({ crossfade }: EditorProps) => {
       body: JSON.stringify(body),
     })
     if (res.ok) {
+      mutate("/crossfades/latest")
+      mutate("/crossfades/popular")
+      if (user) mutate(`/users/${user.id}/crossfades`)
+
       toast.success(`クロスフェード ${title} を更新しました`)
       navigate(`/play/${crossfade.id}`)
     } else {
